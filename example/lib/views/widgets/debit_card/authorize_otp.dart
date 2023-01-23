@@ -1,11 +1,10 @@
 import 'package:example/global_components/global_components.dart';
 import 'package:example/views/view-notifiers/debit_card_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
-class InputPIN extends StatelessWidget {
-  const InputPIN({super.key});
+class AuthorizeOTP extends StatelessWidget {
+  const AuthorizeOTP({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,31 +25,29 @@ class InputPIN extends StatelessWidget {
           ),
         ),
         const CustomText(
-            'Enter your 4-digit card pin to authorize\nthis payment',
+            'Kindly enter the OTP sent to *******9502 and\no***********@gmail.com or enter the OTP genrates\non your hardware token device',
             align: TextAlign.center,
             height: 1.5,
-            size: 14),
+            size: 12),
         const YSpace(16),
-        Pinput(
-          length: 4,
-          obscuringWidget: Container(
-            height: 10,
-            width: 10,
-            decoration: BoxDecoration(
-                color: Colors.black, borderRadius: BorderRadius.circular(1000)),
-          ),
-          obscureText: true,
-          showCursor: true,
-          defaultPinTheme: PinTheme(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          onCompleted: (_) => dcn.changeView(CurrentCardView.otp),
-        )
+        const CustomTextField(label: ""),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+              onPressed: () {},
+              child: const CustomText("Resend OTP",
+                  size: 14, weight: FontWeight.bold)),
+        ),
+        const YSpace(16),
+        CustomFlatButton(
+            onTap: () {
+              dcn.changeView(CurrentCardView.redirect);
+            },
+            expand: true,
+            elevation: 5,
+            label: "Authorize Payment",
+            bgColor: Colors.black,
+            color: Colors.white)
       ],
     );
   }

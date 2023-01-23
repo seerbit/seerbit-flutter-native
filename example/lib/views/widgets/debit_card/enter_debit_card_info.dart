@@ -20,9 +20,7 @@ class EnterDebitCardInfo extends StatelessWidget {
         const CustomText("Fee: NGN1.50", size: 14),
         const YSpace(32),
         const CustomTextField(
-          label: "Debit/credit card details",
-          hint: "Card number",
-        ),
+            label: "Debit/credit card details", hint: "Card number"),
         Row(
           children: const [
             Expanded(
@@ -47,7 +45,7 @@ class EnterDebitCardInfo extends StatelessWidget {
         const YSpace(20),
         CustomFlatButton(
             label: "Continue to Payment",
-            onTap: () => dcn.changeView(const EnterDebitCardInfo()),
+            onTap: () => dcn.changeView(CurrentCardView.pin),
             expand: true,
             color: Colors.white54,
             bgColor: Colors.grey),

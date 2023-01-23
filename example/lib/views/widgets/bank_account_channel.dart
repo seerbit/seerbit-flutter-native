@@ -15,8 +15,9 @@ class BankAccountChannel extends StatelessWidget {
         const CustomText("NGN 100.00", weight: FontWeight.bold, size: 24),
         const YSpace(8),
         const CustomText("Fee: NGN1.50", size: 14),
-        const YSpace(42),
-        const CustomText("Choose your bank to start this payment", size: 12),
+        const YSpace(24),
+        const CustomText("Choose your bank to start this payment",
+            size: 12, weight: FontWeight.bold),
         const YSpace(12),
         const CustomDropDown(
             label: "label",
