@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:example/global_components/global_components.dart';
 import 'package:example/views/view-notifiers/view_notifier.dart';
 import 'package:example/views/widgets/bank_account_channel.dart';
-import 'package:example/views/widgets/debit_card_channel.dart';
+import 'package:example/views/widgets/debit_card/debit_card_channel.dart';
 import 'package:example/views/widgets/secured_by_marker.dart';
 import 'package:example/views/widgets/transfer_to_bank_channel.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class ChannelSelection extends StatelessWidget {
       child: AnimatedContainer(
         // height: 600.h,
         duration: const Duration(seconds: 1),
-        width: 340.w,
+        width: 270.w,
         margin: EdgeInsets.symmetric(horizontal: 20.w),
         color: Colors.white,
         child: Column(
@@ -38,7 +38,7 @@ class ChannelSelection extends StatelessWidget {
                     CustomText("Ollie Ollie",
                         size: 12, weight: FontWeight.bold),
                     YSpace(6),
-                    CustomText("olaz@gmail.com", size: 12),
+                    CustomText("olaz@gmail.com", size: 12)
                   ],
                 )
               ],

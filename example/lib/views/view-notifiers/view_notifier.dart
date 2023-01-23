@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ViewsNotifier extends ChangeNotifier {
-  PaymentChannel _paymentChannel = PaymentChannel.bankAccount;
+  PaymentChannel _paymentChannel = PaymentChannel.debitCard;
 
   get paymentChannel => _paymentChannel;
 

@@ -16,7 +16,7 @@ class SeerbitCheckout extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         // height: 600.h,
-        width: double.infinity,
+        width: 270.w,
         margin: EdgeInsets.symmetric(horizontal: 20.w),
         color: Colors.white,
         child: Column(

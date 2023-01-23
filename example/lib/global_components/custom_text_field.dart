@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({Key? key, required this.label, this.hint})
+  const CustomTextField(
+      {Key? key, required this.label, this.hint, this.borderRadius})
       : super(key: key);
   final String label;
   final String? hint;
+  final BorderRadius? borderRadius;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,7 +25,7 @@ class CustomTextField extends StatelessWidget {
               hintText: hint,
               hintStyle: TextStyle(color: Colors.grey.shade400),
               enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: borderRadius ?? BorderRadius.circular(6),
                   borderSide: const BorderSide(
                       color: Color.fromARGB(255, 224, 222, 222))),
               border: OutlineInputBorder(

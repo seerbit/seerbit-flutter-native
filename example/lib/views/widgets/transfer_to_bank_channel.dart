@@ -33,23 +33,12 @@ class TransferToBankChannel extends StatelessWidget {
           color: Colors.grey.shade300,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                children: const [CustomText('Account Number', size: 14)],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  CustomText('Bank', size: 14),
-                  CustomText('9PAYMENT SERVICE BANK', size: 14)
-                ],
-              ),
-              Row(
-                children: const [CustomText('Account Number', size: 14)],
-              ),
-              Row(
-                children: const [CustomText('Account Number', size: 14)],
-              )
+            children: const [
+              _DetailPair(leading: 'Bank Name', trailing: '9SB Payments'),
+              _DetailPair(leading: 'Account Number', trailing: '9812381231'),
+              _DetailPair(
+                  leading: 'Beneficiary', trailing: 'Seerbit Technologies'),
+              _DetailPair(leading: 'Account Number', trailing: '9812381231'),
             ],
           ),
         ),
@@ -65,6 +54,24 @@ class TransferToBankChannel extends StatelessWidget {
             color: Colors.white54,
             bgColor: Colors.grey),
       ],
+    );
+  }
+}
+
+class _DetailPair extends StatelessWidget {
+  const _DetailPair({
+    Key? key,
+    required this.leading,
+    required this.trailing,
+  }) : super(key: key);
+
+  final String leading, trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [CustomText(leading, size: 12), CustomText(trailing, size: 12)],
     );
   }
 }

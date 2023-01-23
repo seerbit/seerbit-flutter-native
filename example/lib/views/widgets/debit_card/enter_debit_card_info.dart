@@ -1,13 +1,16 @@
 import 'package:example/global_components/global_components.dart';
+import 'package:example/views/view-notifiers/debit_card_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class DebitCardChannel extends StatelessWidget {
-  const DebitCardChannel({
+class EnterDebitCardInfo extends StatelessWidget {
+  const EnterDebitCardInfo({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DebitCardNotifier dcn = Provider.of<DebitCardNotifier>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,18 +25,29 @@ class DebitCardChannel extends StatelessWidget {
         ),
         Row(
           children: const [
-            Expanded(child: CustomTextField(label: "", hint: "MM/YY")),
+            Expanded(
+              child: CustomTextField(
+                label: "",
+                hint: "MM/YY",
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10)),
+              ),
+            ),
             Expanded(
                 child: CustomTextField(
               label: "",
               hint: "CVV",
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
             )),
           ],
         ),
         const YSpace(20),
         CustomFlatButton(
             label: "Continue to Payment",
-            onTap: () {},
+            onTap: () => dcn.changeView(const EnterDebitCardInfo()),
             expand: true,
             color: Colors.white54,
             bgColor: Colors.grey),

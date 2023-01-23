@@ -1,4 +1,4 @@
-import 'package:example/views/view-notifiers/view_notifier.dart';
+import 'package:example/core/providers.dart';
 import 'package:example/views/view.dart';
 import 'package:example/views/widgets/custom_over_lay.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ViewsNotifier>(create: (_) => ViewsNotifier()),
-      ],
+      providers: AppProviders.providers,
       child: ScreenUtilInit(
           designSize: const Size(375, 812),
           builder: (_, context) {
