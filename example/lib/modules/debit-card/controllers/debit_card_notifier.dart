@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DebitCardNotifier extends ChangeNotifier {
+  DebitCardNotifier();
+
   CurrentCardView _currentCardView = CurrentCardView.info;
   CurrentCardView get currentCardView => _currentCardView;
 

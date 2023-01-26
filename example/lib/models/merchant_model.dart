@@ -3,10 +3,10 @@
 //     final merchantDetailModel = merchantDetailModelFromJson(jsonString);
 import 'dart:convert';
 
-MerchantDetailModel merchantDetailModelFromJson(String str) =>
-    MerchantDetailModel.fromJson(json.decode(str));
+MerchantDetailModel merchantDetailModelFromJson(String? str) =>
+    MerchantDetailModel.fromJson(json.decode(str!));
 
-String merchantDetailModelToJson(MerchantDetailModel data) =>
+String? merchantDetailModelToJson(MerchantDetailModel data) =>
     json.encode(data.toJson());
 
 class MerchantDetailModel {
@@ -18,11 +18,11 @@ class MerchantDetailModel {
   });
 
   final Payload payload;
-  final String message;
-  final String status;
-  final String responseCode;
+  final String? message;
+  final String? status;
+  final String? responseCode;
 
-  factory MerchantDetailModel.fromJson(Map<String, dynamic> json) =>
+  factory MerchantDetailModel.fromJson(Map<String?, dynamic> json) =>
       MerchantDetailModel(
         payload: Payload.fromJson(json["payload"]),
         message: json["message"],
@@ -30,7 +30,7 @@ class MerchantDetailModel {
         responseCode: json["responseCode"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "payload": payload.toJson(),
         "message": message,
         "status": status,
@@ -72,38 +72,38 @@ class Payload {
     required this.partnerId,
   });
 
-  final String businessName;
-  final String transLink;
-  final String number;
-  final String livePublicKey;
-  final String testPublicKey;
+  final String? businessName;
+  final String? transLink;
+  final String? number;
+  final String? livePublicKey;
+  final String? testPublicKey;
   final Address address;
   final CardFee cardFee;
   final TransactionFee transactionFee;
-  final String defaultCurrency;
-  final List<String> allowedCurrency;
-  final String logo;
-  final String supportEmail;
-  final int maxAmount;
-  final int minAmount;
+  final String? defaultCurrency;
+  final List<String?> allowedCurrency;
+  final String? logo;
+  final String? supportEmail;
+  final double? maxAmount;
+  final double? minAmount;
   final Setting setting;
-  final String status;
+  final String? status;
   final bool isWhiteLabelled;
   final Country country;
   final List<dynamic> paymentConfigs;
   final List<ChannelOptionStatus> channelOptionStatus;
   final CheckoutPageConfig checkoutPageConfig;
   final bool activeForValidationService;
-  final String maxThreshold;
-  final String minThreshold;
+  final String? maxThreshold;
+  final String? minThreshold;
   final bool enableOvercharge;
   final bool enableUnderCharge;
   final bool enableCustomerForTransfer;
   final bool enableForDiscount;
   final bool enableDescriptor;
-  final String partnerId;
+  final String? partnerId;
 
-  factory Payload.fromJson(Map<String, dynamic> json) => Payload(
+  factory Payload.fromJson(Map<String?, dynamic> json) => Payload(
         businessName: json["business_name"],
         transLink: json["transLink"],
         number: json["number"],
@@ -114,7 +114,7 @@ class Payload {
         transactionFee: TransactionFee.fromJson(json["transactionFee"]),
         defaultCurrency: json["default_currency"],
         allowedCurrency:
-            List<String>.from(json["allowedCurrency"].map((x) => x)),
+            List<String?>.from(json["allowedCurrency"].map((x) => x)),
         logo: json["logo"],
         supportEmail: json["support_email"],
         maxAmount: json["max_amount"],
@@ -141,7 +141,7 @@ class Payload {
         partnerId: json["partnerId"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "business_name": businessName,
         "transLink": transLink,
         "number": number,
@@ -184,19 +184,19 @@ class Address {
     required this.country,
   });
 
-  final String street;
-  final String city;
-  final String state;
-  final String country;
+  final String? street;
+  final String? city;
+  final String? state;
+  final String? country;
 
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
+  factory Address.fromJson(Map<String?, dynamic> json) => Address(
         street: json["street"],
         city: json["city"],
         state: json["state"],
         country: json["country"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "street": street,
         "city": city,
         "state": state,
@@ -211,17 +211,17 @@ class CardFee {
     required this.visa,
   });
 
-  final String mc;
-  final String verve;
-  final String visa;
+  final String? mc;
+  final String? verve;
+  final String? visa;
 
-  factory CardFee.fromJson(Map<String, dynamic> json) => CardFee(
+  factory CardFee.fromJson(Map<String?, dynamic> json) => CardFee(
         mc: json["mc"],
         verve: json["verve"],
         visa: json["visa"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "mc": mc,
         "verve": verve,
         "visa": visa,
@@ -234,16 +234,16 @@ class ChannelOptionStatus {
     required this.allowOption,
   });
 
-  final String name;
+  final String? name;
   final bool allowOption;
 
-  factory ChannelOptionStatus.fromJson(Map<String, dynamic> json) =>
+  factory ChannelOptionStatus.fromJson(Map<String?, dynamic> json) =>
       ChannelOptionStatus(
         name: json["name"],
         allowOption: json["allow_option"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "name": name,
         "allow_option": allowOption,
       };
@@ -259,14 +259,14 @@ class CheckoutPageConfig {
     required this.checkoutAdverts,
   });
 
-  final String backgroundColor;
-  final String paybuttonColor;
-  final String paychannelColor;
-  final String checkAdvertStatus;
-  final String maxCheckAdvertCount;
+  final String? backgroundColor;
+  final String? paybuttonColor;
+  final String? paychannelColor;
+  final String? checkAdvertStatus;
+  final String? maxCheckAdvertCount;
   final List<dynamic> checkoutAdverts;
 
-  factory CheckoutPageConfig.fromJson(Map<String, dynamic> json) =>
+  factory CheckoutPageConfig.fromJson(Map<String?, dynamic> json) =>
       CheckoutPageConfig(
         backgroundColor: json["backgroundColor"],
         paybuttonColor: json["paybuttonColor"],
@@ -277,7 +277,7 @@ class CheckoutPageConfig {
             List<dynamic>.from(json["checkoutAdverts"].map((x) => x)),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "backgroundColor": backgroundColor,
         "paybuttonColor": paybuttonColor,
         "paychannelColor": paychannelColor,
@@ -300,17 +300,17 @@ class Country {
     required this.defaultPaymentOptions,
   });
 
-  final String name;
-  final String nameCode;
-  final String countryCode;
-  final String countryCode2;
-  final String status;
-  final String websiteUrl;
-  final String continent;
+  final String? name;
+  final String? nameCode;
+  final String? countryCode;
+  final String? countryCode2;
+  final String? status;
+  final String? websiteUrl;
+  final String? continent;
   final DefaultCurrency defaultCurrency;
   final List<DefaultPaymentOption> defaultPaymentOptions;
 
-  factory Country.fromJson(Map<String, dynamic> json) => Country(
+  factory Country.fromJson(Map<String?, dynamic> json) => Country(
         name: json["name"],
         nameCode: json["nameCode"],
         countryCode: json["countryCode"],
@@ -324,7 +324,7 @@ class Country {
                 .map((x) => DefaultPaymentOption.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "name": name,
         "nameCode": nameCode,
         "countryCode": countryCode,
@@ -346,12 +346,12 @@ class DefaultCurrency {
     required this.number,
   });
 
-  final String country;
-  final String currency;
-  final String code;
-  final String number;
+  final String? country;
+  final String? currency;
+  final String? code;
+  final String? number;
 
-  factory DefaultCurrency.fromJson(Map<String, dynamic> json) =>
+  factory DefaultCurrency.fromJson(Map<String?, dynamic> json) =>
       DefaultCurrency(
         country: json["country"],
         currency: json["currency"],
@@ -359,7 +359,7 @@ class DefaultCurrency {
         number: json["number"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "country": country,
         "currency": currency,
         "code": code,
@@ -387,24 +387,24 @@ class DefaultPaymentOption {
     required this.fixCharge,
   });
 
-  final String name;
-  final String viewName;
-  final String code;
-  final String number;
-  final String type;
-  final String description;
+  final String? name;
+  final String? viewName;
+  final String? code;
+  final String? number;
+  final String? type;
+  final String? description;
   final bool allowOption;
-  final String status;
-  final String paymentOptionFeeMode;
+  final String? status;
+  final String? paymentOptionFeeMode;
   final bool applyFixCharge;
-  final String paymentOptionFee;
-  final double internationalPaymentOptionFee;
-  final String internationalPaymentOptionMode;
+  final String? paymentOptionFee;
+  final double? internationalPaymentOptionFee;
+  final String? internationalPaymentOptionMode;
   final PaymentOptionCapStatus paymentOptionCapStatus;
   final InternationalPaymentOptionCapStatus internationalPaymentOptionCapStatus;
-  final String fixCharge;
+  final String? fixCharge;
 
-  factory DefaultPaymentOption.fromJson(Map<String, dynamic> json) =>
+  factory DefaultPaymentOption.fromJson(Map<String?, dynamic> json) =>
       DefaultPaymentOption(
         name: json["name"],
         viewName: json["viewName"],
@@ -428,7 +428,7 @@ class DefaultPaymentOption {
         fixCharge: json["fixCharge"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "name": name,
         "viewName": viewName,
         "code": code,
@@ -454,15 +454,15 @@ class InternationalPaymentOptionCapStatus {
     required this.inCappedAmount,
   });
 
-  final int inCappedAmount;
+  final double? inCappedAmount;
 
   factory InternationalPaymentOptionCapStatus.fromJson(
-          Map<String, dynamic> json) =>
+          Map<String?, dynamic> json) =>
       InternationalPaymentOptionCapStatus(
         inCappedAmount: json["inCappedAmount"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "inCappedAmount": inCappedAmount,
       };
 }
@@ -473,16 +473,16 @@ class PaymentOptionCapStatus {
     required this.cappedAmount,
   });
 
-  final String cappedSettlement;
-  final int cappedAmount;
+  final String? cappedSettlement;
+  final double? cappedAmount;
 
-  factory PaymentOptionCapStatus.fromJson(Map<String, dynamic> json) =>
+  factory PaymentOptionCapStatus.fromJson(Map<String?, dynamic> json) =>
       PaymentOptionCapStatus(
         cappedSettlement: json["cappedSettlement"],
         cappedAmount: json["cappedAmount"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "cappedSettlement": cappedSettlement,
         "cappedAmount": cappedAmount,
       };
@@ -508,12 +508,12 @@ class Setting {
   final bool displayFee;
   final bool emailReceiptCustomer;
   final bool emailReceiptMerchant;
-  final String payday;
-  final String mode;
-  final String chargeOption;
+  final String? payday;
+  final String? mode;
+  final String? chargeOption;
   final bool applySettlementPattern;
 
-  factory Setting.fromJson(Map<String, dynamic> json) => Setting(
+  factory Setting.fromJson(Map<String?, dynamic> json) => Setting(
         cardOption: json["card_option"],
         bankOption: json["bank_option"],
         transferOption: json["transfer_option"],
@@ -526,7 +526,7 @@ class Setting {
         applySettlementPattern: json["applySettlementPattern"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "card_option": cardOption,
         "bank_option": bankOption,
         "transfer_option": transferOption,
@@ -553,7 +553,7 @@ class TransactionFee {
   final DefaultFee defaultFee;
   final TransactionCapStatus transactionCapStatus;
 
-  factory TransactionFee.fromJson(Map<String, dynamic> json) => TransactionFee(
+  factory TransactionFee.fromJson(Map<String?, dynamic> json) => TransactionFee(
         cardTransactionFee:
             AccountTransactionFeeClass.fromJson(json["cardTransactionFee"]),
         accountTransactionFee:
@@ -563,7 +563,7 @@ class TransactionFee {
             TransactionCapStatus.fromJson(json["transactionCapStatus"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "cardTransactionFee": cardTransactionFee.toJson(),
         "accountTransactionFee": accountTransactionFee.toJson(),
         "defaultFee": defaultFee.toJson(),
@@ -574,10 +574,10 @@ class TransactionFee {
 class AccountTransactionFeeClass {
   AccountTransactionFeeClass();
 
-  factory AccountTransactionFeeClass.fromJson(Map<String, dynamic> json) =>
+  factory AccountTransactionFeeClass.fromJson(Map<String?, dynamic> json) =>
       AccountTransactionFeeClass();
 
-  Map<String, dynamic> toJson() => {};
+  Map<String?, dynamic> toJson() => {};
 }
 
 class DefaultFee {
@@ -586,15 +586,15 @@ class DefaultFee {
     required this.mccPercentage,
   });
 
-  final String mccCategory;
-  final String mccPercentage;
+  final String? mccCategory;
+  final String? mccPercentage;
 
-  factory DefaultFee.fromJson(Map<String, dynamic> json) => DefaultFee(
+  factory DefaultFee.fromJson(Map<String?, dynamic> json) => DefaultFee(
         mccCategory: json["mccCategory"],
         mccPercentage: json["mccPercentage"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "mccCategory": mccCategory,
         "mccPercentage": mccPercentage,
       };
@@ -606,16 +606,16 @@ class TransactionCapStatus {
     required this.cappedAmount,
   });
 
-  final String cappedSettlement;
-  final String cappedAmount;
+  final String? cappedSettlement;
+  final String? cappedAmount;
 
-  factory TransactionCapStatus.fromJson(Map<String, dynamic> json) =>
+  factory TransactionCapStatus.fromJson(Map<String?, dynamic> json) =>
       TransactionCapStatus(
         cappedSettlement: json["cappedSettlement"],
         cappedAmount: json["cappedAmount"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "cappedSettlement": cappedSettlement,
         "cappedAmount": cappedAmount,
       };

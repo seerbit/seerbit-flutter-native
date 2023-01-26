@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:example/models/response_model.dart';
 import 'package:flutter/material.dart';
 
 class RequestHandler {
-  final Function() request;
+  final Future<ResponseModel> Function() request;
   final bool removeFocus, showProgress;
-  final ValueSetter<Map> onSuccess;
-  final ValueSetter<Map> onError, onNetworkError;
+  final ValueSetter<ResponseModel> onSuccess;
+  final ValueSetter<ResponseModel> onError, onNetworkError;
   final Function()? onRequestStart, onRequestEnd;
 
   RequestHandler({
@@ -27,17 +28,21 @@ class RequestHandler {
     try {
       // if (showProgress) Modals().progressToast();
       onRequestStart?.call();
-      Map result = await request.call();
+      ResponseModel result = await request.call();
       onSuccess(result);
     } on SocketException {
-      onNetworkError({"message": "Check your internet connection"});
+      onNetworkError(ResponseModel(
+          data: {"message": "Check your internet connection"}, status: 400));
     } on TimeoutException {
-      onNetworkError({"message": "Check your internet connection"});
+      onNetworkError(ResponseModel(
+          data: {"message": "Connection timed out"}, status: 400));
     } on HandshakeException {
-      onNetworkError({"message": "Check your internet connection"});
+      onNetworkError(ResponseModel(
+          data: {"message": "Unable to connect to the internet"}, status: 400));
     } catch (e) {
       log(e.toString());
-      onError({"message": "An unexpected error occured"});
+      onError(ResponseModel(
+          data: {"message": "Check your internet connection"}, status: 400));
       onRequestEnd?.call();
     } finally {
       log("Network Call Terminated >>> Request Ended::");

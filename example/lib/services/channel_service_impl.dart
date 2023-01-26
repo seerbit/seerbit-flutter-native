@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 class PaymentServiceImpl implements PaymentService {
   final Network network;
 
-  PaymentServiceImpl({this.network = const Network()});
+  const PaymentServiceImpl({this.network = const Network()});
   @override
   getMerchantInformation() async {
     Response response =
