@@ -1,4 +1,4 @@
-import 'package:example/global_components/global_components.dart';
+import 'package:example/views/global_components/global_components.dart';
 import 'package:flutter/material.dart';
 
 class RedirectToBank extends StatelessWidget {

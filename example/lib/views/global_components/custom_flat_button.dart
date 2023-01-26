@@ -1,5 +1,6 @@
-import 'package:example/global_components/custom_text.dart';
 import 'package:flutter/material.dart';
+
+import 'global_components.dart';
 
 class CustomFlatButton extends StatelessWidget {
   const CustomFlatButton({

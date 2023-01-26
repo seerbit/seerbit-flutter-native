@@ -1,12 +1,10 @@
-import 'package:example/global_components/box_sizing.dart';
-import 'package:example/global_components/custom_flat_button.dart';
-import 'package:example/global_components/custom_text.dart';
-import 'package:example/global_components/custom_text_field.dart';
 import 'package:example/views/channel_selection.dart';
 import 'package:example/views/widgets/custom_over_lay.dart';
 import 'package:example/views/widgets/secured_by_marker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'global_components/global_components.dart';
 
 class SeerbitCheckout extends StatelessWidget {
   const SeerbitCheckout({super.key});
@@ -15,7 +13,6 @@ class SeerbitCheckout extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        // height: 600.h,
         width: 270.w,
         margin: EdgeInsets.symmetric(horizontal: 20.w),
         color: Colors.white,

@@ -1,5 +1,4 @@
-import 'package:example/global_components/box_sizing.dart';
-import 'package:example/global_components/custom_text.dart';
+import 'package:example/views/global_components/global_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

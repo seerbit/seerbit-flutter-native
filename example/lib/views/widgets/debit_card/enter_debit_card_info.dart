@@ -1,4 +1,4 @@
-import 'package:example/global_components/global_components.dart';
+import 'package:example/views/global_components/global_components.dart';
 import 'package:example/views/view-notifiers/debit_card_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
