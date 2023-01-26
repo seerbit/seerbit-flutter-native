@@ -31,7 +31,7 @@ class RedirectToBank extends StatelessWidget {
             onTap: () {},
             expand: true,
             elevation: 5,
-            label: "Authorize Payment",
+            label: "Authorize Payment", 
             bgColor: Colors.black,
             color: Colors.white)
       ],

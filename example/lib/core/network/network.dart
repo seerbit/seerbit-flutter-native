@@ -109,10 +109,11 @@ class Network {
 }
 
 ///Generates headers given a Bearer token
-_generateHeaders(String? token) {
+Map<String, String> _generateHeaders(String? token) {
   return {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'Authorization': token
+    'Authorization':
+        'Bearer 68826aea9005de7812429b7983838b06e2c7fffbb3d9487f33bc51c943a3a499'
   };
 }

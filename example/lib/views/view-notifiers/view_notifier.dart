@@ -11,6 +11,8 @@ class ViewsNotifier extends ChangeNotifier {
     _paymentChannel = pc;
     notifyListeners();
   }
+
+  getMerchantDetails(){}
 }
 
 enum PaymentChannel { debitCard, bankAccount, ussd, transfer }
