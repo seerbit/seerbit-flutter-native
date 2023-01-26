@@ -1,4 +1,4 @@
-import 'package:example/views/global_components/global_components.dart';
+import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:flutter/material.dart';
 
 class RedirectToBank extends StatelessWidget {
@@ -31,7 +31,7 @@ class RedirectToBank extends StatelessWidget {
             onTap: () {},
             expand: true,
             elevation: 5,
-            label: "Authorize Payment", 
+            label: "Authorize Payment",
             bgColor: Colors.black,
             color: Colors.white)
       ],

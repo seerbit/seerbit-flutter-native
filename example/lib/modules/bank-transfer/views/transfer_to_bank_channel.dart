@@ -1,4 +1,4 @@
-import 'package:example/views/global_components/global_components.dart';
+import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

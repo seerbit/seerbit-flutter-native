@@ -1,10 +1,10 @@
-import 'package:example/views/channel_selection.dart';
-import 'package:example/views/widgets/custom_over_lay.dart';
-import 'package:example/views/widgets/secured_by_marker.dart';
+import 'package:example/modules/channel_selection.dart';
+import 'package:example/modules/-core-global/custom_over_lay.dart';
+import 'package:example/modules/-core-global/secured_by_marker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'global_components/global_components.dart';
+import '-core-global/global_components.dart';
 
 class SeerbitCheckout extends StatelessWidget {
   const SeerbitCheckout({super.key});

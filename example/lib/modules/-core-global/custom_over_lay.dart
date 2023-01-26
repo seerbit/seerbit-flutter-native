@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:animate_do/animate_do.dart';
 import 'package:example/core/navigator.dart';
 import 'package:example/main.dart';
-import 'package:example/views/global_components/global_components.dart';
+import 'package:example/modules/-core-global/-core-global.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

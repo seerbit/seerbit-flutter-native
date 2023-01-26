@@ -1,9 +1,6 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:example/views/view-notifiers/debit_card_notifier.dart';
-import 'package:example/views/widgets/debit_card/authorize_otp.dart';
-import 'package:example/views/widgets/debit_card/enter_debit_card_info.dart';
-import 'package:example/views/widgets/debit_card/input_pin.dart';
-import 'package:example/views/widgets/debit_card/redirect_to_bank.dart';
+import 'package:example/modules/debit-card/controllers/debit_card_notifier.dart';
+import 'package:example/modules/debit-card/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
