@@ -1,9 +1,10 @@
 import 'package:example/core/providers.dart';
 import 'package:example/views/view.dart';
-import 'package:example/views/widgets/custom_over_lay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+
+import 'views/widgets/custom_over_lay.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() {
@@ -67,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: () {
                 CustomOverlays().showPopup(const SeerbitCheckout());
-                // Navigate.to(const SeerbitCheckout());
+                // Navigate.to(const Marquee());
               },
               child: const Text("Start"),
             )
