@@ -50,7 +50,7 @@ class BankTransferInfo extends StatelessWidget {
                 _DetailPair(
                     leading: 'Beneficiary',
                     trailing: prm.data!.payments!.walletName!),
-                const _DetailPair(leading: 'Validity', trailing: '30 minutes'),
+                const _DetailPair(leading: 'Validity', trailing: '30-minutes'),
               ],
             ),
           ),
