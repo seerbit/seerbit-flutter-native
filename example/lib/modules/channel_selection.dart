@@ -4,6 +4,7 @@ import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/bank-account/views/bank_account_channel.dart';
 import 'package:example/modules/bank-transfer/views/transfer_to_bank_channel.dart';
 import 'package:example/modules/debit-card/views/debit_card_channel.dart';
+import 'package:example/modules/ussd/views/ussd_channel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -58,6 +59,8 @@ class ChannelSelection extends StatelessWidget {
                         return const BankAccountChannel();
                       case PaymentChannel.transfer:
                         return const TransferToBankChannel();
+                      case PaymentChannel.ussd:
+                        return const UssdChannel();
                       default:
                         return const DebitCardChannel();
                     }

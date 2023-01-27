@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:example/core/network/request_handler.dart';
 import 'package:example/models/merchant_model.dart';
+import 'package:example/models/payment_payload_model.dart';
+import 'package:example/models/payment_response_model.dart';
+import 'package:example/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:example/services/channel_service.dart';
 import 'package:example/services/channel_service_impl.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +16,9 @@ class ViewsNotifier extends ChangeNotifier {
 
   PaymentChannel _paymentChannel = PaymentChannel.debitCard;
   PaymentChannel get paymentChannel => _paymentChannel;
+
+  PaymentResponseModel? _paymentResponse;
+  PaymentResponseModel? get paymentResponse => _paymentResponse;
 
   MerchantDetailModel? _merchantDetailModel;
   MerchantDetailModel? get merchantDetailModel => _merchantDetailModel;
@@ -28,6 +34,11 @@ class ViewsNotifier extends ChangeNotifier {
   changePaymentChannel(PaymentChannel pc) {
     _paymentChannel = pc;
     notifyListeners();
+  }
+
+  ///Set the fetched [PaymentResponseModel] to the the viewnotifier
+  setPaymentResponse(PaymentResponseModel prm) {
+    _paymentResponse = prm;
   }
 
   ///Check if a channel is active from the config
@@ -65,6 +76,41 @@ class ViewsNotifier extends ChangeNotifier {
             MerchantDetailModel.fromJson(_.data as Map<String, dynamic>)),
         onError: (_) => log("message $_"),
         onNetworkError: (_) => log("message")).sendRequest();
+  }
+
+  ///Initiate a payment
+  Future initiatePayment() async {
+    await RequestHandler(
+      request: () => paymentService.initiatePayment(
+          payloadModel: PaymentPayloadModel.fromJson({
+        "fullName": "Amos Oruaroghene",
+        "mobileNumber": "404",
+        "email": "inspiron.amos@gmail.com",
+        "publicKey": "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
+        "amount": "101.50",
+        "currency": "NGN",
+        "country": "NG",
+        "paymentReference": "SBT-T54367073117",
+        "productId": "",
+        "productDescription": "",
+        "redirectUrl": "http://localhost:3002/#/",
+        "paymentType": "USSD",
+        "channelType": "ussd",
+        "ddeviceType": "Desktop",
+        "sourceIP": "102.88.63.64",
+        "source": "",
+        "fee": "1.50",
+        "retry": true,
+        "bankCode": "044"
+      })),
+      onSuccess: (_) => {
+        setPaymentResponse(
+            UssdResponseModel.fromJson(_.data as Map<String, dynamic>)),
+        log("message")
+      },
+      onError: (_) => log("message $_"),
+      onNetworkError: (_) => log("message $_"),
+    ).sendRequest();
   }
 }
 
