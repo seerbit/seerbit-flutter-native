@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:example/models/merchant_model.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/bank-account/views/bank_account_channel.dart';
+import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
 import 'package:example/modules/bank-transfer/views/transfer_to_bank_channel.dart';
 import 'package:example/modules/debit-card/views/debit_card_channel.dart';
 import 'package:example/modules/ussd/views/ussd_channel.dart';
@@ -17,6 +18,7 @@ class ChannelSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
+    BankTransferNotifier bn = Provider.of<BankTransferNotifier>(context);
     return Builder(builder: (context) {
       MerchantDetailModel mdm = vn.merchantDetailModel!;
       return SingleChildScrollView(
@@ -58,7 +60,7 @@ class ChannelSelection extends StatelessWidget {
                       case PaymentChannel.bankAccount:
                         return const BankAccountChannel();
                       case PaymentChannel.transfer:
-                        return const TransferToBankChannel();
+                        return const BankTransferChannel();
                       case PaymentChannel.ussd:
                         return const UssdChannel();
                       default:
@@ -87,8 +89,9 @@ class ChannelSelection extends StatelessWidget {
                         prefix: const CustomText("Transfer",
                             size: 14, weight: FontWeight.bold),
                         alignment: MainAxisAlignment.start,
-                        onTap: () =>
-                            vn.changePaymentChannel(PaymentChannel.transfer),
+                        onTap: () async => {
+                              vn.changePaymentChannel(PaymentChannel.transfer),
+                            },
                         expand: true,
                         color: Colors.black,
                         bgColor: Colors.grey.shade200),

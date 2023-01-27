@@ -7,7 +7,8 @@ import 'dart:convert';
 PaymentPayloadModel paymentPayloadFromJson(String str) =>
     PaymentPayloadModel.fromJson(json.decode(str));
 
-String paymentPayloadToJson(PaymentPayloadModel data) => json.encode(data.toJson());
+String paymentPayloadToJson(PaymentPayloadModel data) =>
+    json.encode(data.toJson());
 
 class PaymentPayloadModel {
   PaymentPayloadModel({
@@ -32,25 +33,25 @@ class PaymentPayloadModel {
     required this.bankCode,
   });
 
-  final String fullName;
-  final String mobileNumber;
-  final String email;
-  final String publicKey;
-  final String amount;
-  final String currency;
-  final String country;
-  final String paymentReference;
-  final String productId;
-  final String productDescription;
-  final String redirectUrl;
-  final String paymentType;
-  final String channelType;
-  final String ddeviceType;
-  final String sourceIp;
-  final String source;
-  final String fee;
-  final bool retry;
-  final String bankCode;
+  final String? fullName;
+  final String? mobileNumber;
+  final String? email;
+  final String? publicKey;
+  final String? amount;
+  final String? currency;
+  final String? country;
+  final String? paymentReference;
+  final String? productId;
+  final String? productDescription;
+  final String? redirectUrl;
+  final String? paymentType;
+  final String? channelType;
+  final String? ddeviceType;
+  final String? sourceIp;
+  final String? source;
+  final String? fee;
+  final bool? retry;
+  final String? bankCode;
 
   PaymentPayloadModel copyWith({
     String? fullName,
@@ -95,7 +96,8 @@ class PaymentPayloadModel {
         bankCode: bankCode ?? this.bankCode,
       );
 
-  factory PaymentPayloadModel.fromJson(Map<String, dynamic> json) => PaymentPayloadModel(
+  factory PaymentPayloadModel.fromJson(Map<String, dynamic> json) =>
+      PaymentPayloadModel(
         fullName: json["fullName"],
         mobileNumber: json["mobileNumber"],
         email: json["email"],

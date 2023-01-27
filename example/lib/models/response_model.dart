@@ -12,4 +12,9 @@ class ResponseModel {
     return ResponseModel(
         status: response.statusCode, data: jsonDecode(response.body));
   }
+
+  @override
+  String toString() {
+    return data.toString();
+  }
 }

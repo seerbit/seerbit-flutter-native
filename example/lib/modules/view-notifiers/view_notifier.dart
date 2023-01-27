@@ -4,6 +4,7 @@ import 'package:example/core/network/request_handler.dart';
 import 'package:example/models/merchant_model.dart';
 import 'package:example/models/payment_payload_model.dart';
 import 'package:example/models/payment_response_model.dart';
+import 'package:example/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
 import 'package:example/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:example/services/channel_service.dart';
 import 'package:example/services/channel_service_impl.dart';
@@ -67,6 +68,17 @@ class ViewsNotifier extends ChangeNotifier {
     }
   }
 
+  ///Map the payment response
+  PaymentResponseModel mapResponse(Map data) {
+    switch (_paymentChannel) {
+      case PaymentChannel.transfer:
+        return TransferResponseModel.fromJson(data as Map<String, dynamic>);
+
+      default:
+        return UssdResponseModel.fromJson(data as Map<String, dynamic>);
+    }
+  }
+
   ///fetch the data for
   ///the merchant processing payments
   Future getMerchantDetails() async {
@@ -93,22 +105,22 @@ class ViewsNotifier extends ChangeNotifier {
         "paymentReference": "SBT-T54367073117",
         "productId": "",
         "productDescription": "",
-        "redirectUrl": "http://localhost:3002/#/",
-        "paymentType": "USSD",
-        "channelType": "ussd",
-        "ddeviceType": "Desktop",
+        "paymentType": "TRANSFER",
+        "channelType": "Transfer",
+        "deviceType": "Desktop",
         "sourceIP": "102.88.63.64",
         "source": "",
         "fee": "1.50",
         "retry": true,
-        "bankCode": "044"
+        "amountControl": "FIXEDAMOUNT",
+        "walletDaysActive": "1",
+        "bankCode": ""
       })),
       onSuccess: (_) => {
-        setPaymentResponse(
-            UssdResponseModel.fromJson(_.data as Map<String, dynamic>)),
-        log("message")
+        setPaymentResponse(mapResponse(_.data)),
+        log("message $_"),
       },
-      onError: (_) => log("message $_"),
+      onError: (_) => log("message $_."),
       onNetworkError: (_) => log("message $_"),
     ).sendRequest();
   }

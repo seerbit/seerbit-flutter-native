@@ -29,6 +29,7 @@ class RequestHandler {
       // if (showProgress) Modals().progressToast();
       onRequestStart?.call();
       ResponseModel result = await request.call();
+      log(result.toString());
       onSuccess(result);
     } on SocketException {
       onNetworkError(ResponseModel(
