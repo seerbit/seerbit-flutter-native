@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 
 import 'package:example/core/network/request_handler.dart';
 import 'package:example/models/models.dart';
+import 'package:example/models/payment_status_model.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
 import 'package:example/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:example/services/channel_service.dart';
@@ -31,14 +32,23 @@ class ViewsNotifier extends ChangeNotifier {
   PaymentPayloadModel _paymentPayload = PaymentPayloadModel.empty();
   PaymentPayloadModel? get paymentPayload => _paymentPayload;
 
+  PaymentStatusModel? _paymentStatus;
+  PaymentStatusModel? get paymentStatus => _paymentStatus;
+
   ///Update the payment paylod
   setPaymentPayload(PaymentPayloadModel ppm) {
     _paymentPayload = ppm;
     notifyListeners();
   }
 
+  ///Update the payment status
+  _setPaymentStatus(PaymentStatusModel psm) {
+    _paymentStatus = psm;
+    notifyListeners();
+  }
+
   //Add Additional Params to the payload
-  PaymentPayloadModel getUpdatedPayload() {
+  PaymentPayloadModel _getUpdatedPayload() {
     return paymentPayload!.copyWith(
       paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
       channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
@@ -63,7 +73,7 @@ class ViewsNotifier extends ChangeNotifier {
   }
 
   ///Set the fetched [PaymentResponseModel] to the the viewnotifier
-  setPaymentResponse(PaymentResponseModel prm) {
+  _setPaymentResponse(PaymentResponseModel prm) {
     _paymentResponse = prm;
     notifyListeners();
   }
@@ -89,7 +99,6 @@ class ViewsNotifier extends ChangeNotifier {
     switch (_paymentChannel) {
       case PaymentChannel.transfer:
         return TransferResponseModel.fromJson(data as Map<String, dynamic>);
-
       default:
         return UssdResponseModel.fromJson(data as Map<String, dynamic>);
     }
@@ -110,9 +119,9 @@ class ViewsNotifier extends ChangeNotifier {
   Future initiatePayment() async {
     await RequestHandler(
       request: () =>
-          paymentService.initiatePayment(payloadModel: getUpdatedPayload()),
+          paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),
       onSuccess: (_) => {
-        setPaymentResponse(mapPaymentResponse(_.data)),
+        _setPaymentResponse(mapPaymentResponse(_.data)),
         log("message $_"),
       },
       onError: (_) => log("message $_."),
@@ -125,7 +134,8 @@ class ViewsNotifier extends ChangeNotifier {
     RequestHandler(
         request: () =>
             paymentService.queryTransaction(payRef: "SBT-T54367073117"),
-        onSuccess: (_) => log("message $_."),
+        onSuccess: (_) => _setPaymentStatus(
+            PaymentStatusModel.fromJson(_.data as Map<String, dynamic>)),
         onError: (_) => log("message $_."),
         onNetworkError: (_) => log("message $_.")).sendRequest();
   }

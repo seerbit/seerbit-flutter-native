@@ -1,7 +1,9 @@
+import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/ussd/controllers/ussd_notifier.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
 import 'package:example/modules/view-notifiers/view_state.dart';
+import 'package:example/modules/widgets/amount_to_pay.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,32 +16,40 @@ class UssdSelectBank extends StatelessWidget {
   Widget build(BuildContext context) {
     UssdNotifier un = Provider.of<UssdNotifier>(context);
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const YSpace(12),
-        const CustomText("NGN 100.00", weight: FontWeight.bold, size: 24),
-        const YSpace(8),
-        const CustomText("Fee: NGN1.50", size: 14),
-        const YSpace(24),
-        const CustomText("Choose your bank to start this payment",
-            size: 12, weight: FontWeight.bold),
-        const YSpace(12),
-        CustomDropDown(
-            label: "label",
-            hint: "Select Bank",
-            value: null,
-            onChanged: (_) async {
-              un.changeView(CurrentCardView.progress);
-              await vn.initiatePayment();
-              un.changeView(CurrentCardView.info);
-            },
-            items: [
-              ...vn.banksModel!.data.merchantBanks
-                  .map((e) => e.bankName!)
-                  .toList()
-            ]),
-      ],
-    );
+    return Builder(builder: (context) {
+      PaymentPayloadModel ppm = vn.paymentPayload!;
+      MerchantDetailModel mdm = vn.merchantDetailModel!;
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AmountToPay(
+            fee: mdm.payload.cardFee.mc!,
+          ),
+          const YSpace(24),
+          const CustomText("Choose your bank to start this payment",
+              size: 12, weight: FontWeight.bold),
+          const YSpace(12),
+          CustomDropDown(
+              label: "label",
+              hint: "Select Bank",
+              value: null,
+              onChanged: (_) async {
+                vn.setPaymentPayload(ppm.copyWith(
+                    bankCode: vn.banksModel?.data.merchantBanks
+                        .firstWhere((e) => e.bankName != _)
+                        .bankCode));
+                un.changeView(CurrentCardView.progress);
+                await vn.initiatePayment();
+                un.changeView(CurrentCardView.info);
+              },
+              items: [
+                ...?vn.banksModel?.data.merchantBanks
+                    .map((e) => e.bankName!)
+                    .toList()
+              ]),
+        ],
+      );
+    });
   }
 }

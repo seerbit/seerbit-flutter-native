@@ -12,6 +12,8 @@ String paymentPayloadToJson(PaymentPayloadModel data) =>
 
 class PaymentPayloadModel {
   PaymentPayloadModel({
+    required this.firstName,
+    required this.lastName,
     required this.fullName,
     required this.mobileNumber,
     required this.email,
@@ -34,6 +36,8 @@ class PaymentPayloadModel {
   });
 
   final String? fullName;
+  final String? firstName;
+  final String? lastName;
   final String? mobileNumber;
   final String? email;
   final String? publicKey;
@@ -55,6 +59,8 @@ class PaymentPayloadModel {
 
   PaymentPayloadModel copyWith({
     String? fullName,
+    String? lastName,
+    String? firstName,
     String? mobileNumber,
     String? email,
     String? publicKey,
@@ -75,6 +81,8 @@ class PaymentPayloadModel {
     String? bankCode,
   }) =>
       PaymentPayloadModel(
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
         fullName: fullName ?? this.fullName,
         mobileNumber: mobileNumber ?? this.mobileNumber,
         email: email ?? this.email,
@@ -98,6 +106,8 @@ class PaymentPayloadModel {
 
   factory PaymentPayloadModel.fromJson(Map<String, dynamic> json) =>
       PaymentPayloadModel(
+        lastName: json["lastName"],
+        firstName: json["firstName"],
         fullName: json["fullName"],
         mobileNumber: json["mobileNumber"],
         email: json["email"],
@@ -119,10 +129,10 @@ class PaymentPayloadModel {
         bankCode: json["bankCode"],
       );
 
-  factory PaymentPayloadModel.empty() => PaymentPayloadModel.fromJson({});
+  factory PaymentPayloadModel.empty() => PaymentPayloadModel.fromJson(map);
 
   Map<String, dynamic> toJson() => {
-        "fullName": fullName,
+        "fullName": "$firstName $lastName",
         "mobileNumber": mobileNumber,
         "email": email,
         "publicKey": publicKey,
@@ -143,3 +153,25 @@ class PaymentPayloadModel {
         "bankCode": bankCode,
       };
 }
+
+dynamic map = {
+  "fullName": "Amos Oruaroghene",
+  "mobileNumber": "404",
+  "email": "inspiron.amos@gmail.com",
+  "publicKey": "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
+  "amount": "101.50",
+  "currency": "NGN",
+  "country": "NG",
+  "paymentReference": "SBT-T54367073117",
+  "productId": "",
+  "productDescription": "",
+  "redirectUrl": "http://localhost:3002/#/",
+  "paymentType": "USSD",
+  "channelType": "ussd",
+  "ddeviceType": "Desktop",
+  "sourceIP": "102.88.63.64",
+  "source": "",
+  "fee": "1.50",
+  "retry": true,
+  "bankCode": "044"
+};

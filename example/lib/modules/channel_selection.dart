@@ -1,5 +1,5 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:example/models/merchant_model.dart';
+import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/bank-account/views/bank_account_channel.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
@@ -26,6 +26,7 @@ class ChannelSelection extends StatelessWidget {
     DebitCardNotifier dcn = Provider.of<DebitCardNotifier>(context);
     return Builder(builder: (context) {
       MerchantDetailModel mdm = vn.merchantDetailModel!;
+      PaymentPayloadModel ppm = vn.paymentPayload!;
       return SingleChildScrollView(
         child: Container(
           height: 800.h,
@@ -45,11 +46,11 @@ class ChannelSelection extends StatelessWidget {
                   Image.network(mdm.payload.logo!, height: 50.h, width: 50.h),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      CustomText("Ollie Ollie",
+                    children: [
+                      CustomText("${ppm.fullName}",
                           size: 12, weight: FontWeight.bold),
-                      YSpace(6),
-                      CustomText("olaz@gmail.com", size: 12)
+                      const YSpace(6),
+                      CustomText("${ppm.email}", size: 12)
                     ],
                   )
                 ],

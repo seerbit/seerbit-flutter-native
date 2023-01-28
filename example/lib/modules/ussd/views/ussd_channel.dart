@@ -5,6 +5,7 @@ import 'package:example/modules/ussd/widgets/ussd_info.dart';
 import 'package:example/modules/ussd/widgets/ussd_progress.dart';
 import 'package:example/modules/ussd/widgets/ussd_select_bank.dart';
 import 'package:example/modules/view-notifiers/view_state.dart';
+import 'package:example/modules/widgets/error_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,8 @@ class UssdChannel extends StatelessWidget {
             return const UssdProgress();
           case CurrentCardView.confirmPayment:
             return const UssdConfirmPayment();
+          case CurrentCardView.error:
+            return const ErrorCard();
           default:
             return Container();
         }
