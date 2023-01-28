@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:example/models/response_model.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class RequestHandler {
   final Future<ResponseModel> Function() request;
@@ -25,11 +27,12 @@ class RequestHandler {
 
   Future<void> sendRequest() async {
     if (removeFocus) FocusManager.instance.primaryFocus?.unfocus();
+
     try {
       // if (showProgress) Modals().progressToast();
       onRequestStart?.call();
       ResponseModel result = await request.call();
-      log(result.toString());
+      log("Result:$result");
       onSuccess(result);
     } on SocketException {
       onNetworkError(ResponseModel(
@@ -41,7 +44,12 @@ class RequestHandler {
       onNetworkError(ResponseModel(
           data: {"message": "Unable to connect to the internet"}, status: 400));
     } catch (e) {
-      log(e.toString());
+      // log((e.runtimeType==Re).toString());
+      if (e.runtimeType == Response) {
+        onError(ResponseModel(
+            data: jsonDecode((e as Response).body), status: (e).statusCode));
+        return;
+      }
       onError(ResponseModel(
           data: {"message": "Check your internet connection"}, status: 400));
       onRequestEnd?.call();

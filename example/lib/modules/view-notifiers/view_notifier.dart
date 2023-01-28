@@ -35,10 +35,19 @@ class ViewsNotifier extends ChangeNotifier {
   PaymentStatusModel? _paymentStatus;
   PaymentStatusModel? get paymentStatus => _paymentStatus;
 
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
+  ///set the error message
+  setErrorMessage(String? error) {
+    _errorMessage = error;
+    notifyListeners();
+  }
+
   ///Update the payment paylod
   setPaymentPayload(PaymentPayloadModel ppm) {
     _paymentPayload = ppm;
-    notifyListeners();
+    notifyListeners();  
   }
 
   ///Update the payment status
@@ -117,15 +126,16 @@ class ViewsNotifier extends ChangeNotifier {
 
   ///Initiate a payment
   Future initiatePayment() async {
+    setErrorMessage(null);
     await RequestHandler(
       request: () =>
           paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),
       onSuccess: (_) => {
         _setPaymentResponse(mapPaymentResponse(_.data)),
-        log("message $_"),
+        log("Success $_"),
       },
-      onError: (_) => log("message $_."),
-      onNetworkError: (_) => log("message $_"),
+      onError: (_) => {log("onError $_."), setErrorMessage(_.data['message'])},
+      onNetworkError: (_) => log("onNetworkError $_"),
     ).sendRequest();
   }
 

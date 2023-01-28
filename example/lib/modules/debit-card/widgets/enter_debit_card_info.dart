@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:animate_do/animate_do.dart';
 import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/debit-card/controllers/debit_card_notifier.dart';
@@ -6,6 +9,7 @@ import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:example/modules/widgets/amount_to_pay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class EnterDebitCardInfo extends StatelessWidget {
@@ -26,6 +30,48 @@ class EnterDebitCardInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AmountToPay(fee: mdm.payload.cardFee.mc!),
+            const YSpace(12),
+            Visibility(
+              visible: vn.errorMessage != null,
+              child: GestureDetector(
+                onTap: () => vn.setErrorMessage(null),
+                child: FadeInUp(
+                  key: Key(vn.errorMessage.toString()),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(8),
+                    // height: 35,
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFFFD6D6),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: const Color(0xFFFF6262))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const CustomText('Transaction Failed',
+                                size: 12,
+                                color: Color(0xFFCC212D),
+                                weight: FontWeight.bold),
+                            const YSpace(8),
+                            CustomText(vn.errorMessage.toString(),
+                                size: 12, color: const Color(0xFFCC212D)),
+                          ],
+                        ),
+                        GestureDetector(
+                            onTap: () {},
+                            child: const Icon(
+                              Icons.close,
+                              size: 14,
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
             const YSpace(32),
             CustomTextField(
               initialValue: CreditCardNumberInputFormatter()
@@ -78,14 +124,26 @@ class EnterDebitCardInfo extends StatelessWidget {
             const YSpace(20),
             CustomFlatButton(
                 label: "PAY NGN ${ppm.amount}",
-                onTap: !(_notNullOrEmpty(ppm.cvv, 3) &&
-                        _notNullOrEmpty(ppm.cardNumber, 19) &&
+                prefix: dcn.loading
+                    ? LottieBuilder.asset(
+                        'assets/loading.json',
+                        height: 20,
+                      )
+                    : null,
+                onTap: (_notNullOrEmpty(ppm.cvv, 3) &&
+                        _notNullOrEmpty(ppm.cardNumber, 16) &&
                         _notNullOrEmpty(ppm.expiryMonth, 2) &&
                         _notNullOrEmpty(ppm.expiryYear, 2))
-                    ? () {}
-                    : () async {
+                    ? () async {
+                        dcn.setLoading(true);
                         await vn.initiatePayment();
-                        dcn.changeView(CurrentCardView.pin);
+                        dcn.setLoading(false);
+                        if (vn.errorMessage == null) {
+                          dcn.changeView(CurrentCardView.pin);
+                        }
+                      }
+                    : () async {
+                        log("message");
                       },
                 expand: true,
                 color: Colors.white,
@@ -95,7 +153,7 @@ class EnterDebitCardInfo extends StatelessWidget {
                         _notNullOrEmpty(ppm.expiryYear, 2))
                     ? Colors.black
                     : Colors.grey),
-            const YSpace(20),
+            const YSpace(8),
             Center(
               child: TextButton(
                 child: const CustomText("Display Test Cards",

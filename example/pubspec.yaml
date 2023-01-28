@@ -41,6 +41,7 @@ dependencies:
   pinput: ^2.2.21
   http: ^0.13.5
   flutter_multi_formatter: ^2.10.2
+  lottie: ^1.4.2
 
 dev_dependencies:
   flutter_test:

@@ -30,8 +30,11 @@ class Network {
                   () => throw (CustomResponse(
                       false, 'Check your internet connection 🥲'))));
       log(response.body.toString());
-      if ([201, 200, 202].contains(response.statusCode)) return response;
-      throw (CustomResponse(false, jsonDecode(response.body)['message']));
+      if ([201, 200, 202].contains(response.statusCode)) {
+        return response;
+      } else {
+        return Future.error(response);
+      }
     } on SocketException {
       throw (CustomResponse(false, 'Check your internet connection 🥲'));
     } on TimeoutException {
