@@ -37,7 +37,7 @@ class CustomFlatButton extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(7))),
           side: hasBorder
               ? MaterialStateProperty.all(
-                  const BorderSide(color: Colors.grey, width: 2))
+                  BorderSide(color: Colors.grey.shade300, width: 1))
               : null,
           splashFactory: NoSplash.splashFactory,
           backgroundColor: MaterialStateProperty.all(bgColor ?? Colors.white)),

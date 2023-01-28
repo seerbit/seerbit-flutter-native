@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'global_components.dart';
 
@@ -9,13 +10,16 @@ class CustomTextField extends StatelessWidget {
       this.validator,
       this.hint,
       this.borderRadius,
-      this.onChanged})
+      this.onChanged,
+      this.formatter,
+      this.initialValue})
       : super(key: key);
   final String label;
-  final String? hint;
+  final String? hint, initialValue;
   final BorderRadius? borderRadius;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final List<TextInputFormatter>? formatter;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,6 +28,8 @@ class CustomTextField extends StatelessWidget {
         CustomText(label, size: 12, weight: FontWeight.bold),
         const YSpace(5),
         TextFormField(
+          inputFormatters: formatter,
+          initialValue: initialValue,
           validator: validator,
           onChanged: onChanged,
           decoration: InputDecoration(

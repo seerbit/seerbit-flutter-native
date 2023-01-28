@@ -140,7 +140,7 @@ class ChannelSelection extends StatelessWidget {
                             size: 14, weight: FontWeight.bold),
                         alignment: MainAxisAlignment.start,
                         onTap: () => {
-                              bn.changeView(CurrentCardView.info),
+                              dcn.changeView(CurrentCardView.info),
                               vn.changePaymentChannel(PaymentChannel.debitCard),
                             },
                         expand: true,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:example/core/network/network.dart';
 import 'package:example/models/payment_payload_model.dart';
 import 'package:example/models/response_model.dart';
@@ -18,8 +20,10 @@ class PaymentServiceImpl implements PaymentService {
   @override
   Future<ResponseModel> initiatePayment(
       {required PaymentPayloadModel payloadModel}) async {
-    Response response =
-        await network.post('initiates', body: payloadModel.toJson());
+    Map body = payloadModel.toJson();
+    body.removeWhere((key, value) => value == null);
+    log(body.toString());
+    Response response = await network.post('initiates', body: body);
     return ResponseModel.fromResponse(response);
   }
 

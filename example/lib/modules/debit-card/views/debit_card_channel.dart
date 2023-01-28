@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:example/modules/debit-card/controllers/debit_card_notifier.dart';
+import 'package:example/modules/debit-card/widgets/display_test_cards.dart';
 import 'package:example/modules/debit-card/widgets/widgets.dart';
 import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +19,15 @@ class DebitCardChannel extends StatelessWidget {
       child: Builder(builder: (context) {
         switch (dcn.currentCardView) {
           case CurrentCardView.info:
-            return const EnterDebitCardInfo();
+            return EnterDebitCardInfo();
           case CurrentCardView.pin:
             return const InputPIN();
           case CurrentCardView.otp:
             return const AuthorizeOTP();
           case CurrentCardView.redirect:
             return const RedirectToBank();
+          case CurrentCardView.testCards:
+            return const DisplayTestCards();
           default:
             return Container();
         }

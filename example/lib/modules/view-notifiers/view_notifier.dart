@@ -50,8 +50,8 @@ class ViewsNotifier extends ChangeNotifier {
   //Add Additional Params to the payload
   PaymentPayloadModel _getUpdatedPayload() {
     return paymentPayload!.copyWith(
-      paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
-      channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
+      // paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
+      // channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
       ddeviceType: Platform.isAndroid ? "Android" : "iOS",
       publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
       currency: "NGN",
