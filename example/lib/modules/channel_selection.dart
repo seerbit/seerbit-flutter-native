@@ -47,7 +47,7 @@ class ChannelSelection extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      CustomText("${ppm.fullName}",
+                      CustomText("${ppm.firstName} ${ppm.lastName}",
                           size: 12, weight: FontWeight.bold),
                       const YSpace(6),
                       CustomText("${ppm.email}", size: 12)
