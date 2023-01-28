@@ -4,7 +4,9 @@ import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/bank-account/views/bank_account_channel.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
 import 'package:example/modules/bank-transfer/views/transfer_to_bank_channel.dart';
+import 'package:example/modules/debit-card/controllers/debit_card_notifier.dart';
 import 'package:example/modules/debit-card/views/debit_card_channel.dart';
+import 'package:example/modules/ussd/controllers/ussd_notifier.dart';
 import 'package:example/modules/ussd/views/ussd_channel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +21,8 @@ class ChannelSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
     BankTransferNotifier bn = Provider.of<BankTransferNotifier>(context);
+    UssdNotifier un = Provider.of<UssdNotifier>(context);
+    DebitCardNotifier dcn = Provider.of<DebitCardNotifier>(context);
     return Builder(builder: (context) {
       MerchantDetailModel mdm = vn.merchantDetailModel!;
       return SingleChildScrollView(
@@ -91,6 +95,7 @@ class ChannelSelection extends StatelessWidget {
                         alignment: MainAxisAlignment.start,
                         onTap: () async => {
                               vn.changePaymentChannel(PaymentChannel.transfer),
+                              // bn.changeView(Current)
                             },
                         expand: true,
                         color: Colors.black,

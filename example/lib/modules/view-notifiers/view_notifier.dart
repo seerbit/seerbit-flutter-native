@@ -10,6 +10,8 @@ import 'package:example/services/channel_service.dart';
 import 'package:example/services/channel_service_impl.dart';
 import 'package:flutter/material.dart';
 
+import 'helpers.dart';
+
 class ViewsNotifier extends ChangeNotifier {
   ViewsNotifier({this.paymentService = const PaymentServiceImpl()});
 
@@ -47,25 +49,9 @@ class ViewsNotifier extends ChangeNotifier {
 
   isChannelActive(PaymentChannel channel) {
     return merchantDetailModel!.payload.channelOptionStatus.any((element) =>
-        mapChannel(element.name!) == channel &&
+        Helper().mapChannel(element.name!) == channel &&
         element.allowOption &&
         paymentChannel != channel);
-  }
-
-  ///Map the Payment channels to the String
-  PaymentChannel mapChannel(String channel) {
-    switch (channel) {
-      case "Card":
-        return PaymentChannel.debitCard;
-      case "ACCOUNT":
-        return PaymentChannel.bankAccount;
-      case "TRANSFER":
-        return PaymentChannel.transfer;
-      case "USSD":
-        return PaymentChannel.ussd;
-      default:
-        return PaymentChannel.debitCard;
-    }
   }
 
   ///Map the payment response
@@ -105,8 +91,10 @@ class ViewsNotifier extends ChangeNotifier {
         "paymentReference": "SBT-T54367073117",
         "productId": "",
         "productDescription": "",
-        "paymentType": "TRANSFER",
-        "channelType": "Transfer",
+        "paymentType":
+            Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
+        "channelType":
+            Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
         "deviceType": "Desktop",
         "sourceIP": "102.88.63.64",
         "source": "",
@@ -114,7 +102,7 @@ class ViewsNotifier extends ChangeNotifier {
         "retry": true,
         "amountControl": "FIXEDAMOUNT",
         "walletDaysActive": "1",
-        "bankCode": ""
+        "bankCode": "044"
       })),
       onSuccess: (_) => {
         setPaymentResponse(mapResponse(_.data)),
@@ -123,6 +111,16 @@ class ViewsNotifier extends ChangeNotifier {
       onError: (_) => log("message $_."),
       onNetworkError: (_) => log("message $_"),
     ).sendRequest();
+  }
+
+  ///check the status of a transaction
+  Future queryTransaction() async {
+    RequestHandler(
+        request: () =>
+            paymentService.queryTransaction(payRef: "SBT-T54367073117"),
+        onSuccess: (_) => log("message $_."),
+        onError: (_) => log("message $_."),
+        onNetworkError: (_) => log("message $_.")).sendRequest();
   }
 }
 

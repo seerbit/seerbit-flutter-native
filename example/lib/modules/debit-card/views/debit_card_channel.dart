@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:example/modules/debit-card/controllers/debit_card_notifier.dart';
 import 'package:example/modules/debit-card/widgets/widgets.dart';
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

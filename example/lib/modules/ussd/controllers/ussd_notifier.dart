@@ -1,3 +1,4 @@
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 
 class UssdNotifier extends ChangeNotifier {
@@ -12,4 +13,4 @@ class UssdNotifier extends ChangeNotifier {
   }
 }
 
-enum CurrentCardView { select, showUssd, progress }
+

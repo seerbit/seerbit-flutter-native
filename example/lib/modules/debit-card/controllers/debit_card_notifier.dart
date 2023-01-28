@@ -1,3 +1,4 @@
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 
 class DebitCardNotifier extends ChangeNotifier {
@@ -11,5 +12,3 @@ class DebitCardNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
-
-enum CurrentCardView { info, pin, loading, otp, redirect }

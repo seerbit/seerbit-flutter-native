@@ -1,6 +1,7 @@
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

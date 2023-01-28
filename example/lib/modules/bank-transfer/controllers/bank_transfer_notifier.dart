@@ -1,3 +1,4 @@
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 
 class BankTransferNotifier extends ChangeNotifier {
@@ -12,4 +13,4 @@ class BankTransferNotifier extends ChangeNotifier {
   }
 }
 
-enum CurrentCardView { select, info, progress, loading }
+

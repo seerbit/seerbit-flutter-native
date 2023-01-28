@@ -1,6 +1,8 @@
 import 'package:example/modules/-core-global/-core-global.dart';
+import 'package:example/modules/ussd/controllers/ussd_notifier.dart';
 import 'package:example/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,19 +16,36 @@ class UssdInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
+    UssdNotifier un = Provider.of<UssdNotifier>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const YSpace(34),
-        const CustomText("Dial the code below to complete this payment",
-            size: 13),
+        Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                YSpace(12),
+                CustomText("NGN 100.00", weight: FontWeight.bold, size: 24),
+                YSpace(8),
+                CustomText("Fee: NGN1.50", size: 14),
+                YSpace(34),
+                CustomText("Dial the code below to complete this payment",
+                    size: 13),
+              ],
+            ),
+          ],
+        ),
         const YSpace(8),
         Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             alignment: Alignment.center,
             height: 50.h,
-            color: Colors.grey.shade300,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.grey.shade300,
+            ),
             child: CustomText(
                 (vn.paymentResponse as UssdResponseModel)
                     .data
@@ -44,7 +63,10 @@ class UssdInfo extends StatelessWidget {
         ),
         const YSpace(8),
         CustomFlatButton(
-          onTap: () {},
+          onTap: () {
+            vn.queryTransaction();
+            un.changeView(CurrentCardView.confirmPayment);
+          },
           bgColor: Colors.black,
           color: Colors.white,
           expand: true,

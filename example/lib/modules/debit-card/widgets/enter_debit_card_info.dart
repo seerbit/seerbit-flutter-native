@@ -1,5 +1,6 @@
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/debit-card/controllers/debit_card_notifier.dart';
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

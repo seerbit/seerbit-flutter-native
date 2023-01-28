@@ -22,4 +22,10 @@ class PaymentServiceImpl implements PaymentService {
         await network.post('initiates', body: payloadModel.toJson());
     return ResponseModel.fromResponse(response);
   }
+
+  @override
+  Future<ResponseModel> queryTransaction({required String payRef}) async {
+    Response response = await network.get("query/$payRef");
+    return ResponseModel.fromResponse(response);
+  }
 }
