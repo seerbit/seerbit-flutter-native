@@ -84,7 +84,7 @@ class _DetailPair extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [CustomText(leading, size: 12), CustomText(trailing, size: 12)],
+      children: [CustomText(leading, size: 14), CustomText(trailing, size: 14)],
     );
   }
 }

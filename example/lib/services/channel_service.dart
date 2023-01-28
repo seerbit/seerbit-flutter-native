@@ -6,4 +6,5 @@ abstract class PaymentService {
   Future<ResponseModel> initiatePayment(
       {required PaymentPayloadModel payloadModel});
   Future<ResponseModel> queryTransaction({required String payRef});
+  Future<ResponseModel> getBanks();
 }

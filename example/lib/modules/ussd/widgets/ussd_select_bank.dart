@@ -34,7 +34,11 @@ class UssdSelectBank extends StatelessWidget {
               await vn.initiatePayment();
               un.changeView(CurrentCardView.info);
             },
-            items: const ["UBA", "Zenith Bank"]),
+            items: [
+              ...vn.banksModel!.data.merchantBanks
+                  .map((e) => e.bankName!)
+                  .toList()
+            ]),
       ],
     );
   }

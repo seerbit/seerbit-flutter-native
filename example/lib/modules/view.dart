@@ -47,7 +47,8 @@ class SeerbitCheckout extends StatelessWidget {
               const YSpace(24),
               CustomFlatButton(
                   label: "Continue to Payment",
-                  onTap: () {
+                  onTap: () async {
+                    await vn.getBanks();
                     CustomOverlays()
                         .showPopup(const ChannelSelection(), popPrevious: true);
                   },

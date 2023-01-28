@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BankTransferLoading extends StatelessWidget {
-  const BankTransferLoading({
+  const   BankTransferLoading({
     Key? key,
   }) : super(key: key);
 

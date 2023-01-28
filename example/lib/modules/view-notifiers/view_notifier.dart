@@ -1,9 +1,7 @@
 import 'dart:developer';
 
 import 'package:example/core/network/request_handler.dart';
-import 'package:example/models/merchant_model.dart';
-import 'package:example/models/payment_payload_model.dart';
-import 'package:example/models/payment_response_model.dart';
+import 'package:example/models/models.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
 import 'package:example/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:example/services/channel_service.dart';
@@ -26,6 +24,9 @@ class ViewsNotifier extends ChangeNotifier {
   MerchantDetailModel? _merchantDetailModel;
   MerchantDetailModel? get merchantDetailModel => _merchantDetailModel;
 
+  BanksModel? _banksModel;
+  BanksModel? get banksModel => _banksModel;
+
   ///sets the fetched [MerchantDetailModel] to the viewnotifier
   setMerchantDetail(MerchantDetailModel mdm) {
     _merchantDetailModel = mdm;
@@ -42,6 +43,13 @@ class ViewsNotifier extends ChangeNotifier {
   ///Set the fetched [PaymentResponseModel] to the the viewnotifier
   setPaymentResponse(PaymentResponseModel prm) {
     _paymentResponse = prm;
+    notifyListeners();
+  }
+
+  ///Set the fetched Available Banks to the viewnotifier
+  setBanks(BanksModel bm) {
+    _banksModel = bm;
+    notifyListeners();
   }
 
   ///Check if a channel is active from the config
@@ -55,7 +63,7 @@ class ViewsNotifier extends ChangeNotifier {
   }
 
   ///Map the payment response
-  PaymentResponseModel mapResponse(Map data) {
+  PaymentResponseModel mapPaymentResponse(Map data) {
     switch (_paymentChannel) {
       case PaymentChannel.transfer:
         return TransferResponseModel.fromJson(data as Map<String, dynamic>);
@@ -105,7 +113,7 @@ class ViewsNotifier extends ChangeNotifier {
         "bankCode": "044"
       })),
       onSuccess: (_) => {
-        setPaymentResponse(mapResponse(_.data)),
+        setPaymentResponse(mapPaymentResponse(_.data)),
         log("message $_"),
       },
       onError: (_) => log("message $_."),
@@ -121,6 +129,17 @@ class ViewsNotifier extends ChangeNotifier {
         onSuccess: (_) => log("message $_."),
         onError: (_) => log("message $_."),
         onNetworkError: (_) => log("message $_.")).sendRequest();
+  }
+
+  ///Get the list of banks available for checkout
+  Future getBanks() async {
+    RequestHandler(
+      request: () => paymentService.getBanks(),
+      onSuccess: (_) =>
+          setBanks(BanksModel.fromJson(_.data as Map<String, dynamic>)),
+      onError: (_) => log("message $_."),
+      onNetworkError: (_) => log("message $_."),
+    ).sendRequest();
   }
 }
 

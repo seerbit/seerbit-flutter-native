@@ -28,4 +28,10 @@ class PaymentServiceImpl implements PaymentService {
     Response response = await network.get("query/$payRef");
     return ResponseModel.fromResponse(response);
   }
+
+  @override
+  Future<ResponseModel> getBanks() async {
+    Response response = await network.get("banks");
+    return ResponseModel.fromResponse(response);
+  }
 }

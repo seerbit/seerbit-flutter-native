@@ -1,5 +1,7 @@
 import 'package:example/modules/-core-global/-core-global.dart';
+import 'package:example/modules/view-notifiers/view_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BankAccountChannel extends StatelessWidget {
   const BankAccountChannel({
@@ -8,6 +10,7 @@ class BankAccountChannel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,11 +22,15 @@ class BankAccountChannel extends StatelessWidget {
         const CustomText("Choose your bank to start this payment",
             size: 12, weight: FontWeight.bold),
         const YSpace(12),
-        const CustomDropDown(
+        CustomDropDown(
             label: "label",
             hint: "Select Bank",
             value: null,
-            items: ["UBA", "Zenith Bank"]),
+            items: [
+              ...vn.banksModel!.data.merchantBanks
+                  .map((e) => e.bankName!)
+                  .toList()
+            ]),
         const YSpace(12),
         CustomFlatButton(
             label: "Continue to Payment",
