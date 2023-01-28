@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io' show Platform;
 
 import 'package:example/core/network/request_handler.dart';
 import 'package:example/models/models.dart';
@@ -26,6 +27,27 @@ class ViewsNotifier extends ChangeNotifier {
 
   BanksModel? _banksModel;
   BanksModel? get banksModel => _banksModel;
+
+  PaymentPayloadModel _paymentPayload = PaymentPayloadModel.empty();
+  PaymentPayloadModel? get paymentPayload => _paymentPayload;
+
+  ///Update the payment paylod
+  setPaymentPayload(PaymentPayloadModel ppm) {
+    _paymentPayload = ppm;
+    notifyListeners();
+  }
+
+  //Add Additional Params to the payload
+  PaymentPayloadModel getUpdatedPayload() {
+    return paymentPayload!.copyWith(
+      paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
+      channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
+      ddeviceType: Platform.isAndroid ? "Android" : "iOS",
+      publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
+      currency: "NGN",
+      country: "NG",
+    );
+  }
 
   ///sets the fetched [MerchantDetailModel] to the viewnotifier
   setMerchantDetail(MerchantDetailModel mdm) {
@@ -87,31 +109,8 @@ class ViewsNotifier extends ChangeNotifier {
   ///Initiate a payment
   Future initiatePayment() async {
     await RequestHandler(
-      request: () => paymentService.initiatePayment(
-          payloadModel: PaymentPayloadModel.fromJson({
-        "fullName": "Amos Oruaroghene",
-        "mobileNumber": "404",
-        "email": "inspiron.amos@gmail.com",
-        "publicKey": "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
-        "amount": "101.50",
-        "currency": "NGN",
-        "country": "NG",
-        "paymentReference": "SBT-T54367073117",
-        "productId": "",
-        "productDescription": "",
-        "paymentType":
-            Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
-        "channelType":
-            Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
-        "deviceType": "Desktop",
-        "sourceIP": "102.88.63.64",
-        "source": "",
-        "fee": "1.50",
-        "retry": true,
-        "amountControl": "FIXEDAMOUNT",
-        "walletDaysActive": "1",
-        "bankCode": "044"
-      })),
+      request: () =>
+          paymentService.initiatePayment(payloadModel: getUpdatedPayload()),
       onSuccess: (_) => {
         setPaymentResponse(mapPaymentResponse(_.data)),
         log("message $_"),

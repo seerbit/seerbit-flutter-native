@@ -119,6 +119,8 @@ class PaymentPayloadModel {
         bankCode: json["bankCode"],
       );
 
+  factory PaymentPayloadModel.empty() => PaymentPayloadModel.fromJson({});
+
   Map<String, dynamic> toJson() => {
         "fullName": fullName,
         "mobileNumber": mobileNumber,
