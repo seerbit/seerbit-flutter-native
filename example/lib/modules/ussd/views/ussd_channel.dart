@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:example/modules/debit-card/widgets/generic_error.dart';
 import 'package:example/modules/ussd/controllers/ussd_notifier.dart';
 import 'package:example/modules/ussd/widgets/ussd_confirm_payment.dart';
 import 'package:example/modules/ussd/widgets/ussd_info.dart';
@@ -31,6 +32,8 @@ class UssdChannel extends StatelessWidget {
             return const UssdConfirmPayment();
           case CurrentCardView.error:
             return const ErrorCard();
+          case CurrentCardView.initializeError:
+            return const GenericError();
           default:
             return Container();
         }

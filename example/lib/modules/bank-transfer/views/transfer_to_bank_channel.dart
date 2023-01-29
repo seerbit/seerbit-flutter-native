@@ -1,8 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
-import 'package:example/modules/bank-transfer/widgets/bank_transfer_error.dart';
 import 'package:example/modules/bank-transfer/widgets/bank_transfer_info.dart';
 import 'package:example/modules/bank-transfer/widgets/bank_transfer_loading.dart';
+import 'package:example/modules/debit-card/widgets/generic_error.dart';
 import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ class BankTransferChannel extends StatelessWidget {
     // UssdNotifier un = Provider.of<UssdNotifier>(context);
     BankTransferNotifier bn = Provider.of<BankTransferNotifier>(context);
     return FadeIn(
-      key: Key(bn.currentCardView.toString()),
+      // key: Key(bn.currentCardView.toString()),
       child: Builder(builder: (context) {
         switch (bn.currentCardView) {
           case CurrentCardView.loading:
@@ -27,7 +27,7 @@ class BankTransferChannel extends StatelessWidget {
           case CurrentCardView.progress:
             return const BankTransferLoading();
           case CurrentCardView.error:
-            return const BankTransferError();
+            return const GenericError();
           default:
             return Container();
         }

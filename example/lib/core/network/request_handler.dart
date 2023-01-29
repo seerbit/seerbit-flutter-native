@@ -32,7 +32,7 @@ class RequestHandler {
       // if (showProgress) Modals().progressToast();
       onRequestStart?.call();
       ResponseModel result = await request.call();
-      log(result.data.toString());
+      // log(result.data.toString());
       onSuccess(result);
     } on SocketException {
       onNetworkError(ResponseModel(
@@ -44,8 +44,8 @@ class RequestHandler {
       onNetworkError(ResponseModel(
           data: {"message": "Unable to connect to the internet"}, status: 400));
     } catch (e) {
-      log("An error occured");
-      log(e.toString());
+      // log("An error occured");
+      // log(e.toString());
       if (e.runtimeType == Response) {
         onError(ResponseModel(
             data: jsonDecode((e as Response).body), status: (e).statusCode));

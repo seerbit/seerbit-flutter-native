@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:animate_do/animate_do.dart';
 import 'package:example/models/models.dart';
@@ -137,7 +138,8 @@ class EnterDebitCardInfo extends StatelessWidget {
                         _notNullOrEmpty(ppm.expiryYear, 2))
                     ? () async {
                         vn.setPaymentPayload(ppm.copyWith(
-                            paymentReference: 'SBT-T54267101122472'));
+                            paymentReference:
+                                'SBT-T54267${math.Random().nextInt(29091020)}101122472'));
                         dcn.setLoading(true);
                         await vn.initiatePayment();
                         dcn.setLoading(false);

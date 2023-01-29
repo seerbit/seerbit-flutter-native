@@ -82,8 +82,9 @@ class ViewsNotifier extends ChangeNotifier {
   ///Select the payment channel to be used
   ///on the checkout view
   changePaymentChannel(PaymentChannel pc) {
-    _paymentChannel = pc;
     reset();
+    _paymentChannel = pc;
+
     notifyListeners();
   }
 

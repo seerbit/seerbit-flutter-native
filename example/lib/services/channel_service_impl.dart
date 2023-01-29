@@ -33,7 +33,8 @@ class PaymentServiceImpl implements PaymentService {
 
   @override
   Future<ResponseModel> queryTransaction({required String payRef}) async {
-    Response response = await network.get("query/$payRef");
+    Response response = await network
+        .get("${const Api.dev().getSandbox("query")}/query/$payRef");
     return ResponseModel.fromResponse(response);
   }
 
