@@ -38,6 +38,11 @@ class ViewsNotifier extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  reset() {
+    _paymentResponse = null;
+    _paymentStatus = null;
+  }
+
   ///set the error message
   setErrorMessage(String? error) {
     _errorMessage = error;
@@ -78,6 +83,7 @@ class ViewsNotifier extends ChangeNotifier {
   ///on the checkout view
   changePaymentChannel(PaymentChannel pc) {
     _paymentChannel = pc;
+    reset();
     notifyListeners();
   }
 

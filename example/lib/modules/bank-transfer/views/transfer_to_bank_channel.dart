@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
+import 'package:example/modules/bank-transfer/widgets/bank_transfer_error.dart';
 import 'package:example/modules/bank-transfer/widgets/bank_transfer_info.dart';
 import 'package:example/modules/bank-transfer/widgets/bank_transfer_loading.dart';
 import 'package:example/modules/view-notifiers/view_state.dart';
@@ -25,6 +26,8 @@ class BankTransferChannel extends StatelessWidget {
             return const BankTransferInfo();
           case CurrentCardView.progress:
             return const BankTransferLoading();
+          case CurrentCardView.error:
+            return const BankTransferError();
           default:
             return Container();
         }

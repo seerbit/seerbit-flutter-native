@@ -136,8 +136,8 @@ class EnterDebitCardInfo extends StatelessWidget {
                         _notNullOrEmpty(ppm.expiryMonth, 2) &&
                         _notNullOrEmpty(ppm.expiryYear, 2))
                     ? () async {
-                        vn.setPaymentPayload(
-                            ppm.copyWith(paymentReference: 'SBT-T54267072247'));
+                        vn.setPaymentPayload(ppm.copyWith(
+                            paymentReference: 'SBT-T54267101122472'));
                         dcn.setLoading(true);
                         await vn.initiatePayment();
                         dcn.setLoading(false);

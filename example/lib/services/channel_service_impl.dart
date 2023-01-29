@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:example/core/network/api.dart';
 import 'package:example/core/network/network.dart';
 import 'package:example/models/payment_payload_model.dart';
 import 'package:example/models/response_model.dart';
@@ -12,8 +13,8 @@ class PaymentServiceImpl implements PaymentService {
   const PaymentServiceImpl({this.network = const Network()});
   @override
   getMerchantInformation() async {
-    Response response = await network
-        .get('merchant/clear/SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1');
+    Response response = await network.get(
+        'checkout/merchant/clear/SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1');
     return ResponseModel.fromResponse(response);
   }
 
@@ -23,7 +24,9 @@ class PaymentServiceImpl implements PaymentService {
     Map body = payloadModel.toJson();
     body.removeWhere((key, value) => value == null);
     log(body.toString());
-    Response response = await network.post('initiates', body: body);
+    Response response = await network.post(
+        '${const Api.dev().getSandbox(payloadModel.paymentType!)}/initiates',
+        body: body);
     log(response.body.toString());
     return ResponseModel.fromResponse(response);
   }
@@ -36,7 +39,8 @@ class PaymentServiceImpl implements PaymentService {
 
   @override
   Future<ResponseModel> getBanks() async {
-    Response response = await network.get("banks");
+    Response response =
+        await network.get("${const Api.dev().getSandbox("banks")}/banks");
     return ResponseModel.fromResponse(response);
   }
 }
