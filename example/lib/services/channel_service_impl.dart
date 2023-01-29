@@ -24,6 +24,7 @@ class PaymentServiceImpl implements PaymentService {
     body.removeWhere((key, value) => value == null);
     log(body.toString());
     Response response = await network.post('initiates', body: body);
+    log(response.body.toString());
     return ResponseModel.fromResponse(response);
   }
 

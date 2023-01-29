@@ -1,10 +1,10 @@
 import 'dart:developer';
-import 'dart:io' show Platform;
 
 import 'package:example/core/network/request_handler.dart';
 import 'package:example/models/models.dart';
 import 'package:example/models/payment_status_model.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
+import 'package:example/modules/debit-card/controllers/debit_card_model.dart';
 import 'package:example/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:example/services/channel_service.dart';
 import 'package:example/services/channel_service_impl.dart';
@@ -47,7 +47,7 @@ class ViewsNotifier extends ChangeNotifier {
   ///Update the payment paylod
   setPaymentPayload(PaymentPayloadModel ppm) {
     _paymentPayload = ppm;
-    notifyListeners();  
+    notifyListeners();
   }
 
   ///Update the payment status
@@ -59,13 +59,13 @@ class ViewsNotifier extends ChangeNotifier {
   //Add Additional Params to the payload
   PaymentPayloadModel _getUpdatedPayload() {
     return paymentPayload!.copyWith(
-      // paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
-      // channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
-      ddeviceType: Platform.isAndroid ? "Android" : "iOS",
-      publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
-      currency: "NGN",
-      country: "NG",
-    );
+        // paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
+        // channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
+        // ddeviceType: Platform.isAndroid ? "Android" : "iOS",
+        // publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
+        // currency: "NGN",
+        // country: "NG",
+        );
   }
 
   ///sets the fetched [MerchantDetailModel] to the viewnotifier
@@ -108,6 +108,8 @@ class ViewsNotifier extends ChangeNotifier {
     switch (_paymentChannel) {
       case PaymentChannel.transfer:
         return TransferResponseModel.fromJson(data as Map<String, dynamic>);
+      case PaymentChannel.debitCard:
+        return DebitCardResponseModel.fromJson(data as Map<String, dynamic>);
       default:
         return UssdResponseModel.fromJson(data as Map<String, dynamic>);
     }
@@ -131,6 +133,7 @@ class ViewsNotifier extends ChangeNotifier {
       request: () =>
           paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),
       onSuccess: (_) => {
+        log("Data here"),
         _setPaymentResponse(mapPaymentResponse(_.data)),
         log("Success $_"),
       },

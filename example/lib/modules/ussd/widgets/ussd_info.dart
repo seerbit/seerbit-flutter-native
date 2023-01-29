@@ -60,6 +60,7 @@ class UssdInfo extends StatelessWidget {
           CustomFlatButton(
             onTap: () async {
               vn.queryTransaction();
+
               un.changeView(CurrentCardView.confirmPayment);
               await Future.delayed(const Duration(seconds: 5));
               un.changeView(CurrentCardView.error);

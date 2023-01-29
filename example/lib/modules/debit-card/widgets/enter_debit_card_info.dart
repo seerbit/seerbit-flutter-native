@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:animate_do/animate_do.dart';
 import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
+import 'package:example/modules/debit-card/controllers/debit_card_model.dart';
 import 'package:example/modules/debit-card/controllers/debit_card_notifier.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
 import 'package:example/modules/view-notifiers/view_state.dart';
@@ -135,11 +136,21 @@ class EnterDebitCardInfo extends StatelessWidget {
                         _notNullOrEmpty(ppm.expiryMonth, 2) &&
                         _notNullOrEmpty(ppm.expiryYear, 2))
                     ? () async {
+                        vn.setPaymentPayload(
+                            ppm.copyWith(paymentReference: 'SBT-T54267072247'));
                         dcn.setLoading(true);
                         await vn.initiatePayment();
                         dcn.setLoading(false);
                         if (vn.errorMessage == null) {
-                          dcn.changeView(CurrentCardView.pin);
+                          if ((vn.paymentResponse as DebitCardResponseModel)
+                                  .data
+                                  ?.payments
+                                  ?.redirectUrl !=
+                              null) {
+                            dcn.changeView(CurrentCardView.redirect);
+                          } else {
+                            dcn.changeView(CurrentCardView.pin);
+                          }
                         }
                       }
                     : () async {

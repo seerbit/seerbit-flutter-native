@@ -36,6 +36,8 @@ class UssdSelectBank extends StatelessWidget {
               value: null,
               onChanged: (_) async {
                 vn.setPaymentPayload(ppm.copyWith(
+                    channelType: "ussd",
+                    paymentType: "USSD",
                     bankCode: vn.banksModel?.data.merchantBanks
                         .firstWhere((e) => e.bankName != _)
                         .bankCode));

@@ -33,13 +33,17 @@ class Network {
       if ([201, 200, 202].contains(response.statusCode)) {
         return response;
       } else {
+        log("Something happened here 1 ${response.statusCode}");
         return Future.error(response);
       }
     } on SocketException {
+      log("Something happened here");
       throw (CustomResponse(false, 'Check your internet connection 🥲'));
     } on TimeoutException {
+      log("Something happened here");
       throw (CustomResponse(false, 'Check your internet connection 🥲'));
     } catch (e) {
+      log("Something happened here");
       throw (Exception(e.toString()));
     }
   }
