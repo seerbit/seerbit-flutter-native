@@ -30,7 +30,7 @@ class ChannelSelection extends StatelessWidget {
       height: 800.h,
       child: SingleChildScrollView(
         child: Container(
-          height: 800.h,
+          // height: 8.h,
           // duration: const Duration(seconds: 1),
           // width: 270.w,
           margin: EdgeInsets.symmetric(horizontal: 20.w),
@@ -76,7 +76,7 @@ class ChannelSelection extends StatelessWidget {
                   }),
                 ),
               ),
-              const YSpace(5),
+              const YSpace(24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -87,14 +87,13 @@ class ChannelSelection extends StatelessWidget {
                   Container(height: 1, width: 60, color: Colors.grey.shade300),
                 ],
               ),
-              const YSpace(12),
+              const YSpace(24),
               Column(
                 children: [
                   Visibility(
                     visible: vn.isChannelActive(PaymentChannel.transfer),
                     child: CustomFlatButton(
-                        prefix: const CustomText("Transfer",
-                            size: 14, weight: FontWeight.bold),
+                        prefix: const CustomText("Transfer", size: 14),
                         alignment: MainAxisAlignment.start,
                         onTap: () async => {
                               bn.changeView(CurrentCardView.loading),
@@ -108,10 +107,8 @@ class ChannelSelection extends StatelessWidget {
                   Visibility(
                     visible: vn.isChannelActive(PaymentChannel.ussd),
                     child: CustomFlatButton(
-                        prefix: const CustomText("USSD",
-                            size: 14, weight: FontWeight.bold),
-                        suffix: const CustomText("*bank ussd code#",
-                            size: 14, weight: FontWeight.bold),
+                        prefix: const CustomText("USSD", size: 14),
+                        suffix: const CustomText("*bank ussd code#", size: 14),
                         alignment: MainAxisAlignment.spaceBetween,
                         onTap: () async => {
                               un.changeView(CurrentCardView.select),
@@ -121,7 +118,7 @@ class ChannelSelection extends StatelessWidget {
                         color: Colors.black,
                         bgColor: Colors.grey.shade200),
                   ),
-                  const YSpace(4),
+                  const YSpace(10),
                   Visibility(
                     visible: vn.isChannelActive(PaymentChannel.bankAccount),
                     child: CustomFlatButton(
@@ -133,12 +130,11 @@ class ChannelSelection extends StatelessWidget {
                         color: Colors.black,
                         bgColor: Colors.grey.shade200),
                   ),
-                  const YSpace(4),
+                  const YSpace(10),
                   Visibility(
                     visible: vn.isChannelActive(PaymentChannel.debitCard),
                     child: CustomFlatButton(
-                        prefix: const CustomText("Debit Card",
-                            size: 14, weight: FontWeight.bold),
+                        prefix: const CustomText("Debit Card", size: 14),
                         alignment: MainAxisAlignment.start,
                         onTap: () => {
                               dcn.changeView(CurrentCardView.info),

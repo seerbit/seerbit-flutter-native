@@ -20,7 +20,7 @@ class SeerbitCheckout extends StatelessWidget {
       MerchantDetailModel mdm = vn.merchantDetailModel!;
       return SingleChildScrollView(
         child: Container(
-          // width: 270.w,
+          height: 812.h,
           margin: EdgeInsets.symmetric(horizontal: 20.w),
           color: Colors.white,
           child: Form(

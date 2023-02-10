@@ -21,9 +21,12 @@ class BankTransferInfo extends StatelessWidget {
         const YSpace(25),
         const CustomText("Transfer the exact amount including decimals",
             size: 14, color: Colors.red),
-        const YSpace(12),
-        Material(
-          color: Colors.grey.shade300,
+        const YSpace(24),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.grey.shade300,
+          ),
           child: const Padding(
             padding: EdgeInsets.all(8.0),
             child: CustomText("NGN 101.50", size: 26, weight: FontWeight.w900),
@@ -35,21 +38,30 @@ class BankTransferInfo extends StatelessWidget {
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 10.w),
-          height: 100.h,
-          color: Colors.grey.shade300,
+          // height: 100.h,
+
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.grey.shade300,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              const YSpace(32),
               _DetailPair(
                   leading: 'Bank Name',
                   trailing: prm.data!.payments!.bankName!),
+              const YSpace(16),
               _DetailPair(
                   leading: 'Account Number',
                   trailing: prm.data!.payments!.accountNumber!),
+              const YSpace(16),
               _DetailPair(
                   leading: 'Beneficiary',
                   trailing: prm.data!.payments!.walletName!),
+              const YSpace(16),
               const _DetailPair(leading: 'Validity', trailing: '30-minutes'),
+              const YSpace(32),
             ],
           ),
         ),
@@ -66,6 +78,7 @@ class BankTransferInfo extends StatelessWidget {
             expand: true,
             color: Colors.white,
             bgColor: Colors.black),
+        const YSpace(12),
       ],
     );
   }

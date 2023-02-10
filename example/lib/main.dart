@@ -25,9 +25,7 @@ class MyApp extends StatelessWidget {
           builder: (_, context) {
             return MaterialApp(
               title: 'Seerbit Demo',
-              theme: ThemeData(
-                  // primarySwatch: MaterialColor,
-                  ),
+              theme: ThemeData(),
               navigatorKey: navigatorKey,
               home: const MyHomePage(title: 'Seerbit Demo'),
             );

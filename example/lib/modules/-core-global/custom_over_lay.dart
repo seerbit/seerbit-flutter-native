@@ -4,7 +4,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:example/core/navigator.dart';
 import 'package:example/main.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +15,7 @@ class CustomOverlays {
         builder: (context) {
           return Dialog(
             child: child,
-            insetPadding: EdgeInsets.symmetric(horizontal: 12.w),
+            insetPadding: EdgeInsets.zero,
           );
         });
   }

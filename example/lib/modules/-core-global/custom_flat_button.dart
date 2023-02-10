@@ -32,7 +32,10 @@ class CustomFlatButton extends StatelessWidget {
       onPressed: onTap,
       style: ButtonStyle(
           elevation: MaterialStateProperty.all(elevation.toDouble()),
-          minimumSize: MaterialStateProperty.all(const Size(250, 45)),
+          minimumSize:
+              MaterialStateProperty.all(const Size(double.infinity, 50)),
+          maximumSize:
+              MaterialStateProperty.all(const Size(double.infinity, 50)),
           shape: MaterialStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(7))),
           side: hasBorder
@@ -46,11 +49,7 @@ class CustomFlatButton extends StatelessWidget {
         mainAxisAlignment: alignment ??
             (expand ? MainAxisAlignment.center : MainAxisAlignment.start),
         children: [
-          prefix ??
-              CustomText(label,
-                  size: 14,
-                  color: color ?? Colors.black,
-                  weight: FontWeight.bold),
+          prefix ?? CustomText(label, size: 14, color: color ?? Colors.black),
           if (suffix != null) suffix!,
         ],
       ),
