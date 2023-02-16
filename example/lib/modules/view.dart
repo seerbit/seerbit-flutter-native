@@ -1,14 +1,12 @@
 import 'package:example/models/merchant_model.dart';
-import 'package:example/modules/-core-global/custom_over_lay.dart';
-import 'package:example/modules/-core-global/secured_by_marker.dart';
+import 'package:example/models/payment_payload_model.dart';
+import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/channel_selection.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:validatorless/validatorless.dart';
-
-import '-core-global/global_components.dart';
 
 class SeerbitCheckout extends StatelessWidget {
   SeerbitCheckout({super.key});
@@ -35,7 +33,7 @@ class SeerbitCheckout extends StatelessWidget {
           color: Colors.white,
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.disabled,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -121,4 +119,13 @@ class SeerbitCheckout extends StatelessWidget {
       );
     });
   }
+}
+
+_validateFields(ViewsNotifier vn) {
+  PaymentPayloadModel pm = vn.paymentPayload!;
+  return !((pm.amount?.isNotEmpty ?? false) &&
+      (pm.firstName?.isNotEmpty ?? false) &&
+      (pm.lastName?.isNotEmpty ?? false) &&
+      (pm.mobileNumber?.isNotEmpty ?? false) &&
+      (pm.email?.isNotEmpty ?? false));
 }

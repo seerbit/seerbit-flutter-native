@@ -1,14 +1,12 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:example/core/navigator.dart';
 import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/bank-account/views/bank_account_channel.dart';
-import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
 import 'package:example/modules/bank-transfer/views/transfer_to_bank_channel.dart';
-import 'package:example/modules/debit-card/controllers/debit_card_notifier.dart';
+import 'package:example/modules/change_payment_methods.dart';
 import 'package:example/modules/debit-card/views/debit_card_channel.dart';
-import 'package:example/modules/ussd/controllers/ussd_notifier.dart';
 import 'package:example/modules/ussd/views/ussd_channel.dart';
-import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +19,7 @@ class ChannelSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
-    BankTransferNotifier bn = Provider.of<BankTransferNotifier>(context);
-    UssdNotifier un = Provider.of<UssdNotifier>(context);
-    DebitCardNotifier dcn = Provider.of<DebitCardNotifier>(context);
+
     MerchantDetailModel mdm = vn.merchantDetailModel!;
     PaymentPayloadModel ppm = vn.paymentPayload!;
     return SizedBox(
@@ -70,6 +66,8 @@ class ChannelSelection extends StatelessWidget {
                         return const BankTransferChannel();
                       case PaymentChannel.ussd:
                         return const UssdChannel();
+                      case PaymentChannel.changePaymentMethod:
+                        return const ChangePaymentMethodsView();
                       default:
                         return const DebitCardChannel();
                     }
@@ -78,16 +76,27 @@ class ChannelSelection extends StatelessWidget {
               ),
               const YSpace(24),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  if (vn.paymentChannel != PaymentChannel.changePaymentMethod)
+                    Row(
+                      children: [
+                        CustomFlatButton(
+                          onTap: () {
+                            vn.changePaymentChannel(
+                                PaymentChannel.changePaymentMethod);
+                          },
+                          label: "Change Payment Method",
+                          bgColor: const Color(0xFFF0F0F0),
+                          size: Size(190.w, 50),
+                        ),
+                        const XSpace(10),
+                      ],
+                    ),
                   CustomFlatButton(
-                    onTap: () {},
-                    label: "Change Payment Method",
-                    bgColor: const Color(0xFFF0F0F0),
-                    size: Size(190.w, 50),
-                  ),
-                  CustomFlatButton(
-                    onTap: () {},
+                    onTap: () {
+                      Navigate.pop();
+                    },
                     label: "Cancel Payment",
                     color: const Color(0xFFFF2300),
                     size: const Size(130, 50),
@@ -96,78 +105,6 @@ class ChannelSelection extends StatelessWidget {
                 ],
               ),
               const YSpace(24),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: 1, width: 60, color: Colors.grey.shade300),
-                      const XSpace(10),
-                      const Text("or pay via"),
-                      const XSpace(10),
-                      Container(
-                          height: 1, width: 60, color: Colors.grey.shade300),
-                    ],
-                  ),
-                  const YSpace(24),
-                  Visibility(
-                    visible: vn.isChannelActive(PaymentChannel.transfer),
-                    child: CustomFlatButton(
-                        prefix: const CustomText("Transfer", size: 14),
-                        alignment: MainAxisAlignment.start,
-                        onTap: () async => {
-                              bn.changeView(CurrentCardView.loading),
-                              vn.changePaymentChannel(PaymentChannel.transfer),
-                            },
-                        expand: true,
-                        color: Colors.black,
-                        bgColor: Colors.grey.shade200),
-                  ),
-                  const YSpace(4),
-                  Visibility(
-                    visible: vn.isChannelActive(PaymentChannel.ussd),
-                    child: CustomFlatButton(
-                        prefix: const CustomText("USSD", size: 14),
-                        suffix: const CustomText("*bank ussd code#", size: 14),
-                        alignment: MainAxisAlignment.spaceBetween,
-                        onTap: () async => {
-                              un.changeView(CurrentCardView.select),
-                              vn.changePaymentChannel(PaymentChannel.ussd),
-                            },
-                        expand: true,
-                        color: Colors.black,
-                        bgColor: Colors.grey.shade200),
-                  ),
-                  const YSpace(10),
-                  Visibility(
-                    visible: vn.isChannelActive(PaymentChannel.bankAccount),
-                    child: CustomFlatButton(
-                        alignment: MainAxisAlignment.start,
-                        label: "Bank Account",
-                        onTap: () =>
-                            vn.changePaymentChannel(PaymentChannel.bankAccount),
-                        expand: true,
-                        color: Colors.black,
-                        bgColor: Colors.grey.shade200),
-                  ),
-                  const YSpace(10),
-                  Visibility(
-                    visible: vn.isChannelActive(PaymentChannel.debitCard),
-                    child: CustomFlatButton(
-                        prefix: const CustomText("Debit Card", size: 14),
-                        alignment: MainAxisAlignment.start,
-                        onTap: () => {
-                              dcn.changeView(CurrentCardView.info),
-                              vn.changePaymentChannel(PaymentChannel.debitCard),
-                            },
-                        expand: true,
-                        color: Colors.black,
-                        bgColor: Colors.grey.shade200),
-                  ),
-                  const YSpace(42),
-                ],
-              ),
               const YSpace(25),
               const SecuredByMarker(),
               const YSpace(25),

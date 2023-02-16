@@ -172,4 +172,10 @@ class ViewsNotifier extends ChangeNotifier {
   }
 }
 
-enum PaymentChannel { debitCard, bankAccount, ussd, transfer }
+enum PaymentChannel {
+  debitCard,
+  bankAccount,
+  ussd,
+  transfer,
+  changePaymentMethod
+}

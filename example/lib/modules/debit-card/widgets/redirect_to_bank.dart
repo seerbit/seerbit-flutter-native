@@ -28,7 +28,29 @@ class _RedirectToBankState extends State<RedirectToBank> {
     DebitCardResponseModel dcm =
         (vn.paymentResponse! as DebitCardResponseModel);
     wvc = WebViewController()
-      ..loadRequest(Uri.parse(dcm.data!.payments!.redirectUrl!));
+      ..loadRequest(Uri.parse(dcm.data!.payments!.redirectUrl!))
+      ..setJavaScriptMode(JavaScriptMode.unrestricted);
+
+    wvc.setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (_) {
+          setState(() => isLoading = true);
+        },
+        onPageStarted: (_) {
+          setState(() => isLoading = false);
+        },
+        onPageFinished: (_) {
+          setState(() => isLoading = false);
+        },
+        onNavigationRequest: (_) {
+          log(_.url);
+          if (_.url.contains("Successful")) {
+            // Navigate.pop();
+          }
+          return NavigationDecision.navigate;
+        },
+      ),
+    );
   }
 
   @override
@@ -59,19 +81,23 @@ class _RedirectToBankState extends State<RedirectToBank> {
               onTap: () {
                 CustomOverlays().showPopup(
                   SizedBox(
-                    height: 500.h,
+                    height: 812.h,
                     child: Stack(
                       children: [
-                        const Center(
-                            child: CircularProgressIndicator(strokeWidth: 1)),
                         WebViewWidget(
                           controller: wvc,
+                        ),
+                        Center(child: Text(isLoading.toString())),
+                        Visibility(
+                          visible: isLoading,
+                          child: const Center(
+                              child: CircularProgressIndicator(strokeWidth: 1)),
                         ),
                       ],
                     ),
                   ),
                 );
-                log("message: ${dcm.toJson().toString()}");
+                // log("message: ${dcm.toJson().toString()}");
               },
               expand: true,
               elevation: 5,
