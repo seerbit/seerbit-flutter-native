@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:example/core/navigator.dart';
 import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/global_components.dart';
@@ -23,6 +25,7 @@ class BankTransferConfirmation extends StatelessWidget {
             vn.setErrorMessage(vn.paymentStatus!.data.message);
             switch (code) {
               case "S20":
+                log("S20");
                 break;
               case "00":
                 Navigate.pop();

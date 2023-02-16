@@ -118,10 +118,11 @@ class SeerbitCheckout extends StatelessWidget {
 }
 
 _validateFields(ViewsNotifier vn) {
-  PaymentPayloadModel pm = vn.paymentPayload!;
-  return !((pm.amount?.isNotEmpty ?? false) &&
-      (pm.firstName?.isNotEmpty ?? false) &&
-      (pm.lastName?.isNotEmpty ?? false) &&
-      (pm.mobileNumber?.isNotEmpty ?? false) &&
-      (pm.email?.isNotEmpty ?? false));
+  PaymentPayloadModel? pm = vn.paymentPayload;
+
+  return !((pm?.amount?.isNotEmpty ?? false) &&
+      (pm?.firstName?.isNotEmpty ?? false) &&
+      (pm?.lastName?.isNotEmpty ?? false) &&
+      (pm?.mobileNumber?.isNotEmpty ?? false) &&
+      (pm?.email?.isNotEmpty ?? false));
 }

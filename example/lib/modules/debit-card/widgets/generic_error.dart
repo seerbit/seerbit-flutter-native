@@ -38,8 +38,13 @@ class GenericError extends StatelessWidget {
                           color: Color(0xFFCC212D),
                           weight: FontWeight.bold),
                       const YSpace(8),
-                      CustomText(vn.errorMessage.toString(),
-                          size: 12, color: const Color(0xFFCC212D)),
+                      SizedBox(
+                        width: 300,
+                        child: CustomText(vn.errorMessage.toString(),
+                            height: 1.5,
+                            size: 12,
+                            color: const Color(0xFFCC212D)),
+                      ),
                     ],
                   ),
                   GestureDetector(
