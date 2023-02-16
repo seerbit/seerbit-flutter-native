@@ -1,23 +1,22 @@
+import 'dart:developer';
+
 import 'package:example/core/navigator.dart';
 import 'package:example/models/models.dart';
-import 'package:example/modules/-core-global/-core-global.dart';
-import 'package:example/modules/ussd/controllers/ussd_notifier.dart';
+import 'package:example/modules/-core-global/global_components.dart';
+import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
 import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:example/modules/widgets/amount_to_pay.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class UssdConfirmPayment extends StatelessWidget {
-  const UssdConfirmPayment({
-    Key? key,
-  }) : super(key: key);
+class BankTransferConfirmation extends StatelessWidget {
+  const BankTransferConfirmation({super.key});
 
   @override
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
-    UssdNotifier un = Provider.of<UssdNotifier>(context);
-
+    BankTransferNotifier bn = Provider.of<BankTransferNotifier>(context);
     return StreamBuilder(
         stream: Stream.periodic(const Duration(seconds: 5), (_) {
           vn.queryTransaction();
@@ -26,25 +25,25 @@ class UssdConfirmPayment extends StatelessWidget {
             vn.setErrorMessage(vn.paymentStatus!.data.message);
             switch (code) {
               case "S20":
+                log("S20");
                 break;
               case "00":
                 Navigate.pop();
                 break;
               default:
-                un.changeView(CurrentCardView.error);
+                bn.changeView(CurrentCardView.error);
             }
           }
         }),
         builder: (context, snapshot) {
           MerchantDetailModel mdm = vn.merchantDetailModel!;
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const YSpace(25),
               AmountToPay(fee: mdm.payload.cardFee.mc!),
               const YSpace(32),
               const CustomText("Hold on tight while we confirm this payment",
-                  size: 15),
+                  size: 12),
               const YSpace(25),
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),

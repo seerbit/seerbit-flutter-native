@@ -29,10 +29,9 @@ class RequestHandler {
     if (removeFocus) FocusManager.instance.primaryFocus?.unfocus();
 
     try {
-      // if (showProgress) Modals().progressToast();
       onRequestStart?.call();
       ResponseModel result = await request.call();
-      // log(result.data.toString());
+
       onSuccess(result);
     } on SocketException {
       onNetworkError(ResponseModel(

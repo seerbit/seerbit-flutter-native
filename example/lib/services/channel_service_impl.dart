@@ -27,6 +27,7 @@ class PaymentServiceImpl implements PaymentService {
     Response response = await network.post(
         '${const Api.dev().getSandbox(payloadModel.paymentType!)}/initiates',
         body: body);
+    log('${const Api.dev().getSandbox(payloadModel.paymentType!)}/initiates');
     log(response.body.toString());
     return ResponseModel.fromResponse(response);
   }

@@ -46,6 +46,7 @@ class UssdSelectBank extends StatelessWidget {
                         .firstWhere((e) => e.bankName != _)
                         .bankCode));
                 un.changeView(CurrentCardView.progress);
+
                 await vn.initiatePayment();
                 if (vn.errorMessage == null) {
                   un.changeView(CurrentCardView.info);

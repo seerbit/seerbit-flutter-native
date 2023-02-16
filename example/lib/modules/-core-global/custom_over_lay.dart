@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomOverlays {
-  showPopup(child, {bool popPrevious = false}) {
+  showPopup(child, {bool popPrevious = false, Function()? whenComplete}) {
     if (popPrevious) Navigate.pop();
     showDialog(
         context: navigatorKey.currentContext!,
@@ -17,7 +17,7 @@ class CustomOverlays {
             child: child,
             insetPadding: EdgeInsets.zero,
           );
-        });
+        }).whenComplete(() => whenComplete?.call());
   }
 
   showSheet({required child, Function()? onClose, bool popPrevious = false}) {
