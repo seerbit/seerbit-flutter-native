@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_multi_formatter: ^2.10.2
   pinput: ^2.2.21
 
 dev_dependencies:

@@ -46,7 +46,7 @@ class UssdInfo extends StatelessWidget {
                       .data
                       .payments
                       .ussdDailCode,
-                  size: 35,
+                  size: 24,
                   weight: FontWeight.w900)),
           TextButton(
             child: const CustomText("Click to copy code", size: 14),
@@ -60,6 +60,7 @@ class UssdInfo extends StatelessWidget {
           CustomFlatButton(
             onTap: () async {
               vn.queryTransaction();
+
               un.changeView(CurrentCardView.confirmPayment);
               await Future.delayed(const Duration(seconds: 5));
               un.changeView(CurrentCardView.error);

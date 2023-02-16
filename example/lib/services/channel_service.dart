@@ -8,3 +8,4 @@ abstract class PaymentService {
   Future<ResponseModel> queryTransaction({required String payRef});
   Future<ResponseModel> getBanks();
 }
+  

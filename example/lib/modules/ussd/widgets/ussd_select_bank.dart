@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/ussd/controllers/ussd_notifier.dart';
@@ -36,12 +38,20 @@ class UssdSelectBank extends StatelessWidget {
               value: null,
               onChanged: (_) async {
                 vn.setPaymentPayload(ppm.copyWith(
+                    channelType: "ussd",
+                    paymentType: "USSD",
+                    paymentReference:
+                        "ST-1232231${math.Random().nextInt(200000000)}",
                     bankCode: vn.banksModel?.data.merchantBanks
                         .firstWhere((e) => e.bankName != _)
                         .bankCode));
                 un.changeView(CurrentCardView.progress);
                 await vn.initiatePayment();
-                un.changeView(CurrentCardView.info);
+                if (vn.errorMessage == null) {
+                  un.changeView(CurrentCardView.info);
+                } else {
+                  un.changeView(CurrentCardView.initializeError);
+                }
               },
               items: [
                 ...?vn.banksModel?.data.merchantBanks

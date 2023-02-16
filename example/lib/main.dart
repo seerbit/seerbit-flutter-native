@@ -25,9 +25,7 @@ class MyApp extends StatelessWidget {
           builder: (_, context) {
             return MaterialApp(
               title: 'Seerbit Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.red,
-              ),
+              theme: ThemeData(),
               navigatorKey: navigatorKey,
               home: const MyHomePage(title: 'Seerbit Demo'),
             );
@@ -69,8 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Text('$_counter', style: Theme.of(context).textTheme.headline4),
             TextButton(
               onPressed: () {
-                vn.getMerchantDetails().then(
-                    (value) => CustomOverlays().showPopup(SeerbitCheckout()));
+                vn.getMerchantDetails();
+                CustomOverlays().showPopup(SeerbitCheckout());
 
                 // Navigate.to(const Marquee());
               },

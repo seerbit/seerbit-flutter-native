@@ -1,10 +1,10 @@
 import 'dart:developer';
-import 'dart:io' show Platform;
 
 import 'package:example/core/network/request_handler.dart';
 import 'package:example/models/models.dart';
 import 'package:example/models/payment_status_model.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
+import 'package:example/modules/debit-card/controllers/debit_card_model.dart';
 import 'package:example/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:example/services/channel_service.dart';
 import 'package:example/services/channel_service_impl.dart';
@@ -35,6 +35,20 @@ class ViewsNotifier extends ChangeNotifier {
   PaymentStatusModel? _paymentStatus;
   PaymentStatusModel? get paymentStatus => _paymentStatus;
 
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
+  reset() {
+    _paymentResponse = null;
+    _paymentStatus = null;
+  }
+
+  ///set the error message
+  setErrorMessage(String? error) {
+    _errorMessage = error;
+    notifyListeners();
+  }
+
   ///Update the payment paylod
   setPaymentPayload(PaymentPayloadModel ppm) {
     _paymentPayload = ppm;
@@ -50,13 +64,13 @@ class ViewsNotifier extends ChangeNotifier {
   //Add Additional Params to the payload
   PaymentPayloadModel _getUpdatedPayload() {
     return paymentPayload!.copyWith(
-      paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
-      channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
-      ddeviceType: Platform.isAndroid ? "Android" : "iOS",
-      publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
-      currency: "NGN",
-      country: "NG",
-    );
+        // paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
+        // channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
+        // ddeviceType: Platform.isAndroid ? "Android" : "iOS",
+        // publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
+        // currency: "NGN",
+        // country: "NG",
+        );
   }
 
   ///sets the fetched [MerchantDetailModel] to the viewnotifier
@@ -68,7 +82,9 @@ class ViewsNotifier extends ChangeNotifier {
   ///Select the payment channel to be used
   ///on the checkout view
   changePaymentChannel(PaymentChannel pc) {
+    reset();
     _paymentChannel = pc;
+
     notifyListeners();
   }
 
@@ -99,6 +115,8 @@ class ViewsNotifier extends ChangeNotifier {
     switch (_paymentChannel) {
       case PaymentChannel.transfer:
         return TransferResponseModel.fromJson(data as Map<String, dynamic>);
+      case PaymentChannel.debitCard:
+        return DebitCardResponseModel.fromJson(data as Map<String, dynamic>);
       default:
         return UssdResponseModel.fromJson(data as Map<String, dynamic>);
     }
@@ -117,15 +135,17 @@ class ViewsNotifier extends ChangeNotifier {
 
   ///Initiate a payment
   Future initiatePayment() async {
+    setErrorMessage(null);
     await RequestHandler(
       request: () =>
           paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),
       onSuccess: (_) => {
+        log("Data here"),
         _setPaymentResponse(mapPaymentResponse(_.data)),
-        log("message $_"),
+        log("Success $_"),
       },
-      onError: (_) => log("message $_."),
-      onNetworkError: (_) => log("message $_"),
+      onError: (_) => {log("onError $_."), setErrorMessage(_.data['message'])},
+      onNetworkError: (_) => log("onNetworkError $_"),
     ).sendRequest();
   }
 
@@ -152,4 +172,10 @@ class ViewsNotifier extends ChangeNotifier {
   }
 }
 
-enum PaymentChannel { debitCard, bankAccount, ussd, transfer }
+enum PaymentChannel {
+  debitCard,
+  bankAccount,
+  ussd,
+  transfer,
+  changePaymentMethod
+}
