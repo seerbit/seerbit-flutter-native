@@ -12,5 +12,3 @@ class BankTransferNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
-
-

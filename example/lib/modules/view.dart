@@ -33,7 +33,7 @@ class SeerbitCheckout extends StatelessWidget {
           color: Colors.white,
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            // autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -89,7 +89,7 @@ class SeerbitCheckout extends StatelessWidget {
                   inputType: TextInputType.number,
                   validator: Validatorless.multiple([
                     Validatorless.required("Field is required"),
-                    Validatorless.number("Amount is required")
+                    Validatorless.number("Amount needs to be a number")
                   ]),
                   onChanged: (_) => vn.setPaymentPayload(
                       vn.paymentPayload!.copyWith(amount: _)),
@@ -103,12 +103,8 @@ class SeerbitCheckout extends StatelessWidget {
                       CustomOverlays().showPopup(const ChannelSelection(),
                           popPrevious: true);
                     },
-                    color: !(_formKey.currentState?.validate() ?? false)
-                        ? Colors.white54
-                        : Colors.white,
-                    bgColor: !(_formKey.currentState?.validate() ?? false)
-                        ? Colors.grey
-                        : Colors.black),
+                    color: _validateFields(vn) ? Colors.white54 : Colors.white,
+                    bgColor: _validateFields(vn) ? Colors.grey : Colors.black),
                 const YSpace(25),
                 const SecuredByMarker(),
                 const YSpace(25),
@@ -122,10 +118,11 @@ class SeerbitCheckout extends StatelessWidget {
 }
 
 _validateFields(ViewsNotifier vn) {
-  PaymentPayloadModel pm = vn.paymentPayload!;
-  return !((pm.amount?.isNotEmpty ?? false) &&
-      (pm.firstName?.isNotEmpty ?? false) &&
-      (pm.lastName?.isNotEmpty ?? false) &&
-      (pm.mobileNumber?.isNotEmpty ?? false) &&
-      (pm.email?.isNotEmpty ?? false));
+  PaymentPayloadModel? pm = vn.paymentPayload;
+
+  return !((pm?.amount?.isNotEmpty ?? false) &&
+      (pm?.firstName?.isNotEmpty ?? false) &&
+      (pm?.lastName?.isNotEmpty ?? false) &&
+      (pm?.mobileNumber?.isNotEmpty ?? false) &&
+      (pm?.email?.isNotEmpty ?? false));
 }

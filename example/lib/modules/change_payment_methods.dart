@@ -43,57 +43,77 @@ class ChangePaymentMethodsView extends StatelessWidget {
           const YSpace(24),
           Visibility(
             visible: vn.isChannelActive(PaymentChannel.transfer),
-            child: CustomFlatButton(
-                prefix: const CustomText("Transfer", size: 14),
-                alignment: MainAxisAlignment.start,
-                onTap: () async => {
-                      bn.changeView(CurrentCardView.loading),
-                      vn.changePaymentChannel(PaymentChannel.transfer),
-                    },
-                expand: true,
-                color: Colors.black,
-                bgColor: Colors.grey.shade200),
+            child: Column(
+              children: [
+                CustomFlatButton(
+                    prefix: const CustomText("Transfer", size: 14),
+                    alignment: MainAxisAlignment.start,
+                    onTap: () async => {
+                          bn.changeView(CurrentCardView.loading),
+                          vn.changePaymentChannel(PaymentChannel.transfer),
+                        },
+                    expand: true,
+                    color: Colors.black,
+                    bgColor: Colors.grey.shade200),
+                const YSpace(10),
+              ],
+            ),
           ),
-          const YSpace(4),
+
           Visibility(
             visible: vn.isChannelActive(PaymentChannel.ussd),
-            child: CustomFlatButton(
-                prefix: const CustomText("USSD", size: 14),
-                suffix: const CustomText("*bank ussd code#", size: 14),
-                alignment: MainAxisAlignment.spaceBetween,
-                onTap: () async => {
-                      un.changeView(CurrentCardView.select),
-                      vn.changePaymentChannel(PaymentChannel.ussd),
-                    },
-                expand: true,
-                color: Colors.black,
-                bgColor: Colors.grey.shade200),
+            child: Column(
+              children: [
+                CustomFlatButton(
+                    prefix: const CustomText("USSD", size: 14),
+                    suffix: const CustomText("*bank ussd code#", size: 14),
+                    alignment: MainAxisAlignment.spaceBetween,
+                    onTap: () async => {
+                          un.changeView(CurrentCardView.select),
+                          vn.changePaymentChannel(PaymentChannel.ussd),
+                        },
+                    expand: true,
+                    color: Colors.black,
+                    bgColor: Colors.grey.shade200),
+                const YSpace(10),
+              ],
+            ),
           ),
-          const YSpace(10),
+
           Visibility(
             visible: vn.isChannelActive(PaymentChannel.bankAccount),
-            child: CustomFlatButton(
-                alignment: MainAxisAlignment.start,
-                label: "Bank Account",
-                onTap: () =>
-                    vn.changePaymentChannel(PaymentChannel.bankAccount),
-                expand: true,
-                color: Colors.black,
-                bgColor: Colors.grey.shade200),
+            child: Column(
+              children: [
+                CustomFlatButton(
+                    alignment: MainAxisAlignment.start,
+                    label: "Bank Account",
+                    onTap: () =>
+                        vn.changePaymentChannel(PaymentChannel.bankAccount),
+                    expand: true,
+                    color: Colors.black,
+                    bgColor: Colors.grey.shade200),
+                const YSpace(10),
+              ],
+            ),
           ),
-          const YSpace(10),
+
           Visibility(
             visible: vn.isChannelActive(PaymentChannel.debitCard),
-            child: CustomFlatButton(
-                prefix: const CustomText("Debit Card", size: 14),
-                alignment: MainAxisAlignment.start,
-                onTap: () => {
-                      dcn.changeView(CurrentCardView.info),
-                      vn.changePaymentChannel(PaymentChannel.debitCard),
-                    },
-                expand: true,
-                color: Colors.black,
-                bgColor: Colors.grey.shade200),
+            child: Column(
+              children: [
+                CustomFlatButton(
+                    prefix: const CustomText("Debit Card", size: 14),
+                    alignment: MainAxisAlignment.start,
+                    onTap: () => {
+                          dcn.changeView(CurrentCardView.info),
+                          vn.changePaymentChannel(PaymentChannel.debitCard),
+                        },
+                    expand: true,
+                    color: Colors.black,
+                    bgColor: Colors.grey.shade200),
+                const YSpace(4),
+              ],
+            ),
           ),
           const YSpace(42),
         ],

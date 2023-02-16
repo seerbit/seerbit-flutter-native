@@ -1,6 +1,8 @@
 import 'package:example/modules/-core-global/-core-global.dart';
+import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -14,27 +16,28 @@ class BankTransferInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
     TransferResponseModel prm = (vn.paymentResponse as TransferResponseModel);
-
+    BankTransferNotifier bn = Provider.of<BankTransferNotifier>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const YSpace(25),
-        const CustomText("Transfer the exact amount including decimals",
-            size: 14, color: Colors.red),
-        const YSpace(24),
+        const YSpace(43),
+        const CustomText("Transfer", size: 14),
+        const YSpace(34),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: Colors.grey.shade300,
           ),
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CustomText("NGN 101.50", size: 26, weight: FontWeight.w900),
+          child: Padding(
+            padding: const EdgeInsets.all(18.0) +
+                const EdgeInsets.only(left: 10, right: 10),
+            child: const CustomText("NGN 101.50",
+                size: 24, weight: FontWeight.w900),
           ),
         ),
-        const YSpace(12),
-        const CustomText("to", size: 14),
-        const YSpace(12),
+        const YSpace(34),
+        const CustomText("to the account details below", size: 14),
+        const YSpace(34),
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -51,29 +54,23 @@ class BankTransferInfo extends StatelessWidget {
               _DetailPair(
                   leading: 'Bank Name',
                   trailing: prm.data!.payments!.bankName!),
-              const YSpace(16),
+              const YSpace(24),
               _DetailPair(
                   leading: 'Account Number',
                   trailing: prm.data!.payments!.accountNumber!),
-              const YSpace(16),
+              const YSpace(24),
               _DetailPair(
                   leading: 'Beneficiary',
                   trailing: prm.data!.payments!.walletName!),
-              const YSpace(16),
-              const _DetailPair(leading: 'Validity', trailing: '30-minutes'),
               const YSpace(32),
             ],
           ),
         ),
-        const YSpace(15),
-        const CustomText("Account number can only be used once",
-            size: 12, color: Colors.red),
-        const YSpace(12),
-        // const YSpace(12),
+        const YSpace(25),
         CustomFlatButton(
-            label: "I have completed this transfer",
+            label: "Complete Transfer",
             onTap: () {
-              vn.queryTransaction();
+              bn.changeView(CurrentCardView.confirmPayment);
             },
             expand: true,
             color: Colors.white,
