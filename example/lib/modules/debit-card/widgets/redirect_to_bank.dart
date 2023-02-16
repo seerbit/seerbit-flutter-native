@@ -17,14 +17,23 @@ class RedirectToBank extends StatefulWidget {
 
 class _RedirectToBankState extends State<RedirectToBank> {
   bool isLoading = true;
+  late WebViewController wvc;
+  late DebitCardResponseModel dcm;
+  late ViewsNotifier vn;
+
+  @override
+  void initState() {
+    super.initState();
+    vn = Provider.of<ViewsNotifier>(context, listen: false);
+    DebitCardResponseModel dcm =
+        (vn.paymentResponse! as DebitCardResponseModel);
+    wvc = WebViewController()
+      ..loadRequest(Uri.parse(dcm.data!.payments!.redirectUrl!));
+  }
+
   @override
   Widget build(BuildContext context) {
-    ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
     return Builder(builder: (context) {
-      DebitCardResponseModel dcm =
-          (vn.paymentResponse! as DebitCardResponseModel);
-      WebViewController wvc = WebViewController()
-        ..loadRequest(Uri.parse(dcm.data!.payments!.redirectUrl!));
       return Column(
         children: [
           Align(

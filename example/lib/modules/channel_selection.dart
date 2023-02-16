@@ -78,18 +78,39 @@ class ChannelSelection extends StatelessWidget {
               ),
               const YSpace(24),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(height: 1, width: 60, color: Colors.grey.shade300),
-                  const XSpace(10),
-                  const Text("or pay via"),
-                  const XSpace(10),
-                  Container(height: 1, width: 60, color: Colors.grey.shade300),
+                  CustomFlatButton(
+                    onTap: () {},
+                    label: "Change Payment Method",
+                    bgColor: const Color(0xFFF0F0F0),
+                    size: Size(190.w, 50),
+                  ),
+                  CustomFlatButton(
+                    onTap: () {},
+                    label: "Cancel Payment",
+                    color: const Color(0xFFFF2300),
+                    size: const Size(130, 50),
+                    bgColor: const Color(0xFFFF2300).withOpacity(.17),
+                  ),
                 ],
               ),
               const YSpace(24),
               Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          height: 1, width: 60, color: Colors.grey.shade300),
+                      const XSpace(10),
+                      const Text("or pay via"),
+                      const XSpace(10),
+                      Container(
+                          height: 1, width: 60, color: Colors.grey.shade300),
+                    ],
+                  ),
+                  const YSpace(24),
                   Visibility(
                     visible: vn.isChannelActive(PaymentChannel.transfer),
                     child: CustomFlatButton(

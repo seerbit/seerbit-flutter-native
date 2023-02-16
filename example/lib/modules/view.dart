@@ -6,6 +6,7 @@ import 'package:example/modules/view-notifiers/view_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:validatorless/validatorless.dart';
 
 import '-core-global/global_components.dart';
 
@@ -17,7 +18,16 @@ class SeerbitCheckout extends StatelessWidget {
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
     return Builder(builder: (context) {
-      MerchantDetailModel mdm = vn.merchantDetailModel!;
+      MerchantDetailModel? mdm = vn.merchantDetailModel;
+      if (mdm == null) {
+        return SizedBox(
+          height: 812.h,
+          width: double.infinity,
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
       return SingleChildScrollView(
         child: Container(
           height: 812.h,
@@ -25,6 +35,7 @@ class SeerbitCheckout extends StatelessWidget {
           color: Colors.white,
           child: Form(
             key: _formKey,
+            autovalidateMode: AutovalidateMode.disabled,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -39,6 +50,8 @@ class SeerbitCheckout extends StatelessWidget {
                     Expanded(
                         child: CustomTextField(
                       label: "First Name",
+                      inputType: TextInputType.name,
+                      validator: Validatorless.required("Field is required"),
                       onChanged: (_) => vn.setPaymentPayload(
                           vn.paymentPayload!.copyWith(firstName: _)),
                     )),
@@ -46,6 +59,8 @@ class SeerbitCheckout extends StatelessWidget {
                     Expanded(
                         child: CustomTextField(
                       label: "Last Name",
+                      inputType: TextInputType.name,
+                      validator: Validatorless.required("Field is required"),
                       onChanged: (_) => vn.setPaymentPayload(
                           vn.paymentPayload!.copyWith(lastName: _)),
                     )),
@@ -54,21 +69,30 @@ class SeerbitCheckout extends StatelessWidget {
                 const YSpace(12),
                 CustomTextField(
                   label: "Email",
+                  inputType: TextInputType.emailAddress,
+                  validator: Validatorless.multiple([
+                    Validatorless.email("This is not a valid email"),
+                    Validatorless.required("Field is required")
+                  ]),
                   onChanged: (_) => vn
                       .setPaymentPayload(vn.paymentPayload!.copyWith(email: _)),
                 ),
                 const YSpace(12),
                 CustomTextField(
                   label: "Phone Number",
+                  inputType: TextInputType.phone,
+                  validator: Validatorless.required("Field is required"),
                   onChanged: (_) => vn.setPaymentPayload(
                       vn.paymentPayload!.copyWith(mobileNumber: _)),
                 ),
                 const YSpace(12),
                 CustomTextField(
                   label: "Amount to charge",
-                  validator: (_) {
-                    return null;
-                  },
+                  inputType: TextInputType.number,
+                  validator: Validatorless.multiple([
+                    Validatorless.required("Field is required"),
+                    Validatorless.number("Amount is required")
+                  ]),
                   onChanged: (_) => vn.setPaymentPayload(
                       vn.paymentPayload!.copyWith(amount: _)),
                 ),
@@ -81,8 +105,12 @@ class SeerbitCheckout extends StatelessWidget {
                       CustomOverlays().showPopup(const ChannelSelection(),
                           popPrevious: true);
                     },
-                    color: Colors.white54,
-                    bgColor: Colors.grey),
+                    color: !(_formKey.currentState?.validate() ?? false)
+                        ? Colors.white54
+                        : Colors.white,
+                    bgColor: !(_formKey.currentState?.validate() ?? false)
+                        ? Colors.grey
+                        : Colors.black),
                 const YSpace(25),
                 const SecuredByMarker(),
                 const YSpace(25),
