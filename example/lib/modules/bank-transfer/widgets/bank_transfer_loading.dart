@@ -28,7 +28,7 @@ class _BankTransferLoadingState extends State<BankTransferLoading> {
       vn.setPaymentPayload(vn.paymentPayload!.copyWith(
           paymentType: "TRANSFER",
           channelType: 'Transfer',
-          paymentReference: "ST-123112231${math.Random().nextInt(29091020)}"));
+          paymentReference: "ST-12311231${math.Random().nextInt(29091020)}"));
 
       vn.initiatePayment().then((value) {
         if (vn.errorMessage == null) {

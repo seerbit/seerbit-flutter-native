@@ -41,6 +41,7 @@ class ViewsNotifier extends ChangeNotifier {
   reset() {
     _paymentResponse = null;
     _paymentStatus = null;
+    _errorMessage = null;
   }
 
   ///set the error message
