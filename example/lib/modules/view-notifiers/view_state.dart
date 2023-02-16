@@ -10,7 +10,8 @@ enum CurrentCardView {
   error,
   initializeError,
   testCards,
-  paymentError
+  paymentError,
+  success
 }
 // enum CurrentCardView { select, , progress, confirmPayment }
 // enum CurrentCardView { select, info, progress, loading }

@@ -1,4 +1,5 @@
 import 'package:example/modules/-core-global/-core-global.dart';
+import 'package:example/modules/payment_success.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +35,10 @@ class BankAccountChannel extends StatelessWidget {
         const YSpace(12),
         CustomFlatButton(
             label: "Continue to Payment",
-            onTap: () {},
+            onTap: () {
+              CustomOverlays()
+                  .showPopup(const PaymentSuccess(), popPrevious: true);
+            },
             expand: true,
             color: Colors.white54,
             bgColor: Colors.grey),

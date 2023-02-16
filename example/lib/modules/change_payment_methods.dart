@@ -30,16 +30,6 @@ class ChangePaymentMethodsView extends StatelessWidget {
           AmountToPay(fee: mdm.payload.cardFee.mc!),
           const YSpace(40),
           const CustomText("Other Payment Channels", size: 14),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Container(height: 1, width: 60, color: Colors.grey.shade300),
-          //     const XSpace(10),
-          //     const Text("Other Payment Channels"),
-          //     const XSpace(10),
-          //     Container(height: 1, width: 60, color: Colors.grey.shade300),
-          //   ],
-          // ),
           const YSpace(24),
           Visibility(
             visible: vn.isChannelActive(PaymentChannel.transfer),

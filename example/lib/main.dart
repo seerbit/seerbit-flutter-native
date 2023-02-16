@@ -69,8 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 vn.getMerchantDetails();
                 CustomOverlays().showPopup(SeerbitCheckout());
-
-                // Navigate.to(const Marquee());
               },
               child: const Text("Start"),
             )

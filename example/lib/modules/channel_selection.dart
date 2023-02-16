@@ -68,6 +68,7 @@ class ChannelSelection extends StatelessWidget {
                         return const UssdChannel();
                       case PaymentChannel.changePaymentMethod:
                         return const ChangePaymentMethodsView();
+
                       default:
                         return const DebitCardChannel();
                     }

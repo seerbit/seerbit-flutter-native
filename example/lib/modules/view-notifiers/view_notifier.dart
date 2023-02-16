@@ -177,5 +177,6 @@ enum PaymentChannel {
   bankAccount,
   ussd,
   transfer,
-  changePaymentMethod
+  changePaymentMethod,
+  success
 }
