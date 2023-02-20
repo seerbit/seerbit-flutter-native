@@ -49,7 +49,6 @@ class ChangePaymentMethodsView extends StatelessWidget {
               ],
             ),
           ),
-
           Visibility(
             visible: vn.isChannelActive(PaymentChannel.ussd),
             child: Column(
@@ -69,7 +68,6 @@ class ChangePaymentMethodsView extends StatelessWidget {
               ],
             ),
           ),
-
           Visibility(
             visible: vn.isChannelActive(PaymentChannel.bankAccount),
             child: Column(
@@ -86,14 +84,17 @@ class ChangePaymentMethodsView extends StatelessWidget {
               ],
             ),
           ),
-
           Visibility(
             visible: vn.isChannelActive(PaymentChannel.debitCard),
             child: Column(
               children: [
                 CustomFlatButton(
                     prefix: const CustomText("Debit Card", size: 14),
-                    alignment: MainAxisAlignment.start,
+                    suffix: Image.asset(
+                      'assets/icons.png',
+                      width: 80,
+                    ),
+                    alignment: MainAxisAlignment.spaceBetween,
                     onTap: () => {
                           dcn.changeView(CurrentCardView.info),
                           vn.changePaymentChannel(PaymentChannel.debitCard),

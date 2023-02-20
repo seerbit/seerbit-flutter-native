@@ -41,8 +41,13 @@ class CustomDropDown extends StatelessWidget {
                     hintStyle: TextStyle(),
                     labelStyle: TextStyle(),
                     // label: CustomText(label, size: 12),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent))),
+                    enabledBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    focusColor: Colors.grey
+                    // enabledBorder: UnderlineInputBorder(
+                    //     borderSide: BorderSide(color: Colors.transparent)),
+                    ),
                 value: value,
                 style: const TextStyle(color: Colors.black, fontSize: 11),
                 hint: Padding(
