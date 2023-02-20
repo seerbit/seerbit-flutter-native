@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           builder: (_, context) {
             return MaterialApp(
               title: 'Seerbit Demo',
-              theme: ThemeData(),
+              theme: ThemeData(fontFamily: 'FaktPro'),
               navigatorKey: navigatorKey,
               home: const MyHomePage(title: 'Seerbit Demo'),
             );
