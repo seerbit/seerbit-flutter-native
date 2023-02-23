@@ -19,6 +19,7 @@ class TransferResponseModel extends PaymentResponseModel {
   });
 
   final String? status;
+  
   final Data? data;
 
   TransferResponseModel copyWith({

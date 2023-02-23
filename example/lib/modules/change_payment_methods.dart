@@ -1,5 +1,6 @@
 import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
+import 'package:example/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
 import 'package:example/modules/debit-card/controllers/debit_card_notifier.dart';
 import 'package:example/modules/ussd/controllers/ussd_notifier.dart';
@@ -19,6 +20,7 @@ class ChangePaymentMethodsView extends StatelessWidget {
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
     BankTransferNotifier bn = Provider.of<BankTransferNotifier>(context);
+    BankAccountNotifier ban = Provider.of<BankAccountNotifier>(context);
     UssdNotifier un = Provider.of<UssdNotifier>(context);
     DebitCardNotifier dcn = Provider.of<DebitCardNotifier>(context);
     return Builder(builder: (context) {
@@ -75,8 +77,10 @@ class ChangePaymentMethodsView extends StatelessWidget {
                 CustomFlatButton(
                     alignment: MainAxisAlignment.start,
                     label: "Bank Account",
-                    onTap: () =>
-                        vn.changePaymentChannel(PaymentChannel.bankAccount),
+                    onTap: () => {
+                          ban.changeView(CurrentCardView.select),
+                          vn.changePaymentChannel(PaymentChannel.bankAccount),
+                        },
                     expand: true,
                     color: Colors.black,
                     bgColor: Colors.grey.shade200),

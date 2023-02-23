@@ -1,6 +1,10 @@
-import 'package:example/modules/-core-global/-core-global.dart';
-import 'package:example/modules/payment_success.dart';
-import 'package:example/modules/view-notifiers/view_notifier.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:example/modules/bank-account/controllers/bank_account_notifier.dart';
+import 'package:example/modules/bank-account/widgets/bank_account_select.dart';
+import 'package:example/modules/bank-account/widgets/enter_bank_account.dart';
+import 'package:example/modules/debit-card/widgets/display_test_cards.dart';
+import 'package:example/modules/debit-card/widgets/widgets.dart';
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,38 +15,25 @@ class BankAccountChannel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const YSpace(12),
-        const CustomText("NGN 100.00", weight: FontWeight.bold, size: 24),
-        const YSpace(8),
-        const CustomText("Fee: NGN1.50", size: 14),
-        const YSpace(24),
-        const CustomText("Choose your bank to start this payment",
-            size: 12, weight: FontWeight.bold),
-        const YSpace(12),
-        CustomDropDown(
-            label: "label",
-            hint: "Select Bank",
-            value: null,
-            items: [
-              ...vn.banksModel!.data.merchantBanks
-                  .map((e) => e.bankName!)
-                  .toList()
-            ]),
-        const YSpace(12),
-        CustomFlatButton(
-            label: "Continue to Payment",
-            onTap: () {
-              CustomOverlays()
-                  .showPopup(const PaymentSuccess(), popPrevious: true);
-            },
-            expand: true,
-            color: Colors.white54,
-            bgColor: Colors.grey),
-      ],
+    BankAccountNotifier bn = Provider.of<BankAccountNotifier>(context);
+    return FadeInUp(
+      key: Key(bn.currentCardView.toString()),
+      child: Builder(builder: (context) {
+        switch (bn.currentCardView) {
+          case CurrentCardView.select:
+            return const SelectBankAccount();
+          case CurrentCardView.info:
+            return const EnterBankAccount();
+          case CurrentCardView.otp:
+            return const AuthorizeOTP();
+          case CurrentCardView.redirect:
+            return const RedirectToBank();
+          case CurrentCardView.testCards:
+            return const DisplayTestCards();
+          default:
+            return Container();
+        }
+      }),
     );
   }
 }
