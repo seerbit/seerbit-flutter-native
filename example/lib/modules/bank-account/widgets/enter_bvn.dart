@@ -7,11 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class EnterBVN extends StatelessWidget {
+class EnterBVN extends StatefulWidget {
   const EnterBVN({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<EnterBVN> createState() => _EnterBVNState();
+}
+
+class _EnterBVNState extends State<EnterBVN> {
+  bool hasSelectedBank = false;
   @override
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
@@ -33,17 +39,24 @@ class EnterBVN extends StatelessWidget {
             ],
             onChanged: (_) {
               vn.setPaymentPayload(ppm.copyWith(bvn: _));
+              if (_.length == 11) {
+                setState(() => hasSelectedBank = true);
+              } else {
+                setState(() => hasSelectedBank = false);
+              }
             },
           ),
           const YSpace(12),
           CustomFlatButton(
               label: "Continue to Payment",
-              onTap: () async {
-                bn.chooseRequirementView(ppm, vn);
-              },
+              onTap: hasSelectedBank
+                  ? () async {
+                      bn.chooseRequirementView(ppm, vn);
+                    }
+                  : () {},
               expand: true,
-              color: Colors.white54,
-              bgColor: Colors.grey),
+              color: hasSelectedBank ? Colors.white : Colors.white54,
+              bgColor: hasSelectedBank ? Colors.black : Colors.grey),
         ],
       );
     });
