@@ -44,6 +44,7 @@ dependencies:
   webview_flutter: ^4.0.2
   validatorless: ^1.2.3
   google_fonts: ^4.0.3
+  pattern_formatter: ^2.0.0
 
 dev_dependencies:
   flutter_test:

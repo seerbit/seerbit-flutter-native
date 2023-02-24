@@ -5,6 +5,7 @@ import 'package:example/models/payment_payload_model.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
+import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:example/modules/widgets/amount_to_pay.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +68,11 @@ class _SelectBankAccountState extends State<SelectBankAccount> {
           const YSpace(12),
           CustomFlatButton(
               label: "Continue to Payment",
-              onTap: hasSelectedBank ? () {} : () {},
+              onTap: hasSelectedBank
+                  ? () {
+                      bn.changeView(CurrentCardView.info);
+                    }
+                  : () {},
               expand: true,
               color: hasSelectedBank ? Colors.white : Colors.white54,
               bgColor: hasSelectedBank ? Colors.black : Colors.grey),
