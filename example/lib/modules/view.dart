@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:validatorless/validatorless.dart';
 
 class SeerbitCheckout extends StatelessWidget {
-    SeerbitCheckout({super.key});
+  SeerbitCheckout({super.key});
   final _formKey = GlobalKey<FormState>();
 
   @override

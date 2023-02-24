@@ -276,9 +276,9 @@ Map<String, dynamic> map = {
   "rememberMe": false,
   "ddeviceType": "Desktop",
   "accountName": "Amos Oruaroghene",
-  "accountNumber": "0107629596",
-  "bvn": "12345678901",
-  "dateOfBirth": "1/19/2023",
+  "accountNumber": null,
+  "bvn": null,
+  "dateOfBirth": null,
   "network": "MTN",
   "fullName": "as as"
 };

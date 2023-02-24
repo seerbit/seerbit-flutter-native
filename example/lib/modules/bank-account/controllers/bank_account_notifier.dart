@@ -18,10 +18,13 @@ class BankAccountNotifier extends ChangeNotifier {
   chooseRequirementView(PaymentPayloadModel ppm, ViewsNotifier vn) {
     MerchantBank mb = vn.banksModel!.data.merchantBanks
         .firstWhere((element) => element.bankName == ppm.channelType);
-
-    if (mb.requiredFields.dateOfBirth == "Yes" && ppm.dateOfBirth == null) {
+    // log(mb.toJson().toString());
+    // log(ppm.toJson().toString());
+    // log((mb.requiredFields.dateOfBirth == "Yes" && ppm.dateOfBirth == null)
+    //     .toString());
+    if (mb.requiredFields.dateOfBirth == "YES" && ppm.dateOfBirth == null) {
       changeView(CurrentCardView.birthday);
-    } else if (mb.requiredFields.bvn == "Yes" && ppm.bvn == null) {
+    } else if (mb.requiredFields.bvn == "YES" && ppm.bvn == null) {
       changeView(CurrentCardView.bvn);
     } else {
       changeView(CurrentCardView.progress);

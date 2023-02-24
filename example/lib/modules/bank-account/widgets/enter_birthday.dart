@@ -2,17 +2,22 @@ import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
-import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:example/modules/widgets/amount_to_pay.dart';
 import 'package:flutter/material.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:provider/provider.dart';
 
-class EnterBirthday extends StatelessWidget {
+class EnterBirthday extends StatefulWidget {
   const EnterBirthday({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<EnterBirthday> createState() => _EnterBirthdayState();
+}
+
+class _EnterBirthdayState extends State<EnterBirthday> {
+  bool hasSelectedBank = false;
   @override
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
@@ -34,31 +39,24 @@ class EnterBirthday extends StatelessWidget {
             ],
             onChanged: (_) {
               vn.setPaymentPayload(ppm.copyWith(dateOfBirth: _));
+              if (_.length == 10 && !_.contains("-")) {
+                setState(() => hasSelectedBank = true);
+              } else {
+                setState(() => hasSelectedBank = false);
+              }
             },
           ),
           const YSpace(12),
           CustomFlatButton(
               label: "Continue to Payment",
-              onTap: () async {
-                MerchantBank mb = vn.banksModel!.data.merchantBanks.firstWhere(
-                    (element) => element.bankName == ppm.channelType);
-                if (mb.requiredFields.bvn == "YES") {
-                  bn.changeView(CurrentCardView.bvn);
-                }
-                // bn.changeView(CurrentCardView.progress);
-                // await vn.initiatePayment();
-                // if (vn.errorMessage == null) {
-                //   bn.changeView(CurrentCardView.info);
-                // } else {
-                //   bn.changeView(CurrentCardView.initializeError);
-                // }
-
-                // CustomOverlays()
-                //     .showPopup(const PaymentSuccess(), popPrevious: true);
-              },
+              onTap: !hasSelectedBank
+                  ? () {}
+                  : () async {
+                      bn.chooseRequirementView(ppm, vn);
+                    },
               expand: true,
-              color: Colors.white54,
-              bgColor: Colors.grey),
+              color: hasSelectedBank ? Colors.white : Colors.white54,
+              bgColor: hasSelectedBank ? Colors.black : Colors.grey),
         ],
       );
     });

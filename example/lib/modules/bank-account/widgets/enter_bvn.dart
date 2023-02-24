@@ -2,7 +2,6 @@ import 'package:example/models/models.dart';
 import 'package:example/modules/-core-global/-core-global.dart';
 import 'package:example/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:example/modules/view-notifiers/view_notifier.dart';
-import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:example/modules/widgets/amount_to_pay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,22 +39,7 @@ class EnterBVN extends StatelessWidget {
           CustomFlatButton(
               label: "Continue to Payment",
               onTap: () async {
-                MerchantBank mb = vn.banksModel!.data.merchantBanks.firstWhere(
-                    (element) => element.bankName == ppm.channelType);
-
-                if (mb.requiredFields.bvn == "YES") {
-                  bn.changeView(CurrentCardView.bvn);
-                }
-                // bn.changeView(CurrentCardView.progress);
-                // await vn.initiatePayment();
-                // if (vn.errorMessage == null) {
-                //   bn.changeView(CurrentCardView.info);
-                // } else {
-                //   bn.changeView(CurrentCardView.initializeError);
-                // }
-
-                // CustomOverlays()
-                //     .showPopup(const PaymentSuccess(), popPrevious: true);
+                bn.chooseRequirementView(ppm, vn);
               },
               expand: true,
               color: Colors.white54,

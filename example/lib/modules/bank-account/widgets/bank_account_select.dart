@@ -51,19 +51,14 @@ class _SelectBankAccountState extends State<SelectBankAccount> {
                     channelType: _,
                     paymentType: "ACCOUNT",
                     accountName: "${ppm.firstName} ${ppm.lastName}",
+                    dateOfBirth: null,
+                    bvn: null,
                     paymentReference:
                         "ST-1232231${math.Random().nextInt(200000000)}",
                     bankCode: vn.banksModel?.data.merchantBanks
                         .firstWhere((e) => e.bankName != _)
                         .bankCode));
                 setState(() => hasSelectedBank = true);
-
-                // await vn.initiatePayment();
-                // if (vn.errorMessage == null) {
-                //   bn.changeView(CurrentCardView.info);
-                // } else {
-                //   bn.changeView(CurrentCardView.initializeError);
-                // }
               }),
           const YSpace(12),
           CustomFlatButton(
