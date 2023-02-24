@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:example/modules/bank-account/controllers/bank_account_notifier.dart';
+import 'package:example/modules/bank-account/widgets/bank_account_redirect.dart';
 import 'package:example/modules/bank-account/widgets/bank_account_select.dart';
 import 'package:example/modules/bank-account/widgets/enter_bank_account.dart';
 import 'package:example/modules/bank-account/widgets/enter_birthday.dart';
@@ -33,7 +34,7 @@ class BankAccountChannel extends StatelessWidget {
           case CurrentCardView.birthday:
             return const EnterBirthday();
           case CurrentCardView.redirect:
-            return const RedirectToBank();
+            return const BankAccounRedirect();
           case CurrentCardView.testCards:
             return const DisplayTestCards();
           default:

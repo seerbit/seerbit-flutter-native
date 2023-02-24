@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:example/core/network/request_handler.dart';
 import 'package:example/models/models.dart';
 import 'package:example/models/payment_status_model.dart';
+import 'package:example/modules/bank-account/controllers/bank_account_response_model.dart';
 import 'package:example/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
 import 'package:example/modules/debit-card/controllers/debit_card_model.dart';
 import 'package:example/modules/ussd/controllers/ussd_response_model.dart';
@@ -119,6 +120,8 @@ class ViewsNotifier extends ChangeNotifier {
         return TransferResponseModel.fromJson(data as Map<String, dynamic>);
       case PaymentChannel.debitCard:
         return DebitCardResponseModel.fromJson(data as Map<String, dynamic>);
+      case PaymentChannel.bankAccount:
+        return BankAccountResponseModel.fromJson(data as Map<String, dynamic>);
       default:
         return UssdResponseModel.fromJson(data as Map<String, dynamic>);
     }
