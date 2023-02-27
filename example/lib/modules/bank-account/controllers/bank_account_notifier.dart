@@ -13,6 +13,7 @@ class BankAccountNotifier extends ChangeNotifier {
 
   changeView(CurrentCardView ccv) {
     _currentCardView = ccv;
+    print("object $_currentCardView");
     notifyListeners();
   }
 
@@ -26,12 +27,19 @@ class BankAccountNotifier extends ChangeNotifier {
       changeView(CurrentCardView.bvn);
     } else {
       changeView(CurrentCardView.progress);
+
       await vn.initiatePayment();
+      print("message ${vn.errorMessage}}");
+      BankAccountResponseModel barm =
+          vn.paymentResponse as BankAccountResponseModel;
+
+
+
       if (vn.errorMessage == null) {
         if ((vn.paymentResponse as BankAccountResponseModel)
                 .data
                 ?.payments
-                ?.redirectUrl !=
+                ?.redirectU rl !=
             null) {
           changeView(CurrentCardView.redirect);
         } else {

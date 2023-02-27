@@ -1,12 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:example/modules/bank-account/controllers/bank_account_notifier.dart';
+import 'package:example/modules/bank-account/widgets/bank_account_pin.dart';
 import 'package:example/modules/bank-account/widgets/bank_account_progress.dart';
 import 'package:example/modules/bank-account/widgets/bank_account_redirect.dart';
 import 'package:example/modules/bank-account/widgets/bank_account_select.dart';
 import 'package:example/modules/bank-account/widgets/enter_bank_account.dart';
 import 'package:example/modules/bank-account/widgets/enter_birthday.dart';
 import 'package:example/modules/bank-account/widgets/enter_bvn.dart';
-import 'package:example/modules/debit-card/widgets/display_test_cards.dart';
+import 'package:example/modules/debit-card/widgets/generic_error.dart';
 import 'package:example/modules/debit-card/widgets/widgets.dart';
 import 'package:example/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +37,12 @@ class BankAccountChannel extends StatelessWidget {
             return const EnterBirthday();
           case CurrentCardView.redirect:
             return const BankAccounRedirect();
-
+          case CurrentCardView.paymentError:
+            return const GenericError();
           case CurrentCardView.progress:
             return const BankAccountProgress();
-
-          case CurrentCardView.testCards:
-            return const DisplayTestCards();
+          case CurrentCardView.pin:
+            return const BankAccountPIN();
           default:
             return Container();
         }
