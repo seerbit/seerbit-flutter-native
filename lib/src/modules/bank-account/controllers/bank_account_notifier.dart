@@ -1,8 +1,8 @@
-import 'package:example/models/bank_models.dart';
-import 'package:example/models/payment_payload_model.dart';
-import 'package:example/modules/bank-account/controllers/bank_account_response_model.dart';
-import 'package:example/modules/view-notifiers/view_notifier.dart';
-import 'package:example/modules/view-notifiers/view_state.dart';
+import 'package:seerbit_flutter_native/src/models/bank_models.dart';
+import 'package:seerbit_flutter_native/src/models/payment_payload_model.dart';
+import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_response_model.dart';
+import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 
 class BankAccountNotifier extends ChangeNotifier {

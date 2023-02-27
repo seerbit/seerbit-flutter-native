@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:example/modules/-core-global/-core-global.dart';
-import 'package:example/modules/view-notifiers/view_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
+import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
