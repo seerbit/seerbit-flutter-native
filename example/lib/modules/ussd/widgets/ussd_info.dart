@@ -25,9 +25,7 @@ class UssdInfo extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          AmountToPay(
-            fee: mdm.payload.cardFee.mc!,
-          ),
+          AmountToPay(fee: mdm.payload.cardFee.mc!),
           const YSpace(34),
           const CustomText("Dial the code below to complete this payment",
               size: 13),

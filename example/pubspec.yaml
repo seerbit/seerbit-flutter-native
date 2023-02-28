@@ -45,6 +45,8 @@ dependencies:
   validatorless: ^1.2.3
   google_fonts: ^4.0.3
   pattern_formatter: ^2.0.0
+  seerbit_flutter_native:
+    path: "../"
 
 dev_dependencies:
   flutter_test:

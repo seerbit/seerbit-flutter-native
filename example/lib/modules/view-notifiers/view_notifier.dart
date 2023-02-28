@@ -145,7 +145,7 @@ class ViewsNotifier extends ChangeNotifier {
       request: () =>
           paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),
       onSuccess: (_) => {
-        if (_.data['data']['code'] != "S20")
+        if (!["S20", "00"].contains(_.data['data']['code']))
           setErrorMessage(_.data['data']['message']),
         _setPaymentResponse(mapPaymentResponse(_.data)),
       },
