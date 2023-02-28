@@ -1,4 +1,7 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/core/navigator.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
@@ -7,9 +10,6 @@ import 'package:seerbit_flutter_native/src/modules/bank-transfer/views/transfer_
 import 'package:seerbit_flutter_native/src/modules/change_payment_methods.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/views/debit_card_channel.dart';
 import 'package:seerbit_flutter_native/src/modules/ussd/views/ussd_channel.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 import 'view-notifiers/view_notifier.dart';
 
@@ -26,9 +26,6 @@ class ChannelSelection extends StatelessWidget {
       height: 800.h,
       child: SingleChildScrollView(
         child: Container(
-          // height: 8.h,
-          // duration: const Duration(seconds: 1),
-          // width: 270.w,
           margin: EdgeInsets.symmetric(horizontal: 20.w),
           color: Colors.white,
           child: Column(
@@ -96,7 +93,7 @@ class ChannelSelection extends StatelessWidget {
                     ),
                   CustomFlatButton(
                     onTap: () {
-                      Navigate.pop();
+                      Navigate(context).pop();
                     },
                     label: "Cancel Payment",
                     color: const Color(0xFFFF2300),

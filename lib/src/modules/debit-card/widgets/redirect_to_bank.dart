@@ -1,11 +1,12 @@
 import 'dart:developer';
 
-import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
-import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
-import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
+import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
+import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class RedirectToBank extends StatefulWidget {
@@ -24,7 +25,10 @@ class _RedirectToBankState extends State<RedirectToBank> {
   @override
   void initState() {
     super.initState();
+
     vn = Provider.of<ViewsNotifier>(context, listen: false);
+    DebitCardNotifier dcn =
+        Provider.of<DebitCardNotifier>(context, listen: false);
     DebitCardResponseModel dcm =
         (vn.paymentResponse! as DebitCardResponseModel);
     wvc = WebViewController()
@@ -44,8 +48,23 @@ class _RedirectToBankState extends State<RedirectToBank> {
         },
         onNavigationRequest: (_) {
           log(_.url);
-          if (_.url.contains("Successful")) {
-            // Navigate.pop();
+          if (_.url.contains("callback")) {
+            if (_.url.contains("Successful")) {
+              Future.delayed(
+                  const Duration(seconds: 3), () => {vn.onSuccess?.call()});
+            } else {
+              Future.delayed(
+                  const Duration(seconds: 3), () => {vn.onFailure?.call()});
+              vn.setErrorMessage(_.url
+                  .split("&message=")
+                  .last
+                  .split("=")
+                  .first
+                  .replaceAll("%20", " ")
+                  .replaceAll("&reference", ""));
+              dcn.changeView(CurrentCardView.error);
+              return NavigationDecision.prevent;
+            }
           }
           return NavigationDecision.navigate;
         },
@@ -80,23 +99,24 @@ class _RedirectToBankState extends State<RedirectToBank> {
           CustomFlatButton(
               onTap: () {
                 CustomOverlays().showPopup(
-                  SizedBox(
-                    height: 812.h,
-                    child: Stack(
-                      children: [
-                        WebViewWidget(
-                          controller: wvc,
-                        ),
-                        Center(child: Text(isLoading.toString())),
-                        Visibility(
-                          visible: isLoading,
-                          child: const Center(
-                              child: CircularProgressIndicator(strokeWidth: 1)),
-                        ),
-                      ],
+                    SizedBox(
+                      height: 812.h,
+                      child: Stack(
+                        children: [
+                          WebViewWidget(
+                            controller: wvc,
+                          ),
+                          // Center(child: Text(isLoading.toString())),
+                          Visibility(
+                            visible: isLoading,
+                            child: const Center(
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 1)),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                    context: context);
                 // log("message: ${dcm.toJson().toString()}");
               },
               expand: true,

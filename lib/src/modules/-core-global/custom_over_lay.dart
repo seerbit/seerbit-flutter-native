@@ -1,17 +1,19 @@
 import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:seerbit_flutter_native/src/core/navigator.dart';
-import 'package:seerbit_flutter_native/src/main.dart';
-import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:seerbit_flutter_native/src/core/navigator.dart';
+import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 
 class CustomOverlays {
-  showPopup(child, {bool popPrevious = false, Function()? whenComplete}) {
-    if (popPrevious) Navigate.pop();
+  showPopup(child,
+      {BuildContext? context,
+      bool popPrevious = false,
+      Function()? whenComplete}) {
+    if (popPrevious) Navigate(context!).pop();
     showDialog(
-        context: navigatorKey.currentContext!,
+        context: context!,
         builder: (context) {
           return Dialog(
             child: child,
@@ -20,11 +22,15 @@ class CustomOverlays {
         }).whenComplete(() => whenComplete?.call());
   }
 
-  showSheet({required child, Function()? onClose, bool popPrevious = false}) {
-    if (popPrevious) Navigate.pop();
+  showSheet(
+      {required child,
+      BuildContext? context,
+      Function()? onClose,
+      bool popPrevious = false}) {
+    if (popPrevious) Navigate(context!).pop();
     showModalBottomSheet(
       isScrollControlled: true,
-      context: navigatorKey.currentContext!,
+      context: context!,
       backgroundColor: Colors.transparent,
       builder: (context) {
         return GestureDetector(
@@ -46,7 +52,7 @@ class CustomOverlays {
                           child: Align(
                             alignment: Alignment.bottomRight,
                             child: IconButton(
-                                onPressed: () => Navigate.pop(),
+                                onPressed: () => Navigate(context).pop(),
                                 icon: const Icon(Icons.close)),
                           ),
                         ),

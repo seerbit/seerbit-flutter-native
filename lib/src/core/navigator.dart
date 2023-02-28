@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:seerbit_flutter_native/src/main.dart';
 
 class Navigate {
-  Navigate();
-  static to(Widget screen) {
-    BuildContext context = navigatorKey.currentContext!;
+  Navigate(this.context);
+  final BuildContext context;
+
+  to(Widget screen) {
     Navigator.push(
         context,
         Platform.isIOS
@@ -15,9 +15,7 @@ class Navigate {
             : MaterialPageRoute(builder: (context) => screen));
   }
 
-  static replace(Widget screen) {
-    BuildContext context = navigatorKey.currentContext!;
-
+  replace(Widget screen) {
     Navigator.pushReplacement(
         context,
         Platform.isIOS
@@ -25,16 +23,13 @@ class Navigate {
             : MaterialPageRoute(builder: (context) => screen));
   }
 
-  static pop({int number = 1}) {
-    BuildContext context = navigatorKey.currentContext!;
-
+  pop({int number = 1}) {
     for (var i = 0; i < number; i++) {
       Navigator.pop(context);
     }
   }
 
-  static replaceUntil(Widget screen) {
-    BuildContext context = navigatorKey.currentContext!;
+  replaceUntil(Widget screen) {
     Navigator.pushAndRemoveUntil(
         context,
         Platform.isIOS

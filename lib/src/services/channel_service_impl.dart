@@ -1,20 +1,19 @@
 import 'dart:developer';
 
+import 'package:http/http.dart';
 import 'package:seerbit_flutter_native/src/core/network/api.dart';
 import 'package:seerbit_flutter_native/src/core/network/network.dart';
 import 'package:seerbit_flutter_native/src/models/payment_payload_model.dart';
 import 'package:seerbit_flutter_native/src/models/response_model.dart';
 import 'package:seerbit_flutter_native/src/services/channel_service.dart';
-import 'package:http/http.dart';
 
 class PaymentServiceImpl implements PaymentService {
   final Network network;
 
   const PaymentServiceImpl({this.network = const Network()});
   @override
-  getMerchantInformation() async {
-    Response response = await network.get(
-        'checkout/merchant/clear/SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1');
+  getMerchantInformation({required String publicKey}) async {
+    Response response = await network.get('checkout/merchant/clear/$publicKey');
     return ResponseModel.fromResponse(response);
   }
 

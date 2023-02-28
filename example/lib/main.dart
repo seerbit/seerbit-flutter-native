@@ -1,11 +1,6 @@
-import 'package:example/core/providers.dart';
-import 'package:example/modules/-core-global/-core-global.dart';
-import 'package:example/modules/view-notifiers/view_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-
-import 'modules/view.dart';
+import 'package:seerbit_flutter_native/seerbit_flutter_native.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() {
@@ -18,19 +13,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: AppProviders.providers,
-      child: ScreenUtilInit(
-          designSize: const Size(375, 812),
-          builder: (_, context) {
-            return MaterialApp(
-              title: 'Seerbit Demo',
-              theme: ThemeData(fontFamily: 'FaktPro'),
-              navigatorKey: navigatorKey,
-              home: const MyHomePage(title: 'Seerbit Demo'),
-            );
-          }),
-    );
+    return ScreenUtilInit(
+        designSize: const Size(375, 812),
+        builder: (_, context) {
+          return MaterialApp(
+            title: 'Seerbit Demo',
+            theme: ThemeData(fontFamily: 'FaktPro'),
+            navigatorKey: navigatorKey,
+            home: const MyHomePage(title: 'Seerbit Demo'),
+          );
+        });
   }
 }
 
@@ -44,9 +36,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  SeerbitCheckout seerbitCheckout =
+      SeerbitCheckout(publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1");
   @override
   Widget build(BuildContext context) {
-    ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -57,11 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             TextButton(
               onPressed: () {
-                vn.getMerchantDetails();
-                CustomOverlays()
-                    .showPopup(SeerbitCheckout(), whenComplete: vn.reset());
-
-                // Navigate.to(const Marquee());
+                seerbitCheckout.createCheckout(context,
+                    onClose: () => print("Closed"),
+                    onSuccess: () => print("Success"),
+                    onFailure: () => print("Failure"),
+                    payloadModel: PaymentPayloadModel.empty());
               },
               child: const Text("Start"),
             )

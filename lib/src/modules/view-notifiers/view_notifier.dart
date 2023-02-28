@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:seerbit_flutter_native/src/core/network/request_handler.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/models/payment_status_model.dart';
@@ -9,7 +10,6 @@ import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_
 import 'package:seerbit_flutter_native/src/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:seerbit_flutter_native/src/services/channel_service.dart';
 import 'package:seerbit_flutter_native/src/services/channel_service_impl.dart';
-import 'package:flutter/material.dart';
 
 import 'helpers.dart';
 
@@ -38,6 +38,23 @@ class ViewsNotifier extends ChangeNotifier {
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
+
+  String? _publicKey;
+  String? get publicKey => _publicKey;
+
+  Function? onClose;
+  Function? onFailure;
+  Function? onSuccess;
+
+  setConpletionFunctions({
+    Function? onCloseFunc,
+    Function? onSuccessFunc,
+    Function? onFailureFunc,
+  }) {
+    onClose = onCloseFunc;
+    onSuccess = onSuccessFunc;
+    onFailure = onFailureFunc;
+  }
 
   reset() {
     _paymentResponse = null;
@@ -103,6 +120,11 @@ class ViewsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///Set the public key of the merchant initiating the transaction
+  setPublicKey(String publicKey) {
+    _publicKey = publicKey;
+  }
+
   ///Check if a channel is active from the config
   ///and also confirm it is not currently selected
 
@@ -131,7 +153,8 @@ class ViewsNotifier extends ChangeNotifier {
   ///the merchant processing payments
   Future getMerchantDetails() async {
     await RequestHandler(
-        request: () => paymentService.getMerchantInformation(),
+        request: () =>
+            paymentService.getMerchantInformation(publicKey: _publicKey!),
         onSuccess: (_) => setMerchantDetail(
             MerchantDetailModel.fromJson(_.data as Map<String, dynamic>)),
         onError: (_) => log("message $_"),

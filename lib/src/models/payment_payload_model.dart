@@ -266,7 +266,7 @@ class PaymentPayloadModel {
 }
 
 Map<String, dynamic> map = {
-  "publicKey": "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
+  "publicKey": null,
   "productId": "",
   "redirectUrl": "https://google.com",
   "deviceType": "Desktop",
