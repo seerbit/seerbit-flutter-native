@@ -49,6 +49,8 @@ class ChannelSelection extends StatelessWidget {
                   )
                 ],
               ),
+              // Text(DebitCardNotifier().currentCardView.toString()),
+              // Text(vn.paymentChannel.toString()),
               FadeInUp(
                 key: Key(vn.paymentChannel.toString()),
                 child: SizedBox(

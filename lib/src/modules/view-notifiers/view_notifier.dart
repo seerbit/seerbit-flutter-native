@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:seerbit_flutter_native/src/core/network/request_handler.dart';
@@ -85,8 +86,8 @@ class ViewsNotifier extends ChangeNotifier {
     // return ;
     return paymentPayload!.copyWith(
       // paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
-      // channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
-      // ddeviceType: Platform.isAndroid ? "Android" : "iOS",
+      channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
+      ddeviceType: Platform.isAndroid ? "Android" : "iOS",
       // publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
       currency: "NGN",
       country: "NG",
@@ -109,7 +110,7 @@ class ViewsNotifier extends ChangeNotifier {
   }
 
   ///Set the fetched [PaymentResponseModel] to the the viewnotifier
-  _setPaymentResponse(PaymentResponseModel prm) {
+  _setPaymentResponse(PaymentResponseModel? prm) {
     _paymentResponse = prm;
     notifyListeners();
   }
@@ -163,12 +164,13 @@ class ViewsNotifier extends ChangeNotifier {
 
   ///Initiate a payment
   Future initiatePayment() async {
+    _setPaymentResponse(null);
     setErrorMessage(null);
     await RequestHandler(
       request: () =>
           paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),
       onSuccess: (_) => {
-        if (_.data['data']['code'] != "S20")
+        if (!["S20", "00"].contains(_.data['data']['code']))
           setErrorMessage(_.data['data']['message']),
         _setPaymentResponse(mapPaymentResponse(_.data)),
       },

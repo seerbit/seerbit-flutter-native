@@ -1,10 +1,11 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_notifier.dart';
-import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/display_test_cards.dart';
-import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/widgets.dart';
-import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/display_test_cards.dart';
+import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/generic_error.dart';
+import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/widgets.dart';
+import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 
 class DebitCardChannel extends StatelessWidget {
   const DebitCardChannel({
@@ -28,6 +29,8 @@ class DebitCardChannel extends StatelessWidget {
             return const RedirectToBank();
           case CurrentCardView.testCards:
             return const DisplayTestCards();
+          case CurrentCardView.paymentError:
+            return const GenericError();
           default:
             return Container();
         }

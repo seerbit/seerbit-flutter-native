@@ -3,15 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:seerbit_flutter_native/src/core/navigator.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class RedirectToBank extends StatefulWidget {
   const RedirectToBank({super.key});
-
+  // final DebitCardChannel dcn;
   @override
   State<RedirectToBank> createState() => _RedirectToBankState();
 }
@@ -53,8 +55,6 @@ class _RedirectToBankState extends State<RedirectToBank> {
               Future.delayed(
                   const Duration(seconds: 3), () => {vn.onSuccess?.call()});
             } else {
-              Future.delayed(
-                  const Duration(seconds: 3), () => {vn.onFailure?.call()});
               vn.setErrorMessage(_.url
                   .split("&message=")
                   .last
@@ -62,7 +62,12 @@ class _RedirectToBankState extends State<RedirectToBank> {
                   .first
                   .replaceAll("%20", " ")
                   .replaceAll("&reference", ""));
-              dcn.changeView(CurrentCardView.error);
+
+              print("${dcn.currentCardView}");
+              Navigate(context).pop();
+              vn.onFailure?.call();
+              print("${vn.errorMessage}");
+              dcn.changeView(CurrentCardView.paymentError);
               return NavigationDecision.prevent;
             }
           }
