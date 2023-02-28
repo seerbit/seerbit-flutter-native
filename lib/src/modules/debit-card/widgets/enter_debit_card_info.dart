@@ -2,6 +2,12 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:lottie/lottie.dart';
+import 'package:pattern_formatter/pattern_formatter.dart';
+import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
@@ -9,10 +15,6 @@ import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
-import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 
 class EnterDebitCardInfo extends StatelessWidget {
   EnterDebitCardInfo({
@@ -62,12 +64,10 @@ class EnterDebitCardInfo extends StatelessWidget {
                                 size: 12, color: const Color(0xFFCC212D)),
                           ],
                         ),
-                        GestureDetector(
-                            onTap: () {},
-                            child: const Icon(
-                              Icons.close,
-                              size: 14,
-                            ))
+                        const Icon(
+                          Icons.close,
+                          size: 14,
+                        )
                       ],
                     ),
                   ),
@@ -86,7 +86,10 @@ class EnterDebitCardInfo extends StatelessWidget {
                 vn.setPaymentPayload(
                     ppm.copyWith(cardNumber: _.replaceAll(" ", "")));
               },
-              formatter: [CreditCardNumberInputFormatter()],
+              formatter: [
+                CreditCardFormatter(),
+                LengthLimitingTextInputFormatter(19)
+              ],
             ),
             Row(
               children: [

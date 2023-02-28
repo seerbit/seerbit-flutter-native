@@ -1,4 +1,6 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/generic_error.dart';
 import 'package:seerbit_flutter_native/src/modules/ussd/controllers/ussd_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/ussd/widgets/ussd_confirm_payment.dart';
@@ -7,8 +9,6 @@ import 'package:seerbit_flutter_native/src/modules/ussd/widgets/ussd_progress.da
 import 'package:seerbit_flutter_native/src/modules/ussd/widgets/ussd_select_bank.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/error_card.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class UssdChannel extends StatelessWidget {
   const UssdChannel({
@@ -34,6 +34,7 @@ class UssdChannel extends StatelessWidget {
             return const ErrorCard();
           case CurrentCardView.initializeError:
             return const GenericError();
+
           default:
             return Container();
         }
