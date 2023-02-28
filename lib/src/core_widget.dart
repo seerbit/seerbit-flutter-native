@@ -13,12 +13,12 @@ class SeerbitCheckout {
       {Function? onClose,
       Function? onSuccess,
       Function? onFailure,
-      required PaymentPayloadModel payloadModel}) {
+      required PaymentPayloadModel payload}) {
     CustomOverlays().showPopup(
         SeerbitProvider(
             child: SeerbitModal(
           publicKey: publicKey,
-          payloadModel: payloadModel.copyWith(publicKey: publicKey),
+          payloadModel: payload.copyWith(publicKey: publicKey),
           onSuccess: onSuccess,
           onFailure: onFailure,
           onClose: onClose,

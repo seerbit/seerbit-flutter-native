@@ -50,11 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             TextButton(
               onPressed: () {
-                seerbitCheckout.createCheckout(context,
-                    onClose: () => print("Closed"),
-                    onSuccess: () => print("Success"),
-                    onFailure: () => print("Failure"),
-                    payloadModel: PaymentPayloadModel.empty());
+                seerbitCheckout.createCheckout(
+                  context,
+                  onClose: () => print("Closed"),
+                  onSuccess: () => print("Success"),
+                  onFailure: () => print("Failure"),
+                  payload: PaymentPayloadModel.empty(),
+                );
               },
               child: const Text("Start"),
             )
