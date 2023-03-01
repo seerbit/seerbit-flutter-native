@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       sourceIp: "0.0.0.1",
                       productId: "",
                       fee: "1.5",
-                      amount: "100"),
+                      amount: "20"),
                 );
               },
               child: const Text("Start"),

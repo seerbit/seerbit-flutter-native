@@ -7,6 +7,7 @@ import 'package:seerbit_flutter_native/src/core/navigator.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/payment_success.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -20,6 +21,7 @@ class RedirectToBank extends StatefulWidget {
 
 class _RedirectToBankState extends State<RedirectToBank> {
   bool isLoading = true;
+  bool isSuccessful = false;
   late WebViewController wvc;
   late DebitCardResponseModel dcm;
   late ViewsNotifier vn;
@@ -52,12 +54,16 @@ class _RedirectToBankState extends State<RedirectToBank> {
           log(_.url);
           if (_.url.contains("callback")) {
             if (_.url.contains("Successful")) {
-              // Stream.periodic(Duration(seconds: 1));
-              // vn.confirmTransaction(context, onError: () {}).then((value) => {
-              //       Navigate(context).pop(),
-              //     });
+              vn.setSecondaryPaymentSuccess(true);
+              await Future.delayed(
+                  const Duration(seconds: 3), () => Navigator.pop(context));
+              CustomOverlays().showPopup(
+                  PaymentSuccess(amount: vn.paymentPayload!.amount!),
+                  context: context);
+              setState(() => isSuccessful = true);
 
               vn.onSuccess?.call();
+
               return NavigationDecision.prevent;
             } else {
               vn.setErrorMessage(_.url
@@ -115,13 +121,16 @@ class _RedirectToBankState extends State<RedirectToBank> {
                         children: [
                           StreamBuilder(
                               stream: Stream.periodic(
-                                  const Duration(seconds: 1),
-                                  (_) => vn.confirmTransaction(context,
-                                      onError: () {})),
+                                  const Duration(seconds: 1), (_) {
+                                if (isSuccessful) {
+                                  print("object");
+                                  setState(() {
+                                    vn.setSecondaryPaymentSuccess(true);
+                                  });
+                                }
+                              }),
                               builder: (context, snapshot) {
-                                return WebViewWidget(
-                                  controller: wvc,
-                                );
+                                return WebViewWidget(controller: wvc);
                               }),
                           // Center(child: Text(isLoading.toString())),
                           Visibility(

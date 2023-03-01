@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:seerbit_flutter_native/src/core/network/request_handler.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/models/payment_status_model.dart';
+import 'package:seerbit_flutter_native/src/modules/-core-global/custom_over_lay.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_response_model.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
+import 'package:seerbit_flutter_native/src/modules/payment_success.dart';
 import 'package:seerbit_flutter_native/src/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:seerbit_flutter_native/src/services/channel_service.dart';
 import 'package:seerbit_flutter_native/src/services/channel_service_impl.dart';
@@ -50,7 +52,15 @@ class ViewsNotifier extends ChangeNotifier {
   Function? onFailure;
   Function? onSuccess;
 
-  bool get paymentSuccess => (_paymentStatus?.data.code == "00");
+  bool get paymentSuccess =>
+      (_paymentStatus?.data.code == "00") || secondaryPaymentSuccess;
+  bool _secondaryPaymentSuccess = false;
+  bool get secondaryPaymentSuccess => _secondaryPaymentSuccess;
+
+  setSecondaryPaymentSuccess(bool status) {
+    _secondaryPaymentSuccess = status;
+    // notifyListeners();
+  }
 
   setConpletionFunctions({
     Function? onCloseFunc,
@@ -66,6 +76,7 @@ class ViewsNotifier extends ChangeNotifier {
     _paymentResponse = null;
     _paymentStatus = null;
     _errorMessage = null;
+    _secondaryPaymentSuccess = false;
   }
 
   ///set the error message
@@ -209,17 +220,20 @@ class ViewsNotifier extends ChangeNotifier {
       if (paymentStatus != null) {
         String code = paymentStatus!.data.code!;
         setErrorMessage(paymentStatus!.data.message);
-        showSuccess(code, onError: onError);
+        showSuccess(context, code, onError: onError);
       }
     });
   }
 
-  showSuccess(String code, {Function? onError}) {
+  showSuccess(BuildContext context, String code, {Function? onError}) {
     switch (code) {
       case "S20":
         log("Querying transaction status..");
         break;
       case "00":
+        CustomOverlays().showPopup(
+            PaymentSuccess(amount: paymentPayload!.amount!),
+            context: context);
         break;
       default:
         onError?.call();
