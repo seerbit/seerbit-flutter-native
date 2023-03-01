@@ -1,4 +1,6 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/bank_account_pin.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/bank_account_progress.dart';
@@ -10,8 +12,6 @@ import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/enter_bv
 import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/generic_error.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/widgets.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class BankAccountChannel extends StatelessWidget {
   const BankAccountChannel({
@@ -30,7 +30,7 @@ class BankAccountChannel extends StatelessWidget {
           case CurrentCardView.info:
             return const EnterBankAccount();
           case CurrentCardView.otp:
-            return const AuthorizeOTP();
+            return AuthorizeOTP();
           case CurrentCardView.bvn:
             return const EnterBVN();
           case CurrentCardView.birthday:

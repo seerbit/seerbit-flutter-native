@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:seerbit_flutter_native/src/models/bank_models.dart';
 import 'package:seerbit_flutter_native/src/models/payment_payload_model.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_response_model.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
-import 'package:flutter/material.dart';
 
 class BankAccountNotifier extends ChangeNotifier {
   BankAccountNotifier();
@@ -20,6 +20,8 @@ class BankAccountNotifier extends ChangeNotifier {
   chooseRequirementView(PaymentPayloadModel ppm, ViewsNotifier vn) async {
     MerchantBank mb = vn.banksModel!.data.merchantBanks
         .firstWhere((element) => element.bankName == ppm.channelType);
+
+    print(mb.toJson().toString());
 
     if (mb.requiredFields.dateOfBirth == "YES" && ppm.dateOfBirth == null) {
       changeView(CurrentCardView.birthday);

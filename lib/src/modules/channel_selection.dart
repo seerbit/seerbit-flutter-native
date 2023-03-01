@@ -9,6 +9,7 @@ import 'package:seerbit_flutter_native/src/modules/bank-account/views/bank_accou
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/views/transfer_to_bank_channel.dart';
 import 'package:seerbit_flutter_native/src/modules/change_payment_methods.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/views/debit_card_channel.dart';
+import 'package:seerbit_flutter_native/src/modules/payment_success.dart';
 import 'package:seerbit_flutter_native/src/modules/ussd/views/ussd_channel.dart';
 
 import 'view-notifiers/view_notifier.dart';
@@ -27,88 +28,99 @@ class ChannelSelection extends StatelessWidget {
       child: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 20.w),
+          height: 800.h,
           color: Colors.white,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const YSpace(22),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Builder(
+            builder: (context) {
+              if (vn.paymentSuccess) return PaymentSuccess(amount: ppm.amount);
+              return Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(mdm.payload.logo!, height: 50.h, width: 50.h),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  const YSpace(22),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText("${ppm.firstName} ${ppm.lastName}",
-                          size: 12, weight: FontWeight.bold),
-                      const YSpace(6),
-                      CustomText("${ppm.email}", size: 12)
+                      Image.network(mdm.payload.logo!,
+                          height: 50.h, width: 50.h),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          CustomText("${ppm.firstName} ${ppm.lastName}",
+                              size: 12, weight: FontWeight.bold),
+                          const YSpace(6),
+                          CustomText("${ppm.email}", size: 12)
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-              // Text(DebitCardNotifier().currentCardView.toString()),
-              // Text(vn.paymentChannel.toString()),
-              FadeInUp(
-                key: Key(vn.paymentChannel.toString()),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Builder(builder: (context) {
-                    switch (vn.paymentChannel) {
-                      case PaymentChannel.debitCard:
-                        return const DebitCardChannel();
-                      case PaymentChannel.bankAccount:
-                        return const BankAccountChannel();
-                      case PaymentChannel.transfer:
-                        return const BankTransferChannel();
-                      case PaymentChannel.ussd:
-                        return const UssdChannel();
-                      case PaymentChannel.changePaymentMethod:
-                        return const ChangePaymentMethodsView();
-
-                      default:
-                        return const DebitCardChannel();
-                    }
-                  }),
-                ),
-              ),
-              const YSpace(24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (vn.paymentChannel != PaymentChannel.changePaymentMethod)
-                    Row(
-                      children: [
-                        CustomFlatButton(
-                          onTap: () {
-                            vn.changePaymentChannel(
-                                PaymentChannel.changePaymentMethod);
-                          },
-                          label: "Change Payment Method",
-                          bgColor: const Color(0xFFF0F0F0),
-                          size: Size(190.w, 50),
-                        ),
-                        const XSpace(10),
-                      ],
-                    ),
-                  CustomFlatButton(
-                    onTap: () {
-                      Navigate(context).pop();
-                    },
-                    label: "Cancel Payment",
-                    color: const Color(0xFFFF2300),
-                    size: const Size(130, 50),
-                    bgColor: const Color(0xFFFF2300).withOpacity(.17),
                   ),
+                  FadeInUp(
+                    key: Key(vn.paymentChannel.toString()),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Builder(builder: (context) {
+                        switch (vn.paymentChannel) {
+                          case PaymentChannel.debitCard:
+                            return const DebitCardChannel();
+                          case PaymentChannel.bankAccount:
+                            return const BankAccountChannel();
+                          case PaymentChannel.transfer:
+                            return const BankTransferChannel();
+                          case PaymentChannel.ussd:
+                            return const UssdChannel();
+                          case PaymentChannel.changePaymentMethod:
+                            return const ChangePaymentMethodsView();
+
+                          default:
+                            return const DebitCardChannel();
+                        }
+                      }),
+                    ),
+                  ),
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (vn.paymentChannel !=
+                          PaymentChannel.changePaymentMethod)
+                        Row(
+                          children: [
+                            CustomFlatButton(
+                              onTap: () {
+                                vn.changePaymentChannel(
+                                    PaymentChannel.changePaymentMethod);
+                              },
+                              label: "Change Payment Method",
+                              bgColor: const Color(0xFFF0F0F0),
+                              size: Size(190.w, 50),
+                            ),
+                            const XSpace(10),
+                          ],
+                        ),
+                      CustomFlatButton(
+                        onTap: () {
+                          Navigate(context).pop();
+                        },
+                        label: "Cancel Payment",
+                        color: const Color(0xFFFF2300),
+                        size: Size(
+                            vn.paymentChannel ==
+                                    PaymentChannel.changePaymentMethod
+                                ? 160
+                                : 130,
+                            50),
+                        bgColor: const Color(0xFFFF2300).withOpacity(.17),
+                      ),
+                    ],
+                  ),
+                  const YSpace(24),
+                  const YSpace(25),
+                  const SecuredByMarker(),
+                  const YSpace(25),
                 ],
-              ),
-              const YSpace(24),
-              const YSpace(25),
-              const SecuredByMarker(),
-              const YSpace(25),
-            ],
+              );
+            },
           ),
         ),
       ),

@@ -16,11 +16,13 @@ class SeerbitModal extends StatefulWidget {
       required this.publicKey,
       this.onClose,
       this.onSuccess,
+      this.showForm = false,
       this.onFailure,
       required this.payloadModel});
   final String publicKey;
   final Function? onClose, onSuccess, onFailure;
   final PaymentPayloadModel payloadModel;
+  final bool showForm;
 
   @override
   State<SeerbitModal> createState() => _SeerbitModalState();
@@ -32,7 +34,7 @@ class _SeerbitModalState extends State<SeerbitModal> {
   bool showChannels = false;
   @override
   void initState() {
-    myFuture = Future(() {
+    myFuture = Future(() async {
       ViewsNotifier vn = Provider.of<ViewsNotifier>(context, listen: false);
       vn.setConpletionFunctions(
           onCloseFunc: widget.onClose,
@@ -40,7 +42,8 @@ class _SeerbitModalState extends State<SeerbitModal> {
           onSuccessFunc: widget.onSuccess);
       vn.setPaymentPayload(widget.payloadModel);
       vn.setPublicKey(widget.publicKey);
-      vn.getMerchantDetails();
+      await vn.getMerchantDetails();
+      if (!widget.showForm) setState(() => showChannels = true);
     });
 
     super.initState();

@@ -7,7 +7,6 @@ import 'package:seerbit_flutter_native/src/modules/bank-transfer/controllers/ban
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
-import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
 
 class BankTransferInfo extends StatelessWidget {
   const BankTransferInfo({
@@ -28,7 +27,23 @@ class BankTransferInfo extends StatelessWidget {
           const YSpace(43),
           const CustomText("Transfer", size: 14),
           const YSpace(34),
-          AmountToPay(fee: mdm.payload.cardFee.mc!),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.grey.shade300,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const YSpace(12),
+                CustomText("NGN ${ppm.amount}",
+                    weight: FontWeight.bold, size: 24),
+                const YSpace(8),
+                CustomText("Fee: NGN${mdm.payload.cardFee.mc}", size: 14),
+              ],
+            ),
+          ),
           const YSpace(34),
           const CustomText("to the account details below", size: 14),
           const YSpace(34),

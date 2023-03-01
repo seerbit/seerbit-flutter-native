@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'global_components.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -13,7 +14,7 @@ class CustomTextField extends StatelessWidget {
       this.formatter,
       this.initialValue,
       this.inputType,
-      this.border})
+      this.border,  this.controller})
       : super(key: key);
   final String label;
   final String? hint, initialValue;
@@ -23,6 +24,7 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? formatter;
   final TextInputType? inputType;
   final OutlineInputBorder? border;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,26 +32,30 @@ class CustomTextField extends StatelessWidget {
       children: [
         CustomText(label, size: 12, weight: FontWeight.bold),
         const YSpace(5),
-        TextFormField(
-          keyboardType: inputType,
-          inputFormatters: formatter,
-          initialValue: initialValue,
-          validator: validator,
-          onChanged: onChanged,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: TextStyle(color: Colors.grey.shade400),
-            enabledBorder: border ??
-                OutlineInputBorder(
-                    borderRadius: borderRadius ?? BorderRadius.circular(6),
-                    borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 224, 222, 222))),
-            border: border ??
-                OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6),
-                    borderSide: const BorderSide(color: Color(0xFFCCCCCC))),
+        ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 50, maxHeight: 80),
+          child: TextFormField(
+            controller: controller,
+            keyboardType: inputType,
+            inputFormatters: formatter,
+            initialValue: initialValue,
+            validator: validator,
+            onChanged: onChanged,
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: TextStyle(color: Colors.grey.shade400),
+              enabledBorder: border ??
+                  OutlineInputBorder(
+                      borderRadius: borderRadius ?? BorderRadius.circular(6),
+                      borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 224, 222, 222))),
+              border: border ??
+                  OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: const BorderSide(color: Color(0xFFCCCCCC))),
 
-            // label: CustomText(label, size: 14),
+              // label: CustomText(label, size: 14),
+            ),
           ),
         ),
       ],

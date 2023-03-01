@@ -13,7 +13,18 @@ class SeerbitCheckout {
       {Function? onClose,
       Function? onSuccess,
       Function? onFailure,
+      bool showForm = false,
       required PaymentPayloadModel payload}) {
+    if (!showForm) {
+      assert(payload.amount != null, "Amount is required if showForm = false");
+      assert(payload.firstName != null,
+          "FirstName is required if showForm = false");
+      assert(
+          payload.lastName != null, "LastName is required if showForm = false");
+      assert(payload.email != null, "Email is required if showForm = false");
+      assert(payload.mobileNumber != null,
+          "Mobile Number is required if showForm = false");
+    }
     CustomOverlays().showPopup(
         SeerbitProvider(
             child: SeerbitModal(
@@ -22,6 +33,7 @@ class SeerbitCheckout {
           onSuccess: onSuccess,
           onFailure: onFailure,
           onClose: onClose,
+          showForm: showForm,
         )),
         whenComplete: () => onClose?.call(),
         context: context);

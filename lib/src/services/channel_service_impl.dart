@@ -44,4 +44,17 @@ class PaymentServiceImpl implements PaymentService {
         await network.get("${const Api.dev().getSandbox("banks")}/banks");
     return ResponseModel.fromResponse(response);
   }
+
+  @override
+  Future<ResponseModel> otpAuthorize(
+      {required String linkingRef, required String otp}) async {
+    Response response =
+        await network.post("${const Api.dev().getSandbox("CARD")}/otp", body: {
+      "transaction": {
+        "linkingreference": linkingRef,
+        "otp": otp,
+      }
+    });
+    return ResponseModel.fromResponse(response);
+  }
 }

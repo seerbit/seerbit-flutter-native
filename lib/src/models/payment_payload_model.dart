@@ -271,7 +271,6 @@ Map<String, dynamic> map = {
   "redirectUrl": "https://google.com",
   "deviceType": "Desktop",
   "sourceIP": "0.0.0.1",
-  "fee": "34.20",
   "retry": false,
   "rememberMe": false,
   "ddeviceType": "Desktop",

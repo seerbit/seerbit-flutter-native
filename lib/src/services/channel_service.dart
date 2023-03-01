@@ -7,4 +7,6 @@ abstract class PaymentService {
       {required PaymentPayloadModel payloadModel});
   Future<ResponseModel> queryTransaction({required String payRef});
   Future<ResponseModel> getBanks();
+  Future<ResponseModel> otpAuthorize(
+      {required String linkingRef, required String otp});
 }

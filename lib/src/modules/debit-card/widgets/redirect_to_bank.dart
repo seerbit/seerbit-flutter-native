@@ -48,12 +48,17 @@ class _RedirectToBankState extends State<RedirectToBank> {
         onPageFinished: (_) {
           setState(() => isLoading = false);
         },
-        onNavigationRequest: (_) {
+        onNavigationRequest: (_) async {
           log(_.url);
           if (_.url.contains("callback")) {
             if (_.url.contains("Successful")) {
-              Future.delayed(
-                  const Duration(seconds: 3), () => {vn.onSuccess?.call()});
+              // Stream.periodic(Duration(seconds: 1));
+              // vn.confirmTransaction(context, onError: () {}).then((value) => {
+              //       Navigate(context).pop(),
+              //     });
+
+              vn.onSuccess?.call();
+              return NavigationDecision.prevent;
             } else {
               vn.setErrorMessage(_.url
                   .split("&message=")
@@ -108,9 +113,16 @@ class _RedirectToBankState extends State<RedirectToBank> {
                       height: 812.h,
                       child: Stack(
                         children: [
-                          WebViewWidget(
-                            controller: wvc,
-                          ),
+                          StreamBuilder(
+                              stream: Stream.periodic(
+                                  const Duration(seconds: 1),
+                                  (_) => vn.confirmTransaction(context,
+                                      onError: () {})),
+                              builder: (context, snapshot) {
+                                return WebViewWidget(
+                                  controller: wvc,
+                                );
+                              }),
                           // Center(child: Text(isLoading.toString())),
                           Visibility(
                             visible: isLoading,

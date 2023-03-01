@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seerbit_flutter_native/src/core/navigator.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
-import 'package:seerbit_flutter_native/src/modules/-core-global/global_components.dart';
+import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
@@ -19,21 +16,8 @@ class BankTransferConfirmation extends StatelessWidget {
     BankTransferNotifier bn = Provider.of<BankTransferNotifier>(context);
     return StreamBuilder(
         stream: Stream.periodic(const Duration(seconds: 5), (_) {
-          vn.queryTransaction();
-          if (vn.paymentStatus != null) {
-            String code = vn.paymentStatus!.data.code!;
-            vn.setErrorMessage(vn.paymentStatus!.data.message);
-            switch (code) {
-              case "S20":
-                log("S20");
-                break;
-              case "00":
-                Navigate(context).pop();
-                break;
-              default:
-                bn.changeView(CurrentCardView.error);
-            }
-          }
+          vn.confirmTransaction(context,
+              onError: () => bn.changeView(CurrentCardView.error));
         }),
         builder: (context, snapshot) {
           MerchantDetailModel mdm = vn.merchantDetailModel!;

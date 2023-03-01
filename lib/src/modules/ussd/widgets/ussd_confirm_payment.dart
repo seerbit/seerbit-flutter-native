@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:seerbit_flutter_native/src/core/navigator.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
-import 'package:seerbit_flutter_native/src/modules/payment_success.dart';
 import 'package:seerbit_flutter_native/src/modules/ussd/controllers/ussd_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
@@ -21,24 +19,8 @@ class UssdConfirmPayment extends StatelessWidget {
 
     return StreamBuilder(
         stream: Stream.periodic(const Duration(seconds: 5), (_) {
-          vn.queryTransaction();
-          if (vn.paymentStatus != null) {
-            String code = vn.paymentStatus!.data.code!;
-            vn.setErrorMessage(vn.paymentStatus!.data.message);
-            CustomOverlays().showPopup(const PaymentSuccess(),
-                popPrevious: true, context: context);
-            switch (code) {
-              case "S20":
-                CustomOverlays().showPopup(const PaymentSuccess(),
-                    popPrevious: false, context: context);
-                break;
-              case "00":
-                Navigate(context).pop();
-                break;
-              default:
-                un.changeView(CurrentCardView.error);
-            }
-          }
+          vn.confirmTransaction(context,
+              onError: () => un.changeView(CurrentCardView.error));
         }),
         builder: (context, snapshot) {
           MerchantDetailModel mdm = vn.merchantDetailModel!;

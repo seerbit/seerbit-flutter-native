@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:seerbit_flutter_native/src/models/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:seerbit_flutter_native/src/models/response_model.dart';
 
 class RequestHandler {
   final Future<ResponseModel> Function() request;
@@ -50,6 +50,7 @@ class RequestHandler {
             data: jsonDecode((e as Response).body), status: (e).statusCode));
         return;
       }
+      log(e.toString());
       onError(ResponseModel(
           data: {"message": "Check your internet connection"}, status: 400));
       onRequestEnd?.call();

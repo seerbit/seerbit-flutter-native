@@ -52,10 +52,21 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 seerbitCheckout.createCheckout(
                   context,
+                  showForm: false,
                   onClose: () => print("Closed"),
                   onSuccess: () => print("Success"),
                   onFailure: () => print("Failure"),
-                  payload: PaymentPayloadModel.empty(),
+                  payload: PaymentPayloadModel(
+                      firstName: "Obinna",
+                      lastName: "Onuoha",
+                      fullName: "Obinna Onuoha",
+                      mobileNumber: "08140276106",
+                      email: "onuohasilver9@gmail.com",
+                      redirectUrl: "https://google.com",
+                      sourceIp: "0.0.0.1",
+                      productId: "",
+                      fee: "1.5",
+                      amount: "100"),
                 );
               },
               child: const Text("Start"),

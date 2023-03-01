@@ -130,10 +130,7 @@ class EnterDebitCardInfo extends StatelessWidget {
             CustomFlatButton(
                 label: "PAY NGN ${ppm.amount}",
                 prefix: dcn.loading
-                    ? LottieBuilder.asset(
-                        'assets/loading.json',
-                        height: 20,
-                      )
+                    ? LottieBuilder.asset('assets/loading.json', height: 20)
                     : null,
                 onTap: (_notNullOrEmpty(ppm.cvv, 3) &&
                         _notNullOrEmpty(ppm.cardNumber, 16) &&

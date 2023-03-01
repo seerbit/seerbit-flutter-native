@@ -40,12 +40,17 @@ class ViewsNotifier extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  String? _message;
+  String? get message => _message;
+
   String? _publicKey;
   String? get publicKey => _publicKey;
 
   Function? onClose;
   Function? onFailure;
   Function? onSuccess;
+
+  bool get paymentSuccess => (_paymentStatus?.data.code == "00");
 
   setConpletionFunctions({
     Function? onCloseFunc,
@@ -69,6 +74,12 @@ class ViewsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///set the error message
+  setMessage(String? message) {
+    _message = message;
+    notifyListeners();
+  }
+
   ///Update the payment paylod
   setPaymentPayload(PaymentPayloadModel ppm) {
     _paymentPayload = ppm;
@@ -89,8 +100,8 @@ class ViewsNotifier extends ChangeNotifier {
       channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
       ddeviceType: Platform.isAndroid ? "Android" : "iOS",
       // publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
-      currency: "NGN",
-      country: "NG",
+      currency: merchantDetailModel!.payload.defaultCurrency,
+      country: merchantDetailModel!.payload.country.countryCode,
     );
   }
 
@@ -173,6 +184,7 @@ class ViewsNotifier extends ChangeNotifier {
         if (!["S20", "00"].contains(_.data['data']['code']))
           setErrorMessage(_.data['data']['message']),
         _setPaymentResponse(mapPaymentResponse(_.data)),
+        setMessage(_.data['data']['message']),
       },
       onError: (_) => {log("onError $_."), setErrorMessage(_.data['message'])},
       onNetworkError: (_) => log("onNetworkError $_"),
@@ -181,13 +193,37 @@ class ViewsNotifier extends ChangeNotifier {
 
   ///check the status of a transaction
   Future queryTransaction() async {
-    RequestHandler(
+    await RequestHandler(
         request: () => paymentService.queryTransaction(
             payRef: _paymentPayload.paymentReference!),
         onSuccess: (_) => _setPaymentStatus(
             PaymentStatusModel.fromJson(_.data as Map<String, dynamic>)),
         onError: (_) => log("message $_."),
         onNetworkError: (_) => log("message $_.")).sendRequest();
+  }
+
+  ///confirm that a transaction was successful
+  Future confirmTransaction(BuildContext context,
+      {required Function onError}) async {
+    await queryTransaction().then((value) {
+      if (paymentStatus != null) {
+        String code = paymentStatus!.data.code!;
+        setErrorMessage(paymentStatus!.data.message);
+        showSuccess(code, onError: onError);
+      }
+    });
+  }
+
+  showSuccess(String code, {Function? onError}) {
+    switch (code) {
+      case "S20":
+        log("Querying transaction status..");
+        break;
+      case "00":
+        break;
+      default:
+        onError?.call();
+    }
   }
 
   ///Get the list of banks available for checkout
@@ -199,6 +235,20 @@ class ViewsNotifier extends ChangeNotifier {
       onError: (_) => log("message $_."),
       onNetworkError: (_) => log("message $_."),
     ).sendRequest();
+  }
+
+  ///Get the list of banks available for checkout
+  Future<String> otpAuthorize(
+      {required String linkingRef, required String otp}) async {
+    String status = "S20";
+    await RequestHandler(
+      request: () =>
+          paymentService.otpAuthorize(otp: otp, linkingRef: linkingRef),
+      onSuccess: (_) => {status = _.data['data']['code']},
+      onError: (_) => log("message err$_."),
+      onNetworkError: (_) => log("message err $_."),
+    ).sendRequest();
+    return status;
   }
 }
 

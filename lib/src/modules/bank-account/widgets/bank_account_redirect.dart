@@ -38,49 +38,50 @@ class _BankAccounRedirectState extends State<BankAccounRedirect> {
     wvc = WebViewController()
       ..loadRequest(Uri.parse(brm.data!.payments!.redirectUrl!))
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
-
-    wvc.setNavigationDelegate(
-      NavigationDelegate(
-        onProgress: (_) {
-          setState(() => isLoading = true);
-        },
-        onPageStarted: (_) async {
-          Future.delayed(const Duration(seconds: 2));
-          setState(() => isLoading = false);
-        },
-        onPageFinished: (_) {
-          setState(() => isLoading = false);
-        },
-        onNavigationRequest: (_) {
-          log(_.url);
-          if (_.url == "https://seerbitapigateway.com/") {
-            Navigate(context).pop();
-          }
-          if (_.url.contains("callback")) {
-            if (_.url.contains("Successful")) {
-              Future.delayed(
-                  const Duration(seconds: 3), () => {vn.onSuccess?.call()});
-            } else {
-              vn.setErrorMessage(_.url
-                  .split("&message=")
-                  .last
-                  .split("=")
-                  .first
-                  .replaceAll("%20", " ")
-                  .replaceAll("&reference", ""));
-
-              // print("${dcn.currentCardView}");
+    if (mounted) {
+      wvc.setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (_) {
+            setState(() => isLoading = true);
+          },
+          onPageStarted: (_) async {
+            Future.delayed(const Duration(seconds: 2));
+            setState(() => isLoading = false);
+          },
+          onPageFinished: (_) {
+            setState(() => isLoading = false);
+          },
+          onNavigationRequest: (_) {
+            log(_.url);
+            if (_.url == "https://seerbitapigateway.com/") {
               Navigate(context).pop();
-              vn.onFailure?.call();
-              print("${vn.errorMessage}");
-              bn.changeView(CurrentCardView.paymentError);
-              return NavigationDecision.prevent;
             }
-          }
-          return NavigationDecision.navigate;
-        },
-      ),
-    );
+            if (_.url.contains("callback")) {
+              if (_.url.contains("Successful")) {
+                vn.confirmTransaction(context, onError: () {});
+                Future.delayed(Duration.zero, () => {vn.onSuccess?.call()});
+              } else {
+                vn.setErrorMessage(_.url
+                    .split("&message=")
+                    .last
+                    .split("=")
+                    .first
+                    .replaceAll("%20", " ")
+                    .replaceAll("&reference", ""));
+
+                // print("${dcn.currentCardView}");
+                Navigate(context).pop();
+                vn.onFailure?.call();
+                print("${vn.errorMessage}");
+                bn.changeView(CurrentCardView.paymentError);
+                return NavigationDecision.prevent;
+              }
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      );
+    }
   }
 
   @override
