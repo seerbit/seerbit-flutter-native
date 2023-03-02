@@ -24,16 +24,16 @@ class ChannelSelection extends StatelessWidget {
     MerchantDetailModel mdm = vn.merchantDetailModel!;
     PaymentPayloadModel ppm = vn.paymentPayload!;
     return SizedBox(
-      height: 800.h,
-      child: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20.w),
-          height: 800.h,
-          color: Colors.white,
-          child: Builder(
-            builder: (context) {
-              if (vn.paymentSuccess) return PaymentSuccess(amount: ppm.amount);
-              return Column(
+      // height: 800.h,
+      child: Builder(
+        builder: (context) {
+          if (vn.paymentSuccess) return PaymentSuccess(amount: ppm.amount);
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.w),
+            height: 800.h,
+            color: Colors.white,
+            child: SingleChildScrollView(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -78,7 +78,8 @@ class ChannelSelection extends StatelessWidget {
                       }),
                     ),
                   ),
-                  const Spacer(),
+                  // const Spacer(),
+                  const YSpace(50),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -119,10 +120,10 @@ class ChannelSelection extends StatelessWidget {
                   const SecuredByMarker(),
                   const YSpace(25),
                 ],
-              );
-            },
-          ),
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

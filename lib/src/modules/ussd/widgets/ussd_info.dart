@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/ussd/controllers/ussd_notifier.dart';
@@ -5,10 +9,6 @@ import 'package:seerbit_flutter_native/src/modules/ussd/controllers/ussd_respons
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 class UssdInfo extends StatelessWidget {
   const UssdInfo({
@@ -31,23 +31,24 @@ class UssdInfo extends StatelessWidget {
           const YSpace(34),
           const CustomText("Dial the code below to complete this payment",
               size: 13),
-          const YSpace(8),
-          Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              alignment: Alignment.center,
-              height: 50.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.grey.shade300,
+          const YSpace(18),
+          Material(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: EdgeInsets.only(top: 18.h, bottom: 10.h) +
+                  EdgeInsets.symmetric(horizontal: 20.w),
+              child: Center(
+                child: CustomText(
+                    (vn.paymentResponse as UssdResponseModel)
+                        .data
+                        .payments
+                        .ussdDailCode,
+                    size: 24,
+                    weight: FontWeight.bold),
               ),
-              child: CustomText(
-                  (vn.paymentResponse as UssdResponseModel)
-                      .data
-                      .payments
-                      .ussdDailCode,
-                  size: 24,
-                  weight: FontWeight.w900)),
+            ),
+          ),
           TextButton(
             child: const CustomText("Click to copy code", size: 14),
             onPressed: () =>

@@ -6,7 +6,7 @@ class CustomText extends StatelessWidget {
       {Key? key,
       required this.size,
       this.weight = FontWeight.normal,
-      this.height = 1,
+      this.height = 0,
       this.color = Colors.black,
       this.align = TextAlign.left,
       this.isMoney = false,

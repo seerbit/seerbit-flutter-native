@@ -65,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       redirectUrl: "https://google.com",
                       sourceIp: "0.0.0.1",
                       productId: "",
+                      currency: "NGN",
                       fee: "1.5",
                       amount: "20"),
                 );

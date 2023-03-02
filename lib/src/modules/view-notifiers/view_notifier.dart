@@ -111,6 +111,7 @@ class ViewsNotifier extends ChangeNotifier {
       channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
       ddeviceType: Platform.isAndroid ? "Android" : "iOS",
       // publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
+      fee: calculateFees().toString(),
       currency: merchantDetailModel!.payload.defaultCurrency,
       country: merchantDetailModel!.payload.country.countryCode,
     );
@@ -263,6 +264,51 @@ class ViewsNotifier extends ChangeNotifier {
       onNetworkError: (_) => log("message err $_."),
     ).sendRequest();
     return status;
+  }
+
+  String calculateFees() {
+    late double fee, optionFee, cappedAmount;
+
+    DefaultPaymentOption feeModel =
+        merchantDetailModel!.payload.country.defaultPaymentOptions.first;
+
+    String feeMode = feeModel.paymentOptionFeeMode!;
+
+    if (_checkIfInternational()) {
+      optionFee = feeModel.internationalPaymentOptionFee!;
+      cappedAmount = double.parse(merchantDetailModel!
+          .payload.transactionFee.transactionCapStatus.cappedAmount!);
+    } else {
+      optionFee = double.parse(feeModel.paymentOptionFee!);
+      cappedAmount = double.parse(merchantDetailModel!
+          .payload.transactionFee.transactionCapStatus.cappedAmount!);
+    }
+
+    if (feeMode == "PERCENTAGE") {
+      fee = double.parse(paymentPayload!.amount!) * (optionFee / 100);
+    } else {
+      fee = optionFee;
+    }
+    print(optionFee);
+    return _capAmount(fee, cappedAmount).toString();
+  }
+
+  double _capAmount(double fee, double cappedAmount) {
+    return fee < cappedAmount ? fee : cappedAmount;
+  }
+
+  bool _checkIfInternational() {
+    String currency =
+        merchantDetailModel!.payload.country.defaultCurrency.code!;
+    print(currency);
+    print(paymentPayload!.currency);
+    return paymentPayload!.currency != currency;
+  }
+
+  String amountToPay() {
+    return (double.parse(calculateFees()) +
+            double.parse(paymentPayload!.amount!))
+        .toString();
   }
 }
 
