@@ -289,7 +289,7 @@ class ViewsNotifier extends ChangeNotifier {
     } else {
       fee = optionFee;
     }
-    print(optionFee);
+
     return _capAmount(fee, cappedAmount).toString();
   }
 
@@ -300,8 +300,7 @@ class ViewsNotifier extends ChangeNotifier {
   bool _checkIfInternational() {
     String currency =
         merchantDetailModel!.payload.country.defaultCurrency.code!;
-    print(currency);
-    print(paymentPayload!.currency);
+
     return paymentPayload!.currency != currency;
   }
 
