@@ -47,8 +47,11 @@ class AuthorizeOTP extends StatelessWidget {
                     .otpAuthorize(
                         linkingRef: dcrm.data!.payments!.linkingReference!,
                         otp: controller.text)
-                    .then((value) =>
-                        vn.confirmTransaction(context, onError: () {}));
+                    .then((value) => {
+                          vn.confirmTransaction(context, onError: () {
+                            dcn.changeView(CurrentCardView.paymentError);
+                          }),
+                        });
 
                 // dcn.changeView(CurrentCardView.redirect);
               },

@@ -1,9 +1,9 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
-import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
+import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 
 class GenericError extends StatelessWidget {
   const GenericError({super.key});
@@ -16,7 +16,10 @@ class GenericError extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 30.h),
         child: GestureDetector(
-          onTap: () => vn.setErrorMessage(null),
+          onTap: () => {
+            vn.setErrorMessage(null),
+            vn.changePaymentChannel(PaymentChannel.changePaymentMethod)
+          },
           child: FadeInUp(
             key: Key(vn.errorMessage.toString()),
             child: Container(
@@ -50,6 +53,8 @@ class GenericError extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       vn.setErrorMessage(null);
+                      vn.changePaymentChannel(
+                          PaymentChannel.changePaymentMethod);
                     },
                     child: const Icon(Icons.close, size: 14),
                   )
