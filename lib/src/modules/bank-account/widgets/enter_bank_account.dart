@@ -32,7 +32,7 @@ class _EnterBankAccountState extends State<EnterBankAccount> {
           AmountToPay(fee: mdm.payload.cardFee.mc!),
           const YSpace(24),
           CustomText("Enter your  ${ppm.channelType}  Account Number",
-              size: 12, weight: FontWeight.bold),
+              size: 12, weight: FontWeight.w500),
           const YSpace(12),
           CustomTextField(
             label: "",

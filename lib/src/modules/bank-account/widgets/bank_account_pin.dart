@@ -27,12 +27,12 @@ class BankAccountPIN extends StatelessWidget {
               align: TextAlign.center,
               height: 1.5,
               size: 14),
-          const YSpace(16),
+          const YSpace(30),
           Pinput(
-            length: 4,
+            length: 6,
             obscuringWidget: Container(
-              height: 10,
-              width: 10,
+              height: 5,
+              width: 5,
               decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(1000)),
@@ -40,11 +40,11 @@ class BankAccountPIN extends StatelessWidget {
             obscureText: true,
             showCursor: true,
             defaultPinTheme: PinTheme(
-              width: 56,
-              height: 56,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.shade300),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(3),
               ),
             ),
             onCompleted: (_) => bn.changeView(CurrentCardView.otp),

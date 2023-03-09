@@ -17,6 +17,8 @@ class CustomFlatButton extends StatelessWidget {
     this.prefix,
     this.elevation = 0,
     this.size,
+    this.fsize,
+    this.spacetop,
   }) : super(key: key);
   final String label;
   final String? icon;
@@ -27,6 +29,8 @@ class CustomFlatButton extends StatelessWidget {
   final Function() onTap;
   final Widget? suffix, prefix;
   final Size? size;
+  final num? fsize;
+  final double? spacetop;
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +39,11 @@ class CustomFlatButton extends StatelessWidget {
       style: ButtonStyle(
           elevation: MaterialStateProperty.all(elevation.toDouble()),
           minimumSize: MaterialStateProperty.all(
-              size ?? const Size(double.infinity, 50)),
+              size ?? const Size(double.infinity, 43)),
           maximumSize: MaterialStateProperty.all(
-              size ?? const Size(double.infinity, 50)),
+              size ?? const Size(double.infinity, 43)),
           shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(7))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(3))),
           side: hasBorder
               ? MaterialStateProperty.all(
                   BorderSide(color: Colors.grey.shade300, width: 1))
@@ -51,7 +55,15 @@ class CustomFlatButton extends StatelessWidget {
         mainAxisAlignment: alignment ??
             (expand ? MainAxisAlignment.center : MainAxisAlignment.start),
         children: [
-          prefix ?? CustomText(label, size: 14, color: color ?? Colors.black),
+          Padding(
+            padding: EdgeInsets.only(top: spacetop ?? 0),
+            child: prefix ??
+                CustomText(
+                  label,
+                  size: fsize ?? 12,
+                  color: color ?? Colors.black,
+                ),
+          ),
           if (suffix != null) suffix!,
         ],
       ),
