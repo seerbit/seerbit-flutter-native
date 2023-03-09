@@ -39,7 +39,7 @@ class _SelectBankAccountState extends State<SelectBankAccount> {
                 AmountToPay(fee: mdm.payload.cardFee.mc!),
                 const YSpace(24),
                 const CustomText("Choose your bank to start this payment",
-                    size: 12, weight: FontWeight.bold),
+                    size: 12, weight: FontWeight.w500),
                 const YSpace(12),
                 CustomDropDown(
                     label: "label",
