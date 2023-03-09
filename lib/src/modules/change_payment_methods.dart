@@ -75,8 +75,9 @@ class ChangePaymentMethodsView extends StatelessWidget {
             child: Column(
               children: [
                 CustomFlatButton(
+                    prefix: const CustomText("Bank Account", size: 14),
                     alignment: MainAxisAlignment.start,
-                    label: "Bank Account",
+                    // label: "Bank Account",
                     onTap: () => {
                           ban.changeView(CurrentCardView.select),
                           vn.changePaymentChannel(PaymentChannel.bankAccount),
