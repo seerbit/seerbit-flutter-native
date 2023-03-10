@@ -1,12 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
-import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
-import 'package:flutter/material.dart';
-import 'package:pinput/pinput.dart';
-import 'package:provider/provider.dart';
 
 class BankAccountPIN extends StatelessWidget {
   const BankAccountPIN({super.key});
@@ -23,32 +21,16 @@ class BankAccountPIN extends StatelessWidget {
           AmountToPay(fee: mdm.payload.cardFee.mc!),
           const YSpace(30),
           const CustomText(
-              'Enter your 4-digit card pin to authorize\nthis payment',
+              'Kindly enter the OTP sent to your mobile number or email',
               align: TextAlign.center,
               height: 1.5,
               size: 14),
           const YSpace(30),
-          Pinput(
-            length: 6,
-            obscuringWidget: Container(
-              height: 5,
-              width: 5,
-              decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(1000)),
-            ),
-            obscureText: true,
-            showCursor: true,
-            defaultPinTheme: PinTheme(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300),
-                borderRadius: BorderRadius.circular(3),
-              ),
-            ),
-            onCompleted: (_) => bn.changeView(CurrentCardView.otp),
-          )
+          const CustomTextField(
+            label: "",
+            hint: "Enter OTP",
+          ),
+          CustomFlatButton(onTap: () {})
         ],
       );
     });

@@ -6,9 +6,16 @@ class MomoNotifier extends ChangeNotifier {
 
   CurrentCardView _currentCardView = CurrentCardView.info;
   CurrentCardView get currentCardView => _currentCardView;
+  bool _loading = false;
+  bool get loading => _loading;
 
   changeView(CurrentCardView ccv) {
     _currentCardView = ccv;
+    notifyListeners();
+  }
+
+  setLoading(bool value) {
+    _loading = value;
     notifyListeners();
   }
 }

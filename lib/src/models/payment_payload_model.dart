@@ -278,8 +278,8 @@ Map<String, dynamic> map = {
   "accountNumber": null,
   "bvn": null,
   "dateOfBirth": null,
-  "network": "MTN",
-  "fullName": "as as"
+  "network": null,
+  "fullName": null
 };
 // {firstName: awda,
 //  lastName: asd,

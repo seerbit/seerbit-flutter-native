@@ -198,7 +198,10 @@ class ViewsNotifier extends ChangeNotifier {
         _setPaymentResponse(mapPaymentResponse(_.data)),
         setMessage(_.data['data']['message']),
       },
-      onError: (_) => {log("onError $_."), setErrorMessage(_.data['message'])},
+      onError: (_) => {
+        log("onError $_."),
+        setErrorMessage(_.data['message']),
+      },
       onNetworkError: (_) => log("onNetworkError $_"),
     ).sendRequest();
   }

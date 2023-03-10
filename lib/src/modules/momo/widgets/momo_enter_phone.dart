@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
-import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/momo/controllers/momo_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
@@ -22,7 +22,7 @@ class MomoEnterPhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DebitCardNotifier dcn = Provider.of<DebitCardNotifier>(context);
+    MomoNotifier mn = Provider.of<MomoNotifier>(context);
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
     return Builder(builder: (context) {
       MerchantDetailModel mdm = vn.merchantDetailModel!;
@@ -72,7 +72,7 @@ class MomoEnterPhone extends StatelessWidget {
             ),
             const YSpace(32),
             CustomTextField(
-              initialValue: CreditCardNumberInputFormatter()
+              initialValue: PhoneInputFormatter()
                   .formatEditUpdate(TextEditingValue.empty,
                       TextEditingValue(text: ppm.cardNumber.toString()))
                   .text,
@@ -80,78 +80,50 @@ class MomoEnterPhone extends StatelessWidget {
               hint: "0 500 000",
               inputType: TextInputType.number,
               onChanged: (_) {
-                vn.setPaymentPayload(
-                    ppm.copyWith(cardNumber: _.replaceAll(" ", "")));
+                vn.setPaymentPayload(ppm.copyWith(
+                    cardNumber: _.replaceAll(RegExp("[^0-9]+"), "")));
               },
               formatter: [
                 PhoneInputFormatter(),
                 LengthLimitingTextInputFormatter(19)
               ],
             ),
-            const YSpace(8),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomTextField(
-                    label: "",
-                    onChanged: (_) {
-                      vn.setPaymentPayload(ppm.copyWith(
-                          expiryYear: _.split("/").last,
-                          expiryMonth: _.split('/').first));
-                    },
-                    initialValue: ppm.expiryYear != null
-                        ? "${ppm.expiryMonth}/${ppm.expiryYear}"
-                        : null,
-                    hint: "MM/YY",
-                    formatter: [CreditCardExpirationDateFormatter()],
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(3),
-                        bottomLeft: Radius.circular(3)),
-                  ),
-                ),
-                Expanded(
-                    child: CustomTextField(
-                  label: "",
-                  initialValue: ppm.cvv,
-                  hint: "CVV",
-                  onChanged: (_) {
-                    vn.setPaymentPayload(ppm.copyWith(cvv: _));
-                  },
-                  formatter: [CreditCardCvcInputFormatter()],
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(3),
-                      bottomRight: Radius.circular(3)),
-                )),
-              ],
+            const YSpace(20),
+            CustomDropDown(
+              label: "",
+              hint: "Select Provider",
+              onChanged: (_) {
+                vn.setPaymentPayload(ppm.copyWith(network: _));
+              },
+              value: null,
+              items: const ["MTN", "Airtel", "Vodacom"],
             ),
             const YSpace(20),
             CustomFlatButton(
                 fsize: 15,
                 spacetop: 3,
-                label: "PAY NGN ${ppm.amount}",
-                prefix: dcn.loading
+                label: "Continue",
+                prefix: mn.loading
                     ? LottieBuilder.asset('assets/loading.json', height: 20)
                     : null,
-                onTap: (_notNullOrEmpty(ppm.cvv, 3) &&
-                        _notNullOrEmpty(ppm.cardNumber, 16) &&
-                        _notNullOrEmpty(ppm.expiryMonth, 2) &&
-                        _notNullOrEmpty(ppm.expiryYear, 2))
+                onTap: _notNullOrEmpty(ppm.network, 1) &&
+                        _notNullOrEmpty(ppm.mobileNumber, 10)
                     ? () async {
                         vn.setPaymentPayload(ppm.copyWith(
                             paymentReference:
                                 'SBT-T54267${math.Random().nextInt(29091020)}101122472'));
-                        dcn.setLoading(true);
+                        mn.setLoading(true);
                         await vn.initiatePayment();
-                        dcn.setLoading(false);
+                        mn.setLoading(false);
                         if (vn.errorMessage == null) {
                           if ((vn.paymentResponse as DebitCardResponseModel)
                                   .data
                                   ?.payments
                                   ?.redirectUrl !=
                               null) {
-                            dcn.changeView(CurrentCardView.redirect);
+                            mn.changeView(CurrentCardView.redirect);
                           } else {
-                            dcn.changeView(CurrentCardView.pin);
+                            mn.changeView(CurrentCardView.pin);
                           }
                         }
                       }
@@ -160,20 +132,11 @@ class MomoEnterPhone extends StatelessWidget {
                       },
                 expand: true,
                 color: const Color.fromARGB(255, 218, 218, 218),
-                bgColor: (_notNullOrEmpty(ppm.cvv, 3) &&
-                        _notNullOrEmpty(ppm.cardNumber, 16) &&
-                        _notNullOrEmpty(ppm.expiryMonth, 2) &&
-                        _notNullOrEmpty(ppm.expiryYear, 2))
+                bgColor: _notNullOrEmpty(ppm.network, 1) &&
+                        _notNullOrEmpty(ppm.mobileNumber, 10)
                     ? Colors.black
                     : const Color.fromARGB(255, 107, 107, 107)),
             const YSpace(8),
-            Center(
-              child: TextButton(
-                child: const CustomText("Display Test Cards",
-                    size: 12, weight: FontWeight.w500),
-                onPressed: () => dcn.changeView(CurrentCardView.testCards),
-              ),
-            ),
           ],
         ),
       );

@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/core/navigator.dart';
+import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
+import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/payment_success.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
+import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class RedirectToBank extends StatefulWidget {
@@ -90,22 +93,14 @@ class _RedirectToBankState extends State<RedirectToBank> {
 
   @override
   Widget build(BuildContext context) {
+    BankAccountNotifier bn = Provider.of<BankAccountNotifier>(context);
+    ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
     return Builder(builder: (context) {
+      PaymentPayloadModel ppm = vn.paymentPayload!;
+      MerchantDetailModel mdm = vn.merchantDetailModel!;
       return Column(
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                YSpace(12),
-                CustomText("NGN 100.00", weight: FontWeight.bold, size: 24),
-                YSpace(8),
-                CustomText("Fee: NGN1.50", size: 14),
-                YSpace(32),
-              ],
-            ),
-          ),
+          AmountToPay(fee: mdm.payload.cardFee.mc!),
           const CustomText(
               'Please click the button below to authenticate\nwith your bank ',
               align: TextAlign.center,
