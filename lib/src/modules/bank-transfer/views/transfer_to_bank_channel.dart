@@ -1,12 +1,12 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/controllers/bank_transfer_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/widgets/bank_transfer_confirmation.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/widgets/bank_transfer_info.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/widgets/bank_transfer_loading.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/error_card.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class BankTransferChannel extends StatelessWidget {
   const BankTransferChannel({
@@ -17,8 +17,9 @@ class BankTransferChannel extends StatelessWidget {
   Widget build(BuildContext context) {
     // UssdNotifier un = Provider.of<UssdNotifier>(context);
     BankTransferNotifier bn = Provider.of<BankTransferNotifier>(context);
-    return FadeIn(
-      // key: Key(bn.currentCardView.toString()),
+    return FadeInUp(
+      key: Key(bn.currentCardView.toString()),
+      duration: const Duration(milliseconds: 280),
       child: Builder(builder: (context) {
         switch (bn.currentCardView) {
           case CurrentCardView.loading:

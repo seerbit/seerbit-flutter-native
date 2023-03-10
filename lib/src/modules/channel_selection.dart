@@ -9,6 +9,7 @@ import 'package:seerbit_flutter_native/src/modules/bank-account/views/bank_accou
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/views/transfer_to_bank_channel.dart';
 import 'package:seerbit_flutter_native/src/modules/change_payment_methods.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/views/debit_card_channel.dart';
+import 'package:seerbit_flutter_native/src/modules/momo/views/momo_channel.dart';
 import 'package:seerbit_flutter_native/src/modules/payment_success.dart';
 import 'package:seerbit_flutter_native/src/modules/ussd/views/ussd_channel.dart';
 
@@ -56,6 +57,7 @@ class ChannelSelection extends StatelessWidget {
                     ],
                   ),
                   FadeInUp(
+                    duration: const Duration(microseconds: 200),
                     key: Key(vn.paymentChannel.toString()),
                     child: SizedBox(
                       width: double.infinity,
@@ -71,7 +73,8 @@ class ChannelSelection extends StatelessWidget {
                             return const UssdChannel();
                           case PaymentChannel.changePaymentMethod:
                             return const ChangePaymentMethodsView();
-
+                          case PaymentChannel.momo:
+                            return const MomoChannel();
                           default:
                             return const DebitCardChannel();
                         }

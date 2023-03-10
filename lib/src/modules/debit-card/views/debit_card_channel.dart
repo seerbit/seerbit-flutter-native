@@ -17,6 +17,7 @@ class DebitCardChannel extends StatelessWidget {
   Widget build(BuildContext context) {
     DebitCardNotifier dcn = Provider.of<DebitCardNotifier>(context);
     return FadeInUp(
+      duration: const Duration(milliseconds: 280),
       key: Key(dcn.currentCardView.toString()),
       child: Builder(builder: (context) {
         switch (dcn.currentCardView) {
@@ -25,7 +26,7 @@ class DebitCardChannel extends StatelessWidget {
           case CurrentCardView.pin:
             return const InputPIN();
           case CurrentCardView.otp:
-            return  AuthorizeOTP();
+            return AuthorizeOTP();
           case CurrentCardView.redirect:
             return const RedirectToBank();
           case CurrentCardView.testCards:

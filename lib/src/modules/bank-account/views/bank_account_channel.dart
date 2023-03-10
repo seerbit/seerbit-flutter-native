@@ -23,6 +23,7 @@ class BankAccountChannel extends StatelessWidget {
     BankAccountNotifier bn = Provider.of<BankAccountNotifier>(context);
     return FadeInUp(
       key: Key(bn.currentCardView.toString()),
+      duration: const Duration(milliseconds: 280),
       child: Builder(builder: (context) {
         switch (bn.currentCardView) {
           case CurrentCardView.select:

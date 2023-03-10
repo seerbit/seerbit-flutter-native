@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
@@ -16,11 +15,10 @@ import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
 
-class EnterDebitCardInfo extends StatelessWidget {
-  EnterDebitCardInfo({
+class MomoEnterPhone extends StatelessWidget {
+  const MomoEnterPhone({
     Key? key,
   }) : super(key: key);
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +63,7 @@ class EnterDebitCardInfo extends StatelessWidget {
                                 size: 12, color: const Color(0xFFCC212D)),
                           ],
                         ),
-                        const Icon(
-                          Icons.close,
-                          size: 14,
-                        )
+                        const Icon(Icons.close, size: 14)
                       ],
                     ),
                   ),
@@ -81,14 +76,15 @@ class EnterDebitCardInfo extends StatelessWidget {
                   .formatEditUpdate(TextEditingValue.empty,
                       TextEditingValue(text: ppm.cardNumber.toString()))
                   .text,
-              label: "Debit/credit card details",
-              hint: "Card Number",
+              label: "Choose your bank to start this payment",
+              hint: "0 500 000",
+              inputType: TextInputType.number,
               onChanged: (_) {
                 vn.setPaymentPayload(
                     ppm.copyWith(cardNumber: _.replaceAll(" ", "")));
               },
               formatter: [
-                CreditCardFormatter(),
+                PhoneInputFormatter(),
                 LengthLimitingTextInputFormatter(19)
               ],
             ),

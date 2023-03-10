@@ -21,7 +21,7 @@ class ViewsNotifier extends ChangeNotifier {
 
   final PaymentService paymentService;
 
-  PaymentChannel _paymentChannel = PaymentChannel.debitCard;
+  PaymentChannel _paymentChannel = PaymentChannel.momo;
   PaymentChannel get paymentChannel => _paymentChannel;
 
   PaymentResponseModel? _paymentResponse;
@@ -317,5 +317,6 @@ enum PaymentChannel {
   ussd,
   transfer,
   changePaymentMethod,
-  success
+  success,
+  momo
 }
