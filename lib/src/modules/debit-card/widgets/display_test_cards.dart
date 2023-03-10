@@ -32,6 +32,7 @@ class DisplayTestCards extends StatelessWidget {
                 const CustomText("Select test card", size: 14),
                 const YSpace(12),
                 CustomFlatButton(
+                  spacetop: 3,
                   onTap: () {
                     vn.setPaymentPayload(vn.paymentPayload!.copyWith(
                         cardNumber: "5123450000000008",
@@ -45,9 +46,9 @@ class DisplayTestCards extends StatelessWidget {
                     dcn.changeView(CurrentCardView.info);
                   },
                   alignment: MainAxisAlignment.spaceBetween,
-                  prefix: const CustomText("MC", size: 14),
+                  prefix: const CustomText("MC", size: 12),
                   suffix: const CustomText("5123 4500 0000 0008",
-                      size: 14, weight: FontWeight.bold),
+                      size: 12, weight: FontWeight.bold),
                   hasBorder: true,
                   expand: true,
                 ),
@@ -65,10 +66,11 @@ class DisplayTestCards extends StatelessWidget {
 
                     dcn.changeView(CurrentCardView.info);
                   },
+                  spacetop: 2,
                   alignment: MainAxisAlignment.spaceBetween,
-                  prefix: const CustomText("MC", size: 14),
+                  prefix: const CustomText("MC", size: 12),
                   suffix: const CustomText("4485 2757 4230 8327",
-                      size: 14, weight: FontWeight.bold),
+                      size: 12, weight: FontWeight.bold),
                   hasBorder: true,
                   expand: true,
                 ),
@@ -77,7 +79,8 @@ class DisplayTestCards extends StatelessWidget {
           ),
           Center(
             child: TextButton(
-              child: const CustomText("Use another card", size: 16),
+              child: const CustomText("Use another card",
+                  size: 12, weight: FontWeight.w500),
               onPressed: () => dcn.changeView(CurrentCardView.info),
             ),
           ),

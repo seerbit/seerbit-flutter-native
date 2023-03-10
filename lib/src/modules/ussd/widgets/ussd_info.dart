@@ -33,10 +33,10 @@ class UssdInfo extends StatelessWidget {
               size: 13),
           const YSpace(18),
           Material(
-            color: Colors.grey.shade300,
-            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(0),
             child: Padding(
-              padding: EdgeInsets.only(top: 18.h, bottom: 10.h) +
+              padding: EdgeInsets.only(top: 5.h, bottom: 0.h) +
                   EdgeInsets.symmetric(horizontal: 20.w),
               child: Center(
                 child: CustomText(
@@ -44,8 +44,8 @@ class UssdInfo extends StatelessWidget {
                         .data
                         .payments
                         .ussdDailCode,
-                    size: 24,
-                    weight: FontWeight.bold),
+                    size: 28,
+                    weight: FontWeight.w900),
               ),
             ),
           ),

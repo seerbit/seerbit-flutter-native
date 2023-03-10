@@ -94,7 +94,7 @@ class ChannelSelection extends StatelessWidget {
                               },
                               label: "Change Payment Method",
                               bgColor: const Color(0xFFF0F0F0),
-                              size: Size(190.w, 50),
+                              size: Size(190.w, 42),
                             ),
                             const XSpace(10),
                           ],
@@ -110,7 +110,7 @@ class ChannelSelection extends StatelessWidget {
                                     PaymentChannel.changePaymentMethod
                                 ? 160
                                 : 130,
-                            50),
+                            42),
                         bgColor: const Color(0xFFFF2300).withOpacity(.17),
                       ),
                     ],

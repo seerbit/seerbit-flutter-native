@@ -81,7 +81,7 @@ class EnterDebitCardInfo extends StatelessWidget {
                       TextEditingValue(text: ppm.cardNumber.toString()))
                   .text,
               label: "Debit/credit card details",
-              hint: "Card number",
+              hint: "Card Number",
               onChanged: (_) {
                 vn.setPaymentPayload(
                     ppm.copyWith(cardNumber: _.replaceAll(" ", "")));
@@ -91,6 +91,7 @@ class EnterDebitCardInfo extends StatelessWidget {
                 LengthLimitingTextInputFormatter(19)
               ],
             ),
+            const YSpace(8),
             Row(
               children: [
                 Expanded(
@@ -107,8 +108,8 @@ class EnterDebitCardInfo extends StatelessWidget {
                     hint: "MM/YY",
                     formatter: [CreditCardExpirationDateFormatter()],
                     borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10)),
+                        topLeft: Radius.circular(3),
+                        bottomLeft: Radius.circular(3)),
                   ),
                 ),
                 Expanded(
@@ -121,13 +122,15 @@ class EnterDebitCardInfo extends StatelessWidget {
                   },
                   formatter: [CreditCardCvcInputFormatter()],
                   borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
+                      topRight: Radius.circular(3),
+                      bottomRight: Radius.circular(3)),
                 )),
               ],
             ),
             const YSpace(20),
             CustomFlatButton(
+                fsize: 15,
+                spacetop: 3,
                 label: "PAY NGN ${ppm.amount}",
                 prefix: dcn.loading
                     ? LottieBuilder.asset('assets/loading.json', height: 20)
@@ -159,18 +162,18 @@ class EnterDebitCardInfo extends StatelessWidget {
                         log("message");
                       },
                 expand: true,
-                color: Colors.white,
+                color: Color.fromARGB(255, 218, 218, 218),
                 bgColor: (_notNullOrEmpty(ppm.cvv, 3) &&
                         _notNullOrEmpty(ppm.cardNumber, 16) &&
                         _notNullOrEmpty(ppm.expiryMonth, 2) &&
                         _notNullOrEmpty(ppm.expiryYear, 2))
                     ? Colors.black
-                    : Colors.grey),
+                    : Color.fromARGB(255, 107, 107, 107)),
             const YSpace(8),
             Center(
               child: TextButton(
                 child: const CustomText("Display Test Cards",
-                    size: 12, weight: FontWeight.bold),
+                    size: 12, weight: FontWeight.w500),
                 onPressed: () => dcn.changeView(CurrentCardView.testCards),
               ),
             ),
