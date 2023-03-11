@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:seerbit_flutter_native/src/core/network/request_handler.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
+import 'package:seerbit_flutter_native/src/models/momo_network_model.dart';
 import 'package:seerbit_flutter_native/src/models/payment_status_model.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/custom_over_lay.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_response_model.dart';
@@ -32,6 +33,9 @@ class ViewsNotifier extends ChangeNotifier {
 
   BanksModel? _banksModel;
   BanksModel? get banksModel => _banksModel;
+
+  List<MomoNetworkModel>? _momoNetworks;
+  List<MomoNetworkModel>? get momoNetworks => _momoNetworks;
 
   PaymentPayloadModel _paymentPayload = PaymentPayloadModel.empty();
   PaymentPayloadModel? get paymentPayload => _paymentPayload;
@@ -144,6 +148,12 @@ class ViewsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Set the fetched Momo networks to the viewnotifier
+  setMomoNetworks(List<MomoNetworkModel> mnm) {
+    _momoNetworks = mnm;
+    notifyListeners();
+  }
+
   ///Set the public key of the merchant initiating the transaction
   setPublicKey(String publicKey) {
     _publicKey = publicKey;
@@ -177,6 +187,7 @@ class ViewsNotifier extends ChangeNotifier {
   ///the merchant processing payments
   Future getMerchantDetails() async {
     await RequestHandler(
+        removeFocus: false,
         request: () =>
             paymentService.getMerchantInformation(publicKey: _publicKey!),
         onSuccess: (_) => setMerchantDetail(
@@ -250,6 +261,21 @@ class ViewsNotifier extends ChangeNotifier {
       request: () => paymentService.getBanks(),
       onSuccess: (_) =>
           setBanks(BanksModel.fromJson(_.data as Map<String, dynamic>)),
+      onError: (_) => log("message $_."),
+      onNetworkError: (_) => log("message $_."),
+    ).sendRequest();
+  }
+
+  ///Get the list of banks available for checkout
+  Future getMomoNetworks() async {
+    RequestHandler(
+      removeFocus: false,
+      request: () => paymentService.getMomoNetworks(),
+      onSuccess: (_) => {
+        // log(_.data.toString()),
+        setMomoNetworks(
+            [...(_.data as List).map((e) => MomoNetworkModel.fromJson(e))])
+      }, // setBanks(BanksModel.fromJson(_.data as Map<String, dynamic>)),
       onError: (_) => log("message $_."),
       onNetworkError: (_) => log("message $_."),
     ).sendRequest();

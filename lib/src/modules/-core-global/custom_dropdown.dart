@@ -26,7 +26,7 @@ class CustomDropDown extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 43,
+          // height: 43,
           width: double.infinity,
           decoration: BoxDecoration(
               border: Border.all(color: const Color(0xFFCCCCCC)),

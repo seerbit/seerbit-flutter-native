@@ -21,8 +21,6 @@ class BankAccountNotifier extends ChangeNotifier {
     MerchantBank mb = vn.banksModel!.data.merchantBanks
         .firstWhere((element) => element.bankName == ppm.channelType);
 
-    print(mb.toJson().toString());
-
     if (mb.requiredFields.dateOfBirth == "YES" && ppm.dateOfBirth == null) {
       changeView(CurrentCardView.birthday);
     } else if (mb.requiredFields.bvn == "YES" && ppm.bvn == null) {
@@ -31,7 +29,6 @@ class BankAccountNotifier extends ChangeNotifier {
       changeView(CurrentCardView.progress);
 
       await vn.initiatePayment();
-      print("message ${vn.errorMessage}}");
 
       if (vn.errorMessage == null) {
         BankAccountResponseModel barm =

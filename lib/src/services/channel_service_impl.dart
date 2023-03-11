@@ -57,4 +57,11 @@ class PaymentServiceImpl implements PaymentService {
     });
     return ResponseModel.fromResponse(response);
   }
+
+  @override
+  Future<ResponseModel> getMomoNetworks() async {
+    Response response = await network.get("tranmgt/networks/GH/00000103");
+
+    return ResponseModel.fromResponse(response);
+  }
 }

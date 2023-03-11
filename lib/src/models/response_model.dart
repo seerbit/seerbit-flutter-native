@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class ResponseModel {
-  final Map data;
+  final dynamic data;
   final int status;
 
   ResponseModel({required this.data, required this.status});
@@ -18,4 +18,3 @@ class ResponseModel {
     return data.toString();
   }
 }
-

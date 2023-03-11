@@ -30,7 +30,13 @@ class BankAccountPIN extends StatelessWidget {
             label: "",
             hint: "Enter OTP",
           ),
-          CustomFlatButton(onTap: () {})
+          const YSpace(24),
+          CustomFlatButton(
+            onTap: () {},
+            color: Colors.white,
+            bgColor: Colors.black,
+            label: "Authorize Payment",
+          )
         ],
       );
     });
