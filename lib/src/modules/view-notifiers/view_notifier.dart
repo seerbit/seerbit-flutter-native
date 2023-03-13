@@ -4,11 +4,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:seerbit_flutter_native/src/core/network/request_handler.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
+import 'package:seerbit_flutter_native/src/models/momo_network_model.dart';
 import 'package:seerbit_flutter_native/src/models/payment_status_model.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/custom_over_lay.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_response_model.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/controllers/bank_transfer_response_model.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
+import 'package:seerbit_flutter_native/src/modules/momo/controllers/momo_response_model.dart';
 import 'package:seerbit_flutter_native/src/modules/payment_success.dart';
 import 'package:seerbit_flutter_native/src/modules/ussd/controllers/ussd_response_model.dart';
 import 'package:seerbit_flutter_native/src/services/channel_service.dart';
@@ -21,7 +23,7 @@ class ViewsNotifier extends ChangeNotifier {
 
   final PaymentService paymentService;
 
-  PaymentChannel _paymentChannel = PaymentChannel.debitCard;
+  PaymentChannel _paymentChannel = PaymentChannel.momo;
   PaymentChannel get paymentChannel => _paymentChannel;
 
   PaymentResponseModel? _paymentResponse;
@@ -32,6 +34,9 @@ class ViewsNotifier extends ChangeNotifier {
 
   BanksModel? _banksModel;
   BanksModel? get banksModel => _banksModel;
+
+  List<MomoNetworkModel>? _momoNetworks;
+  List<MomoNetworkModel>? get momoNetworks => _momoNetworks;
 
   PaymentPayloadModel _paymentPayload = PaymentPayloadModel.empty();
   PaymentPayloadModel? get paymentPayload => _paymentPayload;
@@ -144,6 +149,12 @@ class ViewsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Set the fetched Momo networks to the viewnotifier
+  setMomoNetworks(List<MomoNetworkModel> mnm) {
+    _momoNetworks = mnm;
+    notifyListeners();
+  }
+
   ///Set the public key of the merchant initiating the transaction
   setPublicKey(String publicKey) {
     _publicKey = publicKey;
@@ -168,6 +179,8 @@ class ViewsNotifier extends ChangeNotifier {
         return DebitCardResponseModel.fromJson(data as Map<String, dynamic>);
       case PaymentChannel.bankAccount:
         return BankAccountResponseModel.fromJson(data as Map<String, dynamic>);
+      case PaymentChannel.momo:
+        return MomoResponseModel.fromJson(data as Map<String, dynamic>);
       default:
         return UssdResponseModel.fromJson(data as Map<String, dynamic>);
     }
@@ -177,6 +190,7 @@ class ViewsNotifier extends ChangeNotifier {
   ///the merchant processing payments
   Future getMerchantDetails() async {
     await RequestHandler(
+        removeFocus: false,
         request: () =>
             paymentService.getMerchantInformation(publicKey: _publicKey!),
         onSuccess: (_) => setMerchantDetail(
@@ -193,12 +207,15 @@ class ViewsNotifier extends ChangeNotifier {
       request: () =>
           paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),
       onSuccess: (_) => {
-        if (!["S20", "00"].contains(_.data['data']['code']))
+        if (!["S20", "00", "INP"].contains(_.data['data']['code']))
           setErrorMessage(_.data['data']['message']),
         _setPaymentResponse(mapPaymentResponse(_.data)),
         setMessage(_.data['data']['message']),
       },
-      onError: (_) => {log("onError $_."), setErrorMessage(_.data['message'])},
+      onError: (_) => {
+        log("onError $_."),
+        setErrorMessage(_.data['message']),
+      },
       onNetworkError: (_) => log("onNetworkError $_"),
     ).sendRequest();
   }
@@ -253,12 +270,39 @@ class ViewsNotifier extends ChangeNotifier {
   }
 
   ///Get the list of banks available for checkout
+  Future getMomoNetworks() async {
+    RequestHandler(
+      removeFocus: false,
+      request: () => paymentService.getMomoNetworks(),
+      onSuccess: (_) => {
+        // log(_.data.toString()),
+        setMomoNetworks(
+            [...(_.data as List).map((e) => MomoNetworkModel.fromJson(e))])
+      }, // setBanks(BanksModel.fromJson(_.data as Map<String, dynamic>)),
+      onError: (_) => log("message $_."),
+      onNetworkError: (_) => log("message $_."),
+    ).sendRequest();
+  }
+
   Future<String> otpAuthorize(
       {required String linkingRef, required String otp}) async {
     String status = "S20";
     await RequestHandler(
       request: () =>
           paymentService.otpAuthorize(otp: otp, linkingRef: linkingRef),
+      onSuccess: (_) => {status = _.data['data']['code']},
+      onError: (_) => log("message err$_."),
+      onNetworkError: (_) => log("message err $_."),
+    ).sendRequest();
+    return status;
+  }
+
+  Future<String> otpMomoAuthorize(
+      {required String linkingRef, required String otp}) async {
+    String status = "S20";
+    await RequestHandler(
+      request: () =>
+          paymentService.otpMomoAuthorize(otp: otp, linkingRef: linkingRef),
       onSuccess: (_) => {status = _.data['data']['code']},
       onError: (_) => log("message err$_."),
       onNetworkError: (_) => log("message err $_."),
@@ -317,5 +361,6 @@ enum PaymentChannel {
   ussd,
   transfer,
   changePaymentMethod,
-  success
+  success,
+  momo
 }

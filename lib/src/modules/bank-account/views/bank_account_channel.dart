@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_notifier.dart';
-import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/bank_account_pin.dart';
+import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/bank_account_otp.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/bank_account_progress.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/bank_account_redirect.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/bank_account_select.dart';
@@ -10,7 +10,6 @@ import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/enter_ba
 import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/enter_birthday.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/widgets/enter_bvn.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/generic_error.dart';
-import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/widgets.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 
 class BankAccountChannel extends StatelessWidget {
@@ -23,14 +22,15 @@ class BankAccountChannel extends StatelessWidget {
     BankAccountNotifier bn = Provider.of<BankAccountNotifier>(context);
     return FadeInUp(
       key: Key(bn.currentCardView.toString()),
+      duration: const Duration(milliseconds: 280),
       child: Builder(builder: (context) {
         switch (bn.currentCardView) {
           case CurrentCardView.select:
             return const SelectBankAccount();
           case CurrentCardView.info:
             return const EnterBankAccount();
-          case CurrentCardView.otp:
-            return AuthorizeOTP();
+          case CurrentCardView.pin:
+            return BankAccountOTP();
           case CurrentCardView.bvn:
             return const EnterBVN();
           case CurrentCardView.birthday:
@@ -41,8 +41,6 @@ class BankAccountChannel extends StatelessWidget {
             return const GenericError();
           case CurrentCardView.progress:
             return const BankAccountProgress();
-          case CurrentCardView.pin:
-            return const BankAccountPIN();
           default:
             return Container();
         }

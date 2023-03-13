@@ -9,4 +9,8 @@ abstract class PaymentService {
   Future<ResponseModel> getBanks();
   Future<ResponseModel> otpAuthorize(
       {required String linkingRef, required String otp});
+  Future<ResponseModel> getMomoNetworks();
+
+  Future<ResponseModel> otpMomoAuthorize(
+      {required String linkingRef, required String otp});
 }

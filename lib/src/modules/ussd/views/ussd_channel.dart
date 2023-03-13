@@ -20,6 +20,7 @@ class UssdChannel extends StatelessWidget {
     UssdNotifier un = Provider.of<UssdNotifier>(context);
     return FadeIn(
       key: Key(un.currentCardView.toString()),
+      duration: const Duration(milliseconds: 280),
       child: Builder(builder: (context) {
         switch (un.currentCardView) {
           case CurrentCardView.select:

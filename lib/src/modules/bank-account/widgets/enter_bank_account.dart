@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class EnterBankAccount extends StatefulWidget {
   const EnterBankAccount({
@@ -38,6 +38,7 @@ class _EnterBankAccountState extends State<EnterBankAccount> {
             label: "",
             hint: "10 Digits Bank Account Number",
             formatter: [LengthLimitingTextInputFormatter(10)],
+            inputType: TextInputType.number,
             onChanged: (_) {
               vn.setPaymentPayload(ppm.copyWith(accountNumber: _));
               if (_.length == 10) {
@@ -63,3 +64,5 @@ class _EnterBankAccountState extends State<EnterBankAccount> {
     });
   }
 }
+
+// 1429428273

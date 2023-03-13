@@ -12,6 +12,8 @@ class Helper {
         return PaymentChannel.transfer;
       case "USSD":
         return PaymentChannel.ussd;
+      case "MOMO":
+        return PaymentChannel.momo;
       default:
         return PaymentChannel.debitCard;
     }
@@ -28,6 +30,8 @@ class Helper {
         return "Transfer";
       case PaymentChannel.ussd:
         return "Ussd";
+      case PaymentChannel.momo:
+        return "MOMO";
       default:
         return "Card";
     }
