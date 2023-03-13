@@ -38,6 +38,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   SeerbitCheckout seerbitCheckout =
       SeerbitCheckout(publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

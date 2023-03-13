@@ -310,31 +310,40 @@ class ViewsNotifier extends ChangeNotifier {
     return status;
   }
 
-  String calculateFees() {
-    late double fee, optionFee, cappedAmount;
+  Future<String> calculateFees() async {
+    String fees = "0";
+    await RequestHandler(
+      request: () => paymentService.getPaymentFee(
+          type: "account", amount: "2000", key: _paymentPayload.publicKey!),
+      onSuccess: (_) => fees = _.data,
+      onError: (_) => log("message err$_."),
+      onNetworkError: (_) => log("message err $_."),
+    ).sendRequest();
+    return fees;
+    // late double fee, optionFee, cappedAmount;
 
-    DefaultPaymentOption feeModel =
-        merchantDetailModel!.payload.country.defaultPaymentOptions.first;
+    // DefaultPaymentOption feeModel =
+    //     merchantDetailModel!.payload.country.defaultPaymentOptions.first;
 
-    String feeMode = feeModel.paymentOptionFeeMode!;
+    // String feeMode = feeModel.paymentOptionFeeMode!;
 
-    if (_checkIfInternational()) {
-      optionFee = feeModel.internationalPaymentOptionFee!;
-      cappedAmount = double.parse(merchantDetailModel!
-          .payload.transactionFee.transactionCapStatus.cappedAmount!);
-    } else {
-      optionFee = double.parse(feeModel.paymentOptionFee!);
-      cappedAmount = double.parse(merchantDetailModel!
-          .payload.transactionFee.transactionCapStatus.cappedAmount!);
-    }
+    // if (_checkIfInternational()) {
+    //   optionFee = feeModel.internationalPaymentOptionFee!;
+    //   cappedAmount = double.parse(merchantDetailModel!
+    //       .payload.transactionFee.transactionCapStatus.cappedAmount!);
+    // } else {
+    //   optionFee = double.parse(feeModel.paymentOptionFee!);
+    //   cappedAmount = double.parse(merchantDetailModel!
+    //       .payload.transactionFee.transactionCapStatus.cappedAmount!);
+    // }
 
-    if (feeMode == "PERCENTAGE") {
-      fee = double.parse(paymentPayload!.amount!) * (optionFee / 100);
-    } else {
-      fee = optionFee;
-    }
+    // if (feeMode == "PERCENTAGE") {
+    //   fee = double.parse(paymentPayload!.amount!) * (optionFee / 100);
+    // } else {
+    //   fee = optionFee;
+    // }
 
-    return _capAmount(fee, cappedAmount).toString();
+    // return _capAmount(fee, cappedAmount).toString();
   }
 
   double _capAmount(double fee, double cappedAmount) {
@@ -349,8 +358,11 @@ class ViewsNotifier extends ChangeNotifier {
   }
 
   String amountToPay() {
-    return (double.parse(calculateFees()) +
-            double.parse(paymentPayload!.amount!))
+    String fees = "0";
+    calculateFees().then((_) {
+      fees = _;
+    });
+    return (double.parse(fees) + double.parse(paymentPayload!.amount!))
         .toString();
   }
 }

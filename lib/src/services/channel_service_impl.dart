@@ -77,4 +77,20 @@ class PaymentServiceImpl implements PaymentService {
 
     return ResponseModel.fromResponse(response);
   }
+
+  @override
+  Future<ResponseModel> getPaymentFee(
+      {required String type,
+      required String amount,
+      required String key}) async {
+    Response response = await network.post(
+        "https://gex2635n2p5f6zvjckeqygbcha0cmlnp.lambda-url.eu-west-2.on.aws",
+        body: {
+          "key": "SBPUBK_0HSRUO39Y4WZABLHEFMHTTLKYYJ52MTS",
+          "type": "account",
+          "amount": "1022200"
+        });
+
+    return ResponseModel.fromResponse(response);
+  }
 }
