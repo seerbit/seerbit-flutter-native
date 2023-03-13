@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/momo/controllers/momo_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/momo/controllers/momo_response_model.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
@@ -124,27 +125,29 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
                 onTap: _notNullOrEmpty(ppm.network, 1) &&
                         _notNullOrEmpty(ppm.mobileNumber, 10)
                     ? () async {
-                        mn.changeView(CurrentCardView.pin);
-                        // vn.setPaymentPayload(ppm.copyWith(
-                        //     paymentReference:
-                        //         'SBT-T54267${math.Random().nextInt(29091020)}101122472'));
-                        // mn.setLoading(true);
-                        // await vn.initiatePayment();
-                        // mn.setLoading(false);
-                        // if (vn.errorMessage == null) {
-                        //   if ((vn.paymentResponse as DebitCardResponseModel)
-                        //           .data
-                        //           ?.payments
-                        //           ?.redirectUrl !=
-                        //       null) {
-                        //     mn.changeView(CurrentCardView.redirect);
-                        //   } else {
-                        //     mn.changeView(CurrentCardView.pin);
-                        //   }
-                        // }
+                        // mn.changeView(CurrentCardView.pin);
+                        vn.setPaymentPayload(ppm.copyWith(
+                            country: "GH",
+                            paymentType: "MOMO",
+                            channelType: "wallet",
+                            paymentReference:
+                                'SBT-T54267${Random().nextInt(29091020)}101122472'));
+                        mn.setLoading(true);
+                        await vn.initiatePayment();
+                        mn.setLoading(false);
+                        if (vn.errorMessage == null) {
+                          if ((vn.paymentResponse as MomoResponseModel)
+                                  .data
+                                  ?.code ==
+                              "INP") {
+                            mn.changeView(CurrentCardView.otp);
+                          } else {
+                            mn.changeView(CurrentCardView.loading);
+                          }
+                        }
                       }
                     : () async {
-                        log("message");
+                        // log("message");
                       },
                 expand: true,
                 color: const Color.fromARGB(255, 218, 218, 218),

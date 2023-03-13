@@ -57,9 +57,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   onSuccess: () => print("Success"),
                   onFailure: () => print("Failure"),
                   payload: PaymentPayloadModel(
-                      firstName: "Obinna",
-                      lastName: "Onuoha",
-                      fullName: "Obinna Onuoha",
+                      firstName: "Falola",
+                      lastName: "Adedayo",
+                      fullName: "Falola Adedayo",
                       mobileNumber: "08140276106",
                       email: "onuohasilver9@gmail.com",
                       redirectUrl: "https://google.com",

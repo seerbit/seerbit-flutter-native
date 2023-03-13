@@ -59,6 +59,19 @@ class PaymentServiceImpl implements PaymentService {
   }
 
   @override
+  Future<ResponseModel> otpMomoAuthorize(
+      {required String linkingRef, required String otp}) async {
+    Response response =
+        await network.post("https://seerbitapi.com/checkout/momo/otp", body: {
+      "transaction": {
+        "linkingreference": linkingRef,
+        "otp": otp,
+      }
+    });
+    return ResponseModel.fromResponse(response);
+  }
+
+  @override
   Future<ResponseModel> getMomoNetworks() async {
     Response response = await network.get("tranmgt/networks/GH/00000103");
 

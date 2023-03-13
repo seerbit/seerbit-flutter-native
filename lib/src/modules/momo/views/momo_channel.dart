@@ -1,9 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/generic_error.dart';
 import 'package:seerbit_flutter_native/src/modules/momo/controllers/momo_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/momo/widgets/momo_confirmation.dart';
 import 'package:seerbit_flutter_native/src/modules/momo/widgets/momo_enter_phone.dart';
+import 'package:seerbit_flutter_native/src/modules/momo/widgets/momo_progress.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 
 class MomoChannel extends StatelessWidget {
@@ -20,8 +22,12 @@ class MomoChannel extends StatelessWidget {
           switch (mn.currentCardView) {
             case CurrentCardView.info:
               return const MomoEnterPhone();
-            case CurrentCardView.pin:
-              return const MomoAuthorize();
+            case CurrentCardView.otp:
+              return MomoAuthorize();
+            case CurrentCardView.progress:
+              return const MomoProgress();
+            case CurrentCardView.paymentError:
+              return const GenericError();
             default:
               return Container();
           }

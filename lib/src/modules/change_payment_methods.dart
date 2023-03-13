@@ -118,7 +118,7 @@ class ChangePaymentMethodsView extends StatelessWidget {
             child: Column(
               children: [
                 CustomFlatButton(
-                    label: "Momo",
+                    prefix: const CustomText("Momo", size: 14),
                     alignment: MainAxisAlignment.spaceBetween,
                     onTap: () => {
                           mn.changeView(CurrentCardView.info),

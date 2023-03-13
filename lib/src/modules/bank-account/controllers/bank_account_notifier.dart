@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:seerbit_flutter_native/src/models/bank_models.dart';
 import 'package:seerbit_flutter_native/src/models/payment_payload_model.dart';
@@ -10,10 +12,18 @@ class BankAccountNotifier extends ChangeNotifier {
 
   CurrentCardView _currentCardView = CurrentCardView.select;
   CurrentCardView get currentCardView => _currentCardView;
+  bool _loading = false;
+  bool get loading => _loading;
 
   changeView(CurrentCardView ccv) {
     _currentCardView = ccv;
+    log(ccv.toString());
 
+    notifyListeners();
+  }
+
+  setLoading(bool value) {
+    _loading = value;
     notifyListeners();
   }
 

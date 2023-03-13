@@ -2,20 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
+import 'package:seerbit_flutter_native/src/modules/momo/controllers/momo_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/momo/controllers/momo_response_model.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
 
 class MomoAuthorize extends StatelessWidget {
-  const MomoAuthorize({super.key});
+  MomoAuthorize({super.key});
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     // BankAccountNotifier bn = Provider.of<BankAccountNotifier>(context);
 
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
+    MomoNotifier mn = Provider.of<MomoNotifier>(context);
     return Builder(builder: (context) {
       PaymentPayloadModel ppm = vn.paymentPayload!;
       MerchantDetailModel mdm = vn.merchantDetailModel!;
+      MomoResponseModel mrm = vn.paymentResponse as MomoResponseModel;
       return Column(
         children: [
           AmountToPay(fee: mdm.payload.cardFee.mc!),
@@ -26,13 +32,25 @@ class MomoAuthorize extends StatelessWidget {
               height: 1.5,
               size: 14),
           const YSpace(30),
-          const CustomTextField(
+          CustomTextField(
+            controller: controller,
             label: "",
             hint: "Enter OTP",
           ),
           const YSpace(24),
           CustomFlatButton(
-            onTap: () {},
+            onTap: () {
+              mn.changeView(CurrentCardView.progress);
+              vn
+                  .otpAuthorize(
+                      linkingRef: mrm.data!.payments!.linkingReference!,
+                      otp: controller.text)
+                  .then((value) => {
+                        vn.confirmTransaction(context, onError: () {
+                          mn.changeView(CurrentCardView.paymentError);
+                        }),
+                      }); 
+            },
             color: Colors.white,
             bgColor: Colors.black,
             label: "Authorize Payment",
