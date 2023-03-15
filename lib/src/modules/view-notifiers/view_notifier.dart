@@ -50,6 +50,9 @@ class ViewsNotifier extends ChangeNotifier {
   String? _message;
   String? get message => _message;
 
+  double? _fees;
+  double? get fees => _fees;
+
   String? _publicKey;
   String? get publicKey => _publicKey;
 
@@ -117,8 +120,8 @@ class ViewsNotifier extends ChangeNotifier {
       ddeviceType: Platform.isAndroid ? "Android" : "iOS",
       // publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
       fee: calculateFees().toString(),
-      currency: merchantDetailModel!.payload.defaultCurrency,
-      country: merchantDetailModel!.payload.country.countryCode,
+      // currency: merchantDetailModel!.payload.defaultCurrency,
+      // country: merchantDetailModel!.payload.country.countryCode,
     );
   }
 
@@ -310,40 +313,62 @@ class ViewsNotifier extends ChangeNotifier {
     return status;
   }
 
-  Future<String> calculateFees() async {
-    String fees = "0";
+  feeCalculation() async {
+    String response = "0";
+
+    log("message");
     await RequestHandler(
       request: () => paymentService.getPaymentFee(
           type: "account", amount: "2000", key: _paymentPayload.publicKey!),
-      onSuccess: (_) => fees = _.data,
+      onSuccess: (_) {
+        try {
+          response = _.data['fee'];
+          _fees = double.parse(_.data);
+        } catch (e) {
+          log(e.toString());
+        }
+      },
       onError: (_) => log("message err$_."),
       onNetworkError: (_) => log("message err $_."),
     ).sendRequest();
-    return fees;
-    // late double fee, optionFee, cappedAmount;
+    notifyListeners();
+    log(response);
+  }
 
-    // DefaultPaymentOption feeModel =
-    //     merchantDetailModel!.payload.country.defaultPaymentOptions.first;
+  calculateFees() {
+    String fees = "0";
+    // await RequestHandler(
+    //   request: () => paymentService.getPaymentFee(
+    //       type: "account", amount: "2000", key: _paymentPayload.publicKey!),
+    //   onSuccess: (_) => fees = _.data,
+    //   onError: (_) => log("message err$_."),
+    //   onNetworkError: (_) => log("message err $_."),
+    // ).sendRequest();
+    // return fees;
+    late double fee, optionFee, cappedAmount;
 
-    // String feeMode = feeModel.paymentOptionFeeMode!;
+    DefaultPaymentOption feeModel =
+        merchantDetailModel!.payload.country.defaultPaymentOptions.first;
 
-    // if (_checkIfInternational()) {
-    //   optionFee = feeModel.internationalPaymentOptionFee!;
-    //   cappedAmount = double.parse(merchantDetailModel!
-    //       .payload.transactionFee.transactionCapStatus.cappedAmount!);
-    // } else {
-    //   optionFee = double.parse(feeModel.paymentOptionFee!);
-    //   cappedAmount = double.parse(merchantDetailModel!
-    //       .payload.transactionFee.transactionCapStatus.cappedAmount!);
-    // }
+    String feeMode = feeModel.paymentOptionFeeMode!;
 
-    // if (feeMode == "PERCENTAGE") {
-    //   fee = double.parse(paymentPayload!.amount!) * (optionFee / 100);
-    // } else {
-    //   fee = optionFee;
-    // }
+    if (_checkIfInternational()) {
+      optionFee = feeModel.internationalPaymentOptionFee!;
+      cappedAmount = double.parse(merchantDetailModel!
+          .payload.transactionFee.transactionCapStatus.cappedAmount!);
+    } else {
+      optionFee = double.parse(feeModel.paymentOptionFee!);
+      cappedAmount = double.parse(merchantDetailModel!
+          .payload.transactionFee.transactionCapStatus.cappedAmount!);
+    }
 
-    // return _capAmount(fee, cappedAmount).toString();
+    if (feeMode == "PERCENTAGE") {
+      fee = double.parse(paymentPayload!.amount!) * (optionFee / 100);
+    } else {
+      fee = optionFee;
+    }
+
+    return _capAmount(fee, cappedAmount).toString();
   }
 
   double _capAmount(double fee, double cappedAmount) {

@@ -38,17 +38,18 @@ class CustomDropDown extends StatelessWidget {
                   return null;
                 },
                 decoration: const InputDecoration(
-                    hintStyle: TextStyle(),
-                    labelStyle: TextStyle(),
-                    // label: CustomText(label, size: 12),
-                    enabledBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    border: InputBorder.none,
-                    focusColor: Colors.grey
+                  hintStyle: TextStyle(),
+                  labelStyle: TextStyle(),
+                  // label: CustomText(label, size: 12),
+                  enabledBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  border: InputBorder.none,
 
-                    // enabledBorder: UnderlineInputBorder(
-                    //     borderSide: BorderSide(color: Colors.transparent)),
-                    ),
+                  focusColor: Color(0xFFCCCCCC),
+
+                  // enabledBorder: UnderlineInputBorder(
+                  //     borderSide: BorderSide(color: Colors.transparent)),
+                ),
                 value: value,
                 style: const TextStyle(color: Colors.black, fontSize: 11),
                 hint: Padding(

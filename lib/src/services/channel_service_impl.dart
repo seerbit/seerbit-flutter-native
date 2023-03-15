@@ -61,13 +61,15 @@ class PaymentServiceImpl implements PaymentService {
   @override
   Future<ResponseModel> otpMomoAuthorize(
       {required String linkingRef, required String otp}) async {
-    Response response =
-        await network.post("https://seerbitapi.com/checkout/momo/otp", body: {
-      "transaction": {
-        "linkingreference": linkingRef,
-        "otp": otp,
-      }
-    });
+    Response response = await network.post(
+        "https://seerbitapi.com/checkout/momo/otp",
+        useBaseUrl: false,
+        body: {
+          "transaction": {
+            "linkingreference": linkingRef,
+            "otp": otp,
+          }
+        });
     return ResponseModel.fromResponse(response);
   }
 
@@ -84,12 +86,9 @@ class PaymentServiceImpl implements PaymentService {
       required String amount,
       required String key}) async {
     Response response = await network.post(
-        "https://gex2635n2p5f6zvjckeqygbcha0cmlnp.lambda-url.eu-west-2.on.aws",
-        body: {
-          "key": "SBPUBK_0HSRUO39Y4WZABLHEFMHTTLKYYJ52MTS",
-          "type": "account",
-          "amount": "1022200"
-        });
+        "https://checkout.service.seerbitapi.com",
+        useBaseUrl: false,
+        body: {"key": key, "type": type, "amount": amount});
 
     return ResponseModel.fromResponse(response);
   }

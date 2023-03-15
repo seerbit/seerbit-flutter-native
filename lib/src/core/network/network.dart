@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:seerbit_flutter_native/src/core/network/api.dart';
 import 'package:seerbit_flutter_native/src/models/custom_response_model.dart';
-import 'package:http/http.dart' as http;
 
 class Network {
   final http.Client? _client;
@@ -14,14 +14,17 @@ class Network {
   const Network([this._client]);
 
   Future<http.Response> post(String url,
-      {String? token, Map? body, Map<String, String>? headers}) async {
+      {String? token,
+      Map? body,
+      Map<String, String>? headers,
+      bool useBaseUrl = true}) async {
     http.Client client = _client ?? http.Client();
 
     try {
       log(body.toString());
       log(headers.toString());
       http.Response response = await client
-          .post(Uri.parse(baseApi.host + url),
+          .post(Uri.parse(useBaseUrl ? baseApi.host + url : url),
               headers: headers ?? _generateHeaders(token),
               body: jsonEncode(body))
           .timeout(const Duration(seconds: 35),

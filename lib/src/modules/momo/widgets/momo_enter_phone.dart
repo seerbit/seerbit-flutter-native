@@ -92,8 +92,12 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
               hint: "0 500 000",
               inputType: TextInputType.number,
               onChanged: (_) {
-                vn.setPaymentPayload(ppm.copyWith(
-                    cardNumber: _.replaceAll(RegExp("[^0-9]+"), "")));
+                vn.setPaymentPayload(
+                  ppm.copyWith(
+                      mobileNumber: _.replaceAll(RegExp("[^0-9]+"), ""),
+                      country: "GH",
+                      currency: "GHS"),
+                );
               },
               formatter: [
                 PhoneInputFormatter(),

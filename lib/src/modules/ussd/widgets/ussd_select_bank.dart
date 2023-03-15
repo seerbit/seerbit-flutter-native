@@ -44,9 +44,8 @@ class UssdSelectBank extends StatelessWidget {
                           paymentType: "USSD",
                           paymentReference:
                               "ST-1232231${math.Random().nextInt(200000000)}",
-                          bankCode: vn.banksModel?.data.merchantBanks
-                              .firstWhere((e) => e.bankName != _)
-                              .bankCode));
+                          bankCode: banks.firstWhere(
+                              (e) => e["bankName"] == _)["bankCode"]));
                       un.changeView(CurrentCardView.progress);
 
                       await vn.initiatePayment();
@@ -56,14 +55,54 @@ class UssdSelectBank extends StatelessWidget {
                         un.changeView(CurrentCardView.initializeError);
                       }
                     },
-                    items: [
-                      ...?vn.banksModel?.data.merchantBanks
-                          .map((e) => e.bankName!)
-                          .toList()
-                    ]);
+                    items: [...banks.map((e) => e["bankName"]!).toList()]);
               }),
         ],
       );
     });
   }
 }
+
+List banks = [
+  {"bankCode": '044', "bankName": 'ACCESS BANK PLC', "abb": "ACCESS BANK's"},
+  {"bankCode": '063', "bankName": 'ACCESS DIAMOND', "abb": "ACCESS DIAMOND's"},
+  {"bankCode": '050', "bankName": 'ECOBANK NIGERIA PLC', "abb": "ECOBANK's"},
+  {
+    "bankCode": '070',
+    "bankName": 'FIDELITY BANK PLC',
+    "abb": "FIDELITY BANK's"
+  },
+  {
+    "bankCode": '011',
+    "bankName": 'FIRST BANK OF NIGERIA PLC',
+    "abb": "FIRST BANK's"
+  },
+  {
+    "bankCode": '214',
+    "bankName": 'FIRST CITY MONUMENT BANK PLC',
+    "abb": "FCMB's"
+  },
+  {"bankCode": '058', "bankName": 'Guarantee Trust Bank', "abb": "GTBank's"},
+  {"bankCode": '030', "bankName": 'HERITAGE BANK', "abb": "HERITAGE BANK's"},
+  {
+    "bankCode": '090175',
+    "bankName": 'HIGHSTREET MICROFINANCE BANK',
+    "abb": "HIGHSTREET's"
+  },
+  {"bankCode": '082', "bankName": 'KEYSTONE BANK', "abb": "KEYSTONE BANK's"},
+  {
+    "bankCode": '221',
+    "bankName": 'STANBIC IBTC BANK PLC',
+    "abb": "STANBIC IBTC's"
+  },
+  {
+    "bankCode": '032',
+    "bankName": 'UNION BANK OF NIGERIA PLC',
+    "abb": "UNION BANK's"
+  },
+  {"bankCode": '215', "bankName": 'UNITY BANK PLC', "abb": "UNITY BANK's"},
+  {"bankCode": '090110', "bankName": 'VFD MICROFINANCE BANK', "abb": "VFD's"},
+  {"bankCode": '035', "bankName": 'WEMA BANK PLC', "abb": "WEMA BANK's"},
+  {"bankCode": '057', "bankName": 'Zenith Bank', "abb": "Zenith Bank's"},
+  {"bankCode": '322', "bankName": 'Zenith Mobile', "abb": "Zenith Mobile's"}
+];

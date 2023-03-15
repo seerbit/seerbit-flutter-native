@@ -42,14 +42,14 @@ class MomoAuthorize extends StatelessWidget {
             onTap: () {
               mn.changeView(CurrentCardView.progress);
               vn
-                  .otpAuthorize(
+                  .otpMomoAuthorize(
                       linkingRef: mrm.data!.payments!.linkingReference!,
                       otp: controller.text)
                   .then((value) => {
                         vn.confirmTransaction(context, onError: () {
                           mn.changeView(CurrentCardView.paymentError);
                         }),
-                      }); 
+                      });
             },
             color: Colors.white,
             bgColor: Colors.black,

@@ -28,6 +28,8 @@ class MomoChannel extends StatelessWidget {
               return const MomoProgress();
             case CurrentCardView.paymentError:
               return const GenericError();
+            case CurrentCardView.error:
+              return const GenericError();
             default:
               return Container();
           }

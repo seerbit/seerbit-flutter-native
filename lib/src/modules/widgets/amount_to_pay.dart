@@ -23,14 +23,15 @@ class AmountToPay extends StatelessWidget {
               CustomText("NGN ${ppm.amount}",
                   weight: FontWeight.bold, size: 24),
               const YSpace(8),
-              FutureBuilder(
-                  future: vn.calculateFees(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) const SizedBox();
-                    return CustomText(
-                        "Fee: NGN${vn.calculateFees().toString()}",
-                        size: 14);
-                  }),
+              CustomText("Fee: NGN${vn.calculateFees().toString()}", size: 14)
+              // FutureBuilder(
+              //     future: vn.calculateFees(),
+              //     builder: (context, snapshot) {
+              //       if (!snapshot.hasData) const SizedBox();
+              //       return CustomText(
+              //           "Fee: NGN${vn.calculateFees().toString()}",
+              //           size: 14);
+              //     }),
             ],
           ),
         ],
