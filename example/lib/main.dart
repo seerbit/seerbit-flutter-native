@@ -72,7 +72,32 @@ class _MyHomePageState extends State<MyHomePage> {
                       amount: "20"),
                 );
               },
-              child: const Text("Start"),
+              child: const Text("Pay without form"),
+            ),
+            TextButton(
+              onPressed: () {
+                seerbitCheckout.createCheckout(
+                  context,
+                  showForm: true,
+                  onClose: () => print("Closed"),
+                  onSuccess: () => print("Success"),
+                  onFailure: () => print("Failure"),
+                  payload: PaymentPayloadModel(
+                      firstName: "Falola",
+                      lastName: "Adedayo",
+                      fullName: "Falola Adedayo",
+                      mobileNumber: "08140276106",
+                      email: "onuohasilver9@gmail.com",
+                      redirectUrl: "https://google.com",
+                      sourceIp: "0.0.0.1",
+                      productId: "",
+                      currency: "NGN",
+                      country: "NG",
+                      fee: "1.5",
+                      amount: "20"),
+                );
+              },
+              child: const Text("Pay with form"),
             )
           ],
         ),

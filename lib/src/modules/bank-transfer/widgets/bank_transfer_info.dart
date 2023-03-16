@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
@@ -65,11 +66,17 @@ class BankTransferInfo extends StatelessWidget {
                 DetailPair(
                   leading: 'Account Number',
                   trailing: "${prm.data!.payments!.accountNumber!} ",
-                  actionWidget: const Padding(
-                    padding: EdgeInsets.only(
+                  actionWidget: Padding(
+                    padding: const EdgeInsets.only(
                       right: 8.0,
                     ),
-                    child: Icon(Icons.copy, size: 15),
+                    child: GestureDetector(
+                      child: const Icon(Icons.copy, size: 15),
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(
+                            text: prm.data!.payments!.accountNumber!));
+                      },
+                    ),
                   ),
                 ),
                 const YSpace(24),

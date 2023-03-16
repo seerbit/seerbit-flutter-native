@@ -24,7 +24,7 @@ class ViewsNotifier extends ChangeNotifier {
 
   final PaymentService paymentService;
 
-  PaymentChannel _paymentChannel = PaymentChannel.momo;
+  PaymentChannel _paymentChannel = PaymentChannel.debitCard;
   PaymentChannel get paymentChannel => _paymentChannel;
 
   PaymentResponseModel? _paymentResponse;
@@ -238,13 +238,13 @@ class ViewsNotifier extends ChangeNotifier {
       if (paymentStatus != null) {
         String code = paymentStatus!.data.code!;
         setErrorMessage(paymentStatus!.data.message);
-        showSuccess(context, code, onError: onError,overlay: overlay);
+        showSuccess(context, code, onError: onError, overlay: overlay);
       }
     });
   }
 
   showSuccess(BuildContext context, String code,
-      {Function? onError, bool overlay = false,int popCount=1}) {
+      {Function? onError, bool overlay = false, int popCount = 1}) {
     switch (code) {
       case "S20":
         log("Querying transaction status..");

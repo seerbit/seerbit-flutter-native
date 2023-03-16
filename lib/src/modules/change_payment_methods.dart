@@ -115,7 +115,7 @@ class ChangePaymentMethodsView extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: vn.isChannelActive(PaymentChannel.debitCard),
+            visible: vn.isChannelActive(PaymentChannel.momo),
             child: Column(
               children: [
                 CustomFlatButton(
