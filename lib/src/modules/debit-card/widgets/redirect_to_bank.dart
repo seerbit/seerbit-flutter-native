@@ -46,9 +46,14 @@ class _RedirectToBankState extends State<RedirectToBank> {
       NavigationDelegate(
         onProgress: (_) {
           setState(() => isLoading = true);
+          if (_ > 90) {
+            setState(() {
+              isLoading = false;
+            });
+          }
         },
         onPageStarted: (_) {
-          setState(() => isLoading = false);
+          setState(() => isLoading = true);
         },
         onPageFinished: (_) {
           setState(() => isLoading = false);
@@ -61,7 +66,13 @@ class _RedirectToBankState extends State<RedirectToBank> {
               await Future.delayed(
                   const Duration(seconds: 3), () => Navigator.pop(context));
               CustomOverlays().showPopup(
-                  PaymentSuccess(amount: vn.paymentPayload!.amount!),
+                  PaymentSuccess(
+                    amount: vn.paymentPayload!.amount!,
+                    email: vn.paymentPayload!.email!,
+                    name:
+                        "${vn.paymentPayload!.firstName} ${vn.paymentPayload!.lastName}",
+                    logo: vn.merchantDetailModel!.payload.logo!,
+                  ),
                   context: context);
               setState(() => isSuccessful = true);
 

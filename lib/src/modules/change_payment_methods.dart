@@ -43,9 +43,9 @@ class ChangePaymentMethodsView extends StatelessWidget {
                     prefix: const CustomText("Transfer", size: 14),
                     alignment: MainAxisAlignment.start,
                     onTap: () async => {
-                          // bn.changeView(CurrentCardView.loading),
-                          // vn.changePaymentChannel(PaymentChannel.transfer),
-                          vn.feeCalculation()
+                          bn.changeView(CurrentCardView.loading),
+                          vn.changePaymentChannel(PaymentChannel.transfer),
+                          // vn.feeCalculation()
                         },
                     expand: true,
                     color: Colors.black,

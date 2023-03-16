@@ -28,7 +28,14 @@ class ChannelSelection extends StatelessWidget {
       // height: 800.h,
       child: Builder(
         builder: (context) {
-          if (vn.paymentSuccess) return PaymentSuccess(amount: ppm.amount);
+          if (vn.paymentSuccess) {
+            return PaymentSuccess(
+              amount: ppm.amount,
+              logo: mdm.payload.logo!,
+              email: ppm.email!,
+              name: "${ppm.firstName} ${ppm.lastName}",
+            );
+          }
           return Container(
             margin: EdgeInsets.symmetric(horizontal: 20.w),
             height: 800.h,

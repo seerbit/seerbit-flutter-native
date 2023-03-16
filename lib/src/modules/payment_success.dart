@@ -1,31 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:seerbit_flutter_native/src/core/navigator.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 
 class PaymentSuccess extends StatelessWidget {
-  const PaymentSuccess({
-    Key? key,
-    this.amount,
-  }) : super(key: key);
+  const PaymentSuccess(
+      {Key? key,
+      this.amount,
+      required this.logo,
+      required this.email,
+      required this.name})
+      : super(key: key);
   final String? amount;
+  final String logo;
+  final String email;
+  final String name;
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity, 
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20.w),
+      width: double.infinity,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const YSpace(34),
-          LottieBuilder.network(
-              "https://assets8.lottiefiles.com/packages/lf20_vhhoyvvc.json"),
-          const YSpace(24),
-          CustomText(
-            "NGN $amount",
-            size: 24,
-            isMoney: true,
+          const YSpace(22),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(logo, height: 50.h, width: 50.h),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  CustomText(name, size: 12, weight: FontWeight.bold),
+                  const YSpace(6),
+                  CustomText(email, size: 12)
+                ],
+              )
+            ],
           ),
-          const YSpace(25),
-          const CustomText("Your transaction was successful", size: 20)
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LottieBuilder.network(
+                  "https://assets8.lottiefiles.com/packages/lf20_vhhoyvvc.json",
+                  height: 100,
+                ),
+                const YSpace(24),
+                CustomText("NGN $amount", size: 24, weight: FontWeight.bold),
+                const YSpace(25),
+                const CustomText("Your transaction was successful", size: 20),
+                const YSpace(25),
+              ],
+            ),
+          ),
+          CustomFlatButton(
+            onTap: () {
+              Navigate(context).pop(number: 2);
+            },
+            label: "Proceed",
+            bgColor: Colors.black,
+            color: Colors.white,
+          ),
+          const Spacer(),
+          const SecuredByMarker(),
+          const YSpace(48)
         ],
       ),
     );

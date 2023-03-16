@@ -115,13 +115,9 @@ class ViewsNotifier extends ChangeNotifier {
   PaymentPayloadModel _getUpdatedPayload() {
     // return ;
     return paymentPayload!.copyWith(
-      // paymentType: Helper().reverseMapChannel(_paymentChannel).toUpperCase(),
       channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
       ddeviceType: Platform.isAndroid ? "Android" : "iOS",
-      // publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1",
       fee: calculateFees().toString(),
-      // currency: merchantDetailModel!.payload.defaultCurrency,
-      // country: merchantDetailModel!.payload.country.countryCode,
     );
   }
 
@@ -253,7 +249,12 @@ class ViewsNotifier extends ChangeNotifier {
         break;
       case "00":
         CustomOverlays().showPopup(
-            PaymentSuccess(amount: paymentPayload!.amount!),
+            PaymentSuccess(
+              amount: paymentPayload!.amount!,
+              logo: merchantDetailModel!.payload.logo!,
+              name: "${paymentPayload!.firstName} ${paymentPayload!.lastName}",
+              email: paymentPayload!.email!,
+            ),
             context: context);
         break;
       default:

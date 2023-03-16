@@ -5,8 +5,8 @@ import 'package:seerbit_flutter_native/src/modules/bank-transfer/controllers/ban
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/widgets/bank_transfer_confirmation.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/widgets/bank_transfer_info.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-transfer/widgets/bank_transfer_loading.dart';
+import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/generic_error.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
-import 'package:seerbit_flutter_native/src/modules/widgets/error_card.dart';
 
 class BankTransferChannel extends StatelessWidget {
   const BankTransferChannel({
@@ -31,7 +31,7 @@ class BankTransferChannel extends StatelessWidget {
           case CurrentCardView.confirmPayment:
             return const BankTransferConfirmation();
           case CurrentCardView.error:
-            return const ErrorCard();
+            return const GenericError();
           default:
             return Container();
         }

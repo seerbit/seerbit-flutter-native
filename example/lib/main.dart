@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       sourceIp: "0.0.0.1",
                       productId: "",
                       currency: "NGN",
+                      country: "NG",
                       fee: "1.5",
                       amount: "20"),
                 );

@@ -51,8 +51,12 @@ class UssdInfo extends StatelessWidget {
           ),
           TextButton(
             child: const CustomText("Click to copy code", size: 14),
-            onPressed: () =>
-                Clipboard.setData(const ClipboardData(text: "email")).then((_) {
+            onPressed: () => Clipboard.setData(ClipboardData(
+                    text: (vn.paymentResponse as UssdResponseModel)
+                        .data
+                        .payments
+                        .ussdDailCode))
+                .then((_) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(const SnackBar(content: Text("USSD copied")));
             }),
