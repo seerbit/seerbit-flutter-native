@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +8,6 @@ import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dar
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_model.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_notifier.dart';
-import 'package:seerbit_flutter_native/src/modules/payment_success.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
@@ -45,12 +43,7 @@ class _RedirectToBankState extends State<RedirectToBank> {
     wvc.setNavigationDelegate(
       NavigationDelegate(
         onProgress: (_) {
-          setState(() => isLoading = true);
-          if (_ > 90) {
-            setState(() {
-              isLoading = false;
-            });
-          }
+          setState(() => isLoading = false);
         },
         onPageStarted: (_) {
           setState(() => isLoading = true);
@@ -59,24 +52,13 @@ class _RedirectToBankState extends State<RedirectToBank> {
           setState(() => isLoading = false);
         },
         onNavigationRequest: (_) async {
-          log(_.url);
           if (_.url.contains("callback")) {
             if (_.url.contains("Successful")) {
               vn.setSecondaryPaymentSuccess(true);
-              await Future.delayed(
-                  const Duration(seconds: 3), () => Navigator.pop(context));
-              CustomOverlays().showPopup(
-                  PaymentSuccess(
-                    amount: vn.paymentPayload!.amount!,
-                    email: vn.paymentPayload!.email!,
-                    name:
-                        "${vn.paymentPayload!.firstName} ${vn.paymentPayload!.lastName}",
-                    logo: vn.merchantDetailModel!.payload.logo!,
-                  ),
-                  context: context);
-              setState(() => isSuccessful = true);
-
               vn.onSuccess?.call();
+              setState(() => isSuccessful = true);
+              Navigate(context).pop();
+              vn.showSuccess(context, "00", overlay: true, popCount: 2);
 
               return NavigationDecision.prevent;
             } else {
@@ -88,10 +70,9 @@ class _RedirectToBankState extends State<RedirectToBank> {
                   .replaceAll("%20", " ")
                   .replaceAll("&reference", ""));
 
-              print("${dcn.currentCardView}");
               Navigate(context).pop();
               vn.onFailure?.call();
-              print("${vn.errorMessage}");
+
               dcn.changeView(CurrentCardView.paymentError);
               return NavigationDecision.prevent;
             }
@@ -129,10 +110,7 @@ class _RedirectToBankState extends State<RedirectToBank> {
                               stream: Stream.periodic(
                                   const Duration(seconds: 1), (_) {
                                 if (isSuccessful) {
-                                  print("object");
-                                  setState(() {
-                                    vn.setSecondaryPaymentSuccess(true);
-                                  });
+                                  vn.setSecondaryPaymentSuccess(true);
                                 }
                               }),
                               builder: (context, snapshot) {
@@ -142,8 +120,7 @@ class _RedirectToBankState extends State<RedirectToBank> {
                           Visibility(
                             visible: isLoading,
                             child: const Center(
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 1)),
+                                child: CupertinoActivityIndicator(radius: 15)),
                           ),
                         ],
                       ),

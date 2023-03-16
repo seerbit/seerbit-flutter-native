@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
@@ -64,7 +65,9 @@ class _SeerbitModalState extends State<SeerbitModal> {
                     height: 812.h,
                     width: double.infinity,
                     child: const Center(
-                      child: CircularProgressIndicator(),
+                      child: CupertinoActivityIndicator(
+                        radius: 15,
+                      ),
                     ),
                   );
                 }

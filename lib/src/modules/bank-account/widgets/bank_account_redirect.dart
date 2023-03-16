@@ -58,8 +58,9 @@ class _BankAccounRedirectState extends State<BankAccounRedirect> {
             }
             if (_.url.contains("callback")) {
               if (_.url.contains("Successful")) {
-                vn.confirmTransaction(context, onError: () {});
                 Future.delayed(Duration.zero, () => {vn.onSuccess?.call()});
+                vn.confirmTransaction(context, onError: () {});
+                
               } else {
                 vn.setErrorMessage(_.url
                     .split("&message=")

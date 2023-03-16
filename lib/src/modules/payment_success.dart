@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:seerbit_flutter_native/src/core/navigator.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 
 class PaymentSuccess extends StatelessWidget {
@@ -10,12 +9,14 @@ class PaymentSuccess extends StatelessWidget {
       this.amount,
       required this.logo,
       required this.email,
-      required this.name})
+      required this.name,
+      required this.onPop})
       : super(key: key);
   final String? amount;
   final String logo;
   final String email;
   final String name;
+  final Function onPop;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class PaymentSuccess extends StatelessWidget {
           ),
           CustomFlatButton(
             onTap: () {
-              Navigate(context).pop(number: 2);
+              onPop.call();
             },
             label: "Proceed",
             bgColor: Colors.black,

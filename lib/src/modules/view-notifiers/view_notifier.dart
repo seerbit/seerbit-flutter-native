@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:seerbit_flutter_native/src/core/navigator.dart';
 import 'package:seerbit_flutter_native/src/core/network/request_handler.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/models/momo_network_model.dart';
@@ -232,30 +233,40 @@ class ViewsNotifier extends ChangeNotifier {
 
   ///confirm that a transaction was successful
   Future confirmTransaction(BuildContext context,
-      {required Function onError}) async {
+      {required Function onError, bool overlay = false}) async {
     await queryTransaction().then((value) {
       if (paymentStatus != null) {
         String code = paymentStatus!.data.code!;
         setErrorMessage(paymentStatus!.data.message);
-        showSuccess(context, code, onError: onError);
+        showSuccess(context, code, onError: onError,overlay: overlay);
       }
     });
   }
 
-  showSuccess(BuildContext context, String code, {Function? onError}) {
+  showSuccess(BuildContext context, String code,
+      {Function? onError, bool overlay = false,int popCount=1}) {
     switch (code) {
       case "S20":
         log("Querying transaction status..");
         break;
       case "00":
-        CustomOverlays().showPopup(
-            PaymentSuccess(
-              amount: paymentPayload!.amount!,
-              logo: merchantDetailModel!.payload.logo!,
-              name: "${paymentPayload!.firstName} ${paymentPayload!.lastName}",
-              email: paymentPayload!.email!,
-            ),
-            context: context);
+        onSuccess?.call();
+
+        if (overlay) {
+          CustomOverlays().showPopup(
+              PaymentSuccess(
+                onPop: () => Navigate(context).pop(number: popCount),
+                amount: paymentPayload!.amount!,
+                logo: merchantDetailModel!.payload.logo!,
+                name:
+                    "${paymentPayload!.firstName} ${paymentPayload!.lastName}",
+                email: paymentPayload!.email!,
+              ),
+              context: context);
+        } else {
+          setSecondaryPaymentSuccess(true);
+        }
+
         break;
       default:
         onError?.call();

@@ -33,6 +33,7 @@ class SeerbitCheckout {
           onSuccess: onSuccess,
           onFailure: onFailure,
           onClose: onClose,
+          
           showForm: showForm,
         )),
         whenComplete: () => onClose?.call(),
