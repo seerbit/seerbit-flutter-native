@@ -1,7 +1,4 @@
 library seerbit_flutter_native;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/core_widget.dart';
+export 'src/models/payment_payload_model.dart';

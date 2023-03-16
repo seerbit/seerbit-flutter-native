@@ -1,9 +1,6 @@
-import 'package:example/core/providers.dart';
-import 'package:example/views/view.dart';
-import 'package:example/views/widgets/custom_over_lay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+import 'package:seerbit_flutter_native/seerbit_flutter_native.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() {
@@ -16,21 +13,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: AppProviders.providers,
-      child: ScreenUtilInit(
-          designSize: const Size(375, 812),
-          builder: (_, context) {
-            return MaterialApp(
-              title: 'Seerbit Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.red,
-              ),
-              navigatorKey: navigatorKey,
-              home: const MyHomePage(title: 'Seerbit Demo'),
-            );
-          }),
-    );
+    return ScreenUtilInit(
+        designSize: const Size(375, 812),
+        builder: (_, context) {
+          return MaterialApp(
+            title: 'Seerbit Demo',
+            theme: ThemeData(fontFamily: 'FaktPro'),
+            navigatorKey: navigatorKey,
+            home: const MyHomePage(title: 'Seerbit Demo'),
+          );
+        });
   }
 }
 
@@ -44,13 +36,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  SeerbitCheckout seerbitCheckout =
+      SeerbitCheckout(publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1");
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +49,28 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text('$_counter', style: Theme.of(context).textTheme.headline4),
             TextButton(
               onPressed: () {
-                CustomOverlays().showPopup(const SeerbitCheckout());
-                // Navigate.to(const SeerbitCheckout());
+                seerbitCheckout.createCheckout(
+                  context,
+                  showForm: false,
+                  onClose: () => print("Closed"),
+                  onSuccess: () => print("Success"),
+                  onFailure: () => print("Failure"),
+                  payload: PaymentPayloadModel(
+                      firstName: "Falola",
+                      lastName: "Adedayo",
+                      fullName: "Falola Adedayo",
+                      mobileNumber: "08140276106",
+                      email: "onuohasilver9@gmail.com",
+                      redirectUrl: "https://google.com",
+                      sourceIp: "0.0.0.1",
+                      productId: "",
+                      currency: "NGN",
+                      country: "NG",
+                      fee: "1.5",
+                      amount: "20"),
+                );
               },
               child: const Text("Start"),
             )
