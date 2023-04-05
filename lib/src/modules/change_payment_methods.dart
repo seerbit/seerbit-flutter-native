@@ -73,25 +73,25 @@ class ChangePaymentMethodsView extends StatelessWidget {
               ],
             ),
           ),
-          Visibility(
-            visible: vn.isChannelActive(PaymentChannel.bankAccount),
-            child: Column(
-              children: [
-                CustomFlatButton(
-                    prefix: const CustomText("Bank Account", size: 14),
-                    alignment: MainAxisAlignment.start,
-                    // label: "Bank Account",
-                    onTap: () => {
-                          ban.changeView(CurrentCardView.select),
-                          vn.changePaymentChannel(PaymentChannel.bankAccount),
-                        },
-                    expand: true,
-                    color: Colors.black,
-                    bgColor: Colors.grey.shade200),
-                const YSpace(10),
-              ],
-            ),
-          ),
+          // Visibility(
+          //   visible: vn.isChannelActive(PaymentChannel.bankAccount),
+          //   child: Column(
+          //     children: [
+          //       CustomFlatButton(
+          //           prefix: const CustomText("Bank Account", size: 14),
+          //           alignment: MainAxisAlignment.start,
+          //           // label: "Bank Account",
+          //           onTap: () => {
+          //                 ban.changeView(CurrentCardView.select),
+          //                 vn.changePaymentChannel(PaymentChannel.bankAccount),
+          //               },
+          //           expand: true,
+          //           color: Colors.black,
+          //           bgColor: Colors.grey.shade200),
+          //       const YSpace(10),
+          //     ],
+          //   ),
+          // ),
           Visibility(
             visible: vn.isChannelActive(PaymentChannel.debitCard),
             child: Column(
@@ -114,24 +114,24 @@ class ChangePaymentMethodsView extends StatelessWidget {
               ],
             ),
           ),
-          Visibility(
-            visible: vn.isChannelActive(PaymentChannel.momo),
-            child: Column(
-              children: [
-                CustomFlatButton(
-                    prefix: const CustomText("Momo", size: 14),
-                    alignment: MainAxisAlignment.spaceBetween,
-                    onTap: () => {
-                          mn.changeView(CurrentCardView.info),
-                          vn.changePaymentChannel(PaymentChannel.momo),
-                        },
-                    expand: true,
-                    color: Colors.black,
-                    bgColor: Colors.grey.shade200),
-                const YSpace(4),
-              ],
-            ),
-          ),
+          // Visibility(
+          //   visible: vn.isChannelActive(PaymentChannel.momo),
+          //   child: Column(
+          //     children: [
+          //       CustomFlatButton(
+          //           prefix: const CustomText("Momo", size: 14),
+          //           alignment: MainAxisAlignment.spaceBetween,
+          //           onTap: () => {
+          //                 mn.changeView(CurrentCardView.info),
+          //                 vn.changePaymentChannel(PaymentChannel.momo),
+          //               },
+          //           expand: true,
+          //           color: Colors.black,
+          //           bgColor: Colors.grey.shade200),
+          //       const YSpace(4),
+          //     ],
+          //   ),
+          // ),
           const YSpace(42),
         ],
       );
