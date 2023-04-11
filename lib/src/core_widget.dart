@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/core/providers.dart';
 import 'package:seerbit_flutter_native/src/models/payment_payload_model.dart';
@@ -14,6 +15,7 @@ class SeerbitCheckout {
       Function? onSuccess,
       Function? onFailure,
       bool showForm = false,
+      required bool isRelease,
       required PaymentPayloadModel payload}) {
     if (!showForm) {
       assert(payload.amount != null, "Amount is required if showForm = false");
@@ -33,7 +35,7 @@ class SeerbitCheckout {
           onSuccess: onSuccess,
           onFailure: onFailure,
           onClose: onClose,
-          
+          isRelease: isRelease,
           showForm: showForm,
         )),
         whenComplete: () => onClose?.call(),
@@ -46,9 +48,13 @@ class SeerbitProvider extends StatelessWidget {
   final Widget child;
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: AppProviders.providers,
-      child: child,
-    );
+    return ScreenUtilInit(
+        designSize: const Size(375, 812),
+        builder: (_, context) {
+          return MultiProvider(
+            providers: AppProviders.providers,
+            child: child,
+          );
+        });
   }
 }

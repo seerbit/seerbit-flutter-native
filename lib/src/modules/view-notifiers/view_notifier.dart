@@ -66,6 +66,14 @@ class ViewsNotifier extends ChangeNotifier {
   bool _secondaryPaymentSuccess = false;
   bool get secondaryPaymentSuccess => _secondaryPaymentSuccess;
 
+  bool get isReleaseMode => _isReleaseMode;
+  bool _isReleaseMode = false;
+
+  setIsReleaseMode(bool mode) {
+    _isReleaseMode = mode;
+    notifyListeners();
+  }
+
   setSecondaryPaymentSuccess(bool status) {
     _secondaryPaymentSuccess = status;
     // notifyListeners();

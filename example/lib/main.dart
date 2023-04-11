@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:seerbit_flutter_native/seerbit_flutter_native.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -13,16 +12,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-        designSize: const Size(375, 812),
-        builder: (_, context) {
-          return MaterialApp(
-            title: 'Seerbit Demo',
-            theme: ThemeData(fontFamily: 'FaktPro'),
-            navigatorKey: navigatorKey,
-            home: const MyHomePage(title: 'Seerbit Demo'),
-          );
-        });
+    return MaterialApp(
+      title: 'Seerbit Demo',
+      theme: ThemeData(fontFamily: 'FaktPro'),
+      navigatorKey: navigatorKey,
+      home: const MyHomePage(title: 'Seerbit Demo'),
+    );
   }
 }
 
@@ -54,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 seerbitCheckout.createCheckout(
                   context,
                   showForm: false,
+                  isRelease: true,
                   onClose: () => print("Closed"),
                   onSuccess: () => print("Success"),
                   onFailure: () => print("Failure"),
