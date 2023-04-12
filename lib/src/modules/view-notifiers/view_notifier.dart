@@ -69,6 +69,8 @@ class ViewsNotifier extends ChangeNotifier {
   bool get isReleaseMode => _isReleaseMode;
   bool _isReleaseMode = false;
 
+  String _isCardLocal = "LOCAL";
+
   setIsReleaseMode(bool mode) {
     _isReleaseMode = mode;
     notifyListeners();
@@ -122,7 +124,6 @@ class ViewsNotifier extends ChangeNotifier {
 
   //Add Additional Params to the payload
   PaymentPayloadModel _getUpdatedPayload() {
-    // return ;
     return paymentPayload!.copyWith(
       channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
       ddeviceType: Platform.isAndroid ? "Android" : "iOS",
@@ -194,6 +195,24 @@ class ViewsNotifier extends ChangeNotifier {
     }
   }
 
+  ///Get the BIN of the card
+  Future getCardBin(String cardNumber) async {
+    await RequestHandler(
+        request: () => paymentService.getCardBin(cardNumber: cardNumber),
+        onSuccess: (_) {
+          if (_merchantDetailModel!.payload.country.name ==
+              _.data['country'].toString().split(" ").first) {
+            _isCardLocal = "LOCAL";
+          } else {
+            _isCardLocal = "INTERNATIONAL";
+          }
+          setPaymentPayload(
+              paymentPayload!.copyWith(isCardInternational: _isCardLocal));
+        },
+        onError: (_) => log(_.data),
+        onNetworkError: (_) => log(_.data)).sendRequest();
+  }
+
   ///fetch the data for
   ///the merchant processing payments
   Future getMerchantDetails() async {
@@ -211,6 +230,9 @@ class ViewsNotifier extends ChangeNotifier {
   Future initiatePayment() async {
     _setPaymentResponse(null);
     setErrorMessage(null);
+    if (paymentPayload!.paymentType.toString().toLowerCase() == "card") {
+      await getCardBin(paymentPayload!.cardNumber!.substring(0, 6));
+    }
     await RequestHandler(
       request: () =>
           paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),
@@ -356,15 +378,6 @@ class ViewsNotifier extends ChangeNotifier {
   }
 
   calculateFees() {
-    String fees = "0";
-    // await RequestHandler(
-    //   request: () => paymentService.getPaymentFee(
-    //       type: "account", amount: "2000", key: _paymentPayload.publicKey!),
-    //   onSuccess: (_) => fees = _.data,
-    //   onError: (_) => log("message err$_."),
-    //   onNetworkError: (_) => log("message err $_."),
-    // ).sendRequest();
-    // return fees;
     late double fee, optionFee, cappedAmount;
 
     DefaultPaymentOption feeModel =

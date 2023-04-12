@@ -142,6 +142,7 @@ class EnterDebitCardInfo extends StatelessWidget {
                         _notNullOrEmpty(ppm.expiryYear, 2))
                     ? () async {
                         vn.setPaymentPayload(ppm.copyWith(
+                            paymentType: "CARD",
                             paymentReference:
                                 'SBT-T54267${math.Random().nextInt(29091020)}101122472'));
                         dcn.setLoading(true);

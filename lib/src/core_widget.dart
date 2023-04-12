@@ -27,6 +27,7 @@ class SeerbitCheckout {
       assert(payload.mobileNumber != null,
           "Mobile Number is required if showForm = false");
     }
+    payload.copyWith(isLive: isRelease);
     CustomOverlays().showPopup(
         SeerbitProvider(
             child: SeerbitModal(

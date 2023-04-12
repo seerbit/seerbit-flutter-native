@@ -1,14 +1,6 @@
 class Api {
-  const Api.dev() : host = "https://seerbitapi.com/";
-
-String  getSandbox(String type) {
-    switch (type) {
-      case "CARD":
-        return "sandbox";
-      default:
-        return "checkout";
-    }
-  }
+  const Api.dev() : host = "https://seerbitapi.com/sandbox/";
+  const Api.live() : host = "https://seerbitapi.com/checkout/";
 
   final String host;
 }

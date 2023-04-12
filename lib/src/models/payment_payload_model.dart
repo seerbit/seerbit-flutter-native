@@ -13,6 +13,7 @@ String paymentPayloadModelToJson(PaymentPayloadModel data) =>
 class PaymentPayloadModel {
   PaymentPayloadModel({
     this.firstName,
+    this.isLive,
     this.lastName,
     this.fullName,
     this.mobileNumber,
@@ -78,6 +79,7 @@ class PaymentPayloadModel {
   final String? fee;
   final String? pin;
   final bool? retry;
+  final bool? isLive;
   final bool? rememberMe;
   final String? isCardInternational;
   final String? productDescription;
@@ -119,6 +121,7 @@ class PaymentPayloadModel {
     String? fee,
     String? pin,
     bool? retry,
+    bool? isLive,
     bool? rememberMe,
     String? isCardInternational,
     String? productDescription,
@@ -162,6 +165,7 @@ class PaymentPayloadModel {
         pin: pin ?? this.pin,
         retry: retry ?? this.retry,
         rememberMe: rememberMe ?? this.rememberMe,
+        isLive: isLive??this.isLive,
         isCardInternational: isCardInternational ?? this.isCardInternational,
         productDescription: productDescription ?? this.productDescription,
         amountControl: amountControl ?? this.amountControl,

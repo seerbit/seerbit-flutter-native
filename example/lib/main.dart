@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seerbit_flutter_native/seerbit_flutter_native.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   runApp(const MyApp());
 }
@@ -12,11 +11,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Seerbit Demo',
-      theme: ThemeData(fontFamily: 'FaktPro'),
-      navigatorKey: navigatorKey,
-      home: const MyHomePage(title: 'Seerbit Demo'),
+      home: MyHomePage(title: 'Seerbit Demo'),
     );
   }
 }
@@ -32,7 +29,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   SeerbitCheckout seerbitCheckout =
-      SeerbitCheckout(publicKey: "SBTESTPUBK_t4G16GCA1O51AV0Va3PPretaisXubSw1");
+      SeerbitCheckout(publicKey: "SBPUBK_8FPZXG5LG25IFRXHYEYWBLIL8MEG5L7W");
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   onSuccess: () => print("Success"),
                   onFailure: () => print("Failure"),
                   payload: PaymentPayloadModel(
-                      firstName: "Falola",
-                      lastName: "Adedayo",
-                      fullName: "Falola Adedayo",
+                      firstName: "Obinna",
+                      lastName: "Onuoha",
+                      fullName: "Obinna Onuoha",
                       mobileNumber: "08140276106",
                       email: "onuohasilver9@gmail.com",
                       redirectUrl: "https://google.com",
@@ -64,8 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       productId: "",
                       currency: "NGN",
                       country: "NG",
-                      fee: "1.5",
-                      amount: "121"),
+                      amount: "50"),
                 );
               },
               child: const Text("Pay without form"),

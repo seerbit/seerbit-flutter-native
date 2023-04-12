@@ -16,4 +16,6 @@ abstract class PaymentService {
 
   Future<ResponseModel> getPaymentFee(
       {required String type, required String amount, required String key});
+
+  Future<ResponseModel> getCardBin({required String cardNumber});
 }

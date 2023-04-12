@@ -11,9 +11,11 @@ class PaymentServiceImpl implements PaymentService {
   final Network network;
 
   const PaymentServiceImpl({this.network = const Network()});
+
   @override
   getMerchantInformation({required String publicKey}) async {
-    Response response = await network.get('checkout/merchant/clear/$publicKey');
+    Response response =
+        await network.get('${const Api.live().host}merchant/clear/$publicKey');
     return ResponseModel.fromResponse(response);
   }
 
@@ -21,27 +23,37 @@ class PaymentServiceImpl implements PaymentService {
   Future<ResponseModel> initiatePayment(
       {required PaymentPayloadModel payloadModel}) async {
     Map body = payloadModel.toJson();
-    body.removeWhere((key, value) => value == null);
-    log(body.toString());
-    Response response = await network.post(
-        '${const Api.dev().getSandbox(payloadModel.paymentType!)}/initiates',
-        body: body);
-    log('${const Api.dev().getSandbox(payloadModel.paymentType!)}/initiates');
-    log(response.body.toString());
+    body.removeWhere((key, value) =>
+        (value == null) || (["isLive", "firstName", "lastName"].contains(key)));
+
+    // log(body.toString());
+    log(payloadModel.isLive.toString());
+    bool isLive = (payloadModel.isLive ?? true);
+    bool isCard = payloadModel.paymentType.toString().toLowerCase() == "card";
+    Response response;
+    if (isLive) {
+      response =
+          await network.post('${const Api.live().host}initiates', body: body);
+    } else {
+      response = await network.post(
+        '${!isCard ? const Api.live().host : const Api.dev().host}initiates',
+        body: body,
+      );
+    }
+
     return ResponseModel.fromResponse(response);
   }
 
   @override
   Future<ResponseModel> queryTransaction({required String payRef}) async {
-    Response response = await network
-        .get("${const Api.dev().getSandbox("query")}/query/$payRef");
+    Response response =
+        await network.get("${const Api.live().host}query/$payRef");
     return ResponseModel.fromResponse(response);
   }
 
   @override
   Future<ResponseModel> getBanks() async {
-    Response response =
-        await network.get("${const Api.dev().getSandbox("banks")}/banks");
+    Response response = await network.get("${const Api.live().host}banks");
     return ResponseModel.fromResponse(response);
   }
 
@@ -49,7 +61,7 @@ class PaymentServiceImpl implements PaymentService {
   Future<ResponseModel> otpAuthorize(
       {required String linkingRef, required String otp}) async {
     Response response =
-        await network.post("${const Api.dev().getSandbox("CARD")}/otp", body: {
+        await network.post("${const Api.live().host}otp", body: {
       "transaction": {
         "linkingreference": linkingRef,
         "otp": otp,
@@ -75,7 +87,9 @@ class PaymentServiceImpl implements PaymentService {
 
   @override
   Future<ResponseModel> getMomoNetworks() async {
-    Response response = await network.get("tranmgt/networks/GH/00000103");
+    Response response = await network.get(
+      "https://seerbitapi.com/tranmgt/networks/GH/00000103",
+    );
 
     return ResponseModel.fromResponse(response);
   }
@@ -90,6 +104,13 @@ class PaymentServiceImpl implements PaymentService {
         useBaseUrl: false,
         body: {"key": key, "type": type, "amount": amount});
 
+    return ResponseModel.fromResponse(response);
+  }
+
+  @override
+  Future<ResponseModel> getCardBin({required String cardNumber}) async {
+    Response response =
+        await network.get("https://seerbitapi.com/checkout/bin/$cardNumber");
     return ResponseModel.fromResponse(response);
   }
 }

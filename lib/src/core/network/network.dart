@@ -4,12 +4,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:seerbit_flutter_native/src/core/network/api.dart';
 import 'package:seerbit_flutter_native/src/models/custom_response_model.dart';
 
 class Network {
   final http.Client? _client;
-  final Api baseApi = const Api.dev();
+  // final Api baseApi = const Api.dev();
 
   const Network([this._client]);
 
@@ -17,14 +16,14 @@ class Network {
       {String? token,
       Map? body,
       Map<String, String>? headers,
-      bool useBaseUrl = true}) async {
+      bool useBaseUrl = false}) async {
     http.Client client = _client ?? http.Client();
 
     try {
       log(body.toString());
       log(headers.toString());
       http.Response response = await client
-          .post(Uri.parse(useBaseUrl ? baseApi.host + url : url),
+          .post(Uri.parse(url),
               headers: headers ?? _generateHeaders(token),
               body: jsonEncode(body))
           .timeout(const Duration(seconds: 35),
@@ -59,8 +58,7 @@ class Network {
     log(_generateHeaders(token).toString());
     try {
       http.Response response = await client
-          .get(Uri.parse(baseApi.host + url),
-              headers: headers ?? _generateHeaders(token))
+          .get(Uri.parse(url), headers: headers ?? _generateHeaders(token))
           .timeout(const Duration(seconds: 60),
               onTimeout: () => Future.delayed(
                   const Duration(seconds: 1),
@@ -84,7 +82,7 @@ class Network {
 
     try {
       http.Response response = await client
-          .patch(Uri.parse(baseApi.host + url),
+          .patch(Uri.parse(url),
               headers: _generateHeaders(token), body: jsonEncode(body))
           .timeout(const Duration(seconds: 60));
       log(url);
@@ -103,7 +101,7 @@ class Network {
     http.Client client = _client ?? http.Client();
     try {
       http.Response response = await client
-          .delete(Uri.parse(baseApi.host + url),
+          .delete(Uri.parse(url),
               headers: _generateHeaders(token), body: jsonEncode(body))
           .timeout(const Duration(seconds: 60));
       log(body.toString());
