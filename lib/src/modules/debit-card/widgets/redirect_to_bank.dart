@@ -93,6 +93,7 @@ class _RedirectToBankState extends State<RedirectToBank> {
       return Column(
         children: [
           AmountToPay(fee: mdm.payload.cardFee.mc!),
+          const YSpace(20),
           const CustomText(
               'Please click the button below to authenticate\nwith your bank ',
               align: TextAlign.center,
@@ -106,22 +107,40 @@ class _RedirectToBankState extends State<RedirectToBank> {
                       height: 812.h,
                       child: Stack(
                         children: [
-                          StreamBuilder(
-                              stream: Stream.periodic(
-                                  const Duration(seconds: 1), (_) {
-                                if (isSuccessful) {
-                                  vn.setSecondaryPaymentSuccess(true);
-                                }
-                              }),
-                              builder: (context, snapshot) {
-                                return WebViewWidget(controller: wvc);
-                              }),
-                          // Center(child: Text(isLoading.toString())),
-                          Visibility(
-                            visible: isLoading,
-                            child: const Center(
-                                child: CupertinoActivityIndicator(radius: 15)),
+                          SizedBox(
+                            height: 812.h,
+                            child: Stack(
+                              children: [
+                                StreamBuilder(
+                                    stream: Stream.periodic(
+                                        const Duration(seconds: 1), (_) {
+                                      if (isSuccessful) {
+                                        vn.setSecondaryPaymentSuccess(true);
+                                      }
+                                    }),
+                                    builder: (context, snapshot) {
+                                      return WebViewWidget(controller: wvc);
+                                    }),
+                                // Center(child: Text(isLoading.toString())),
+                                Visibility(
+                                  visible: isLoading,
+                                  child: const Center(
+                                      child: CupertinoActivityIndicator(
+                                          radius: 15)),
+                                ),
+                              ],
+                            ),
                           ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: TextButton(
+                              onPressed: () => Navigate(context).pop(),
+                              child: const Text(
+                                "Cancel Transaction",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
