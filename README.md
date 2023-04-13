@@ -116,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 seerbitCheckout.createCheckout(
                   context,
                   showForm: true,
+                  isRelease: true, //Set true when using a test key
                   onClose: () => print("Closed"),
                   onSuccess: () => print("Success"),
                   onFailure: () => print("Failure"),
