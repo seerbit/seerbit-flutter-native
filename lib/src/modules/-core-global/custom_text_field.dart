@@ -15,7 +15,9 @@ class CustomTextField extends StatelessWidget {
       this.initialValue,
       this.inputType,
       this.border,
-      this.controller})
+      this.controller,
+      this.focusNode,
+      this.nextFocusNode})
       : super(key: key);
   final String label;
   final String? hint, initialValue;
@@ -26,6 +28,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? inputType;
   final OutlineInputBorder? border;
   final TextEditingController? controller;
+  final FocusNode? focusNode, nextFocusNode;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,6 +38,7 @@ class CustomTextField extends StatelessWidget {
         const YSpace(10),
         TextFormField(
           controller: controller,
+          focusNode: focusNode,
           keyboardType: inputType,
           inputFormatters: formatter,
           initialValue: initialValue,
