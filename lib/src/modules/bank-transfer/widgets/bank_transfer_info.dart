@@ -42,8 +42,10 @@ class BankTransferInfo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CustomText("NGN ${ppm.amount}",
-                    weight: FontWeight.bold, size: 24),
+                CustomText(
+                    "NGN ${double.parse(ppm.amount!) + double.parse(vn.calculateFees())}",
+                    weight: FontWeight.bold,
+                    size: 24),
               ],
             ),
           ),
@@ -75,6 +77,11 @@ class BankTransferInfo extends StatelessWidget {
                       onTap: () {
                         Clipboard.setData(ClipboardData(
                             text: prm.data!.payments!.accountNumber!));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Account copied!'),
+                          ),
+                        );
                       },
                     ),
                   ),

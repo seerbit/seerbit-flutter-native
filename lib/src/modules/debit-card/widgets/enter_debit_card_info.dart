@@ -16,11 +16,16 @@ import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_state.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
 
-class EnterDebitCardInfo extends StatelessWidget {
-  EnterDebitCardInfo({
+class EnterDebitCardInfo extends StatefulWidget {
+  const EnterDebitCardInfo({
     Key? key,
   }) : super(key: key);
-  final _formKey = GlobalKey<FormState>();
+
+  @override
+  State<EnterDebitCardInfo> createState() => _EnterDebitCardInfoState();
+}
+
+class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
   FocusNode cardFocusNode = FocusNode();
   FocusNode dateFocusNode = FocusNode();
   FocusNode cvvFocusNode = FocusNode();
@@ -91,6 +96,7 @@ class EnterDebitCardInfo extends StatelessWidget {
                     .text,
                 label: "Debit/credit card details",
                 hint: "Card Number",
+                inputType: TextInputType.number,
                 onChanged: (_) {
                   vn.setPaymentPayload(
                       ppm.copyWith(cardNumber: _.replaceAll(" ", "")));
@@ -111,6 +117,7 @@ class EnterDebitCardInfo extends StatelessWidget {
                     child: CustomTextField(
                       label: "",
                       focusNode: dateFocusNode,
+                      inputType: TextInputType.number,
                       onChanged: (_) {
                         vn.setPaymentPayload(ppm.copyWith(
                             expiryYear: _.split("/").last,
@@ -134,6 +141,7 @@ class EnterDebitCardInfo extends StatelessWidget {
                       child: CustomTextField(
                     label: "",
                     focusNode: cvvFocusNode,
+                    inputType: TextInputType.number,
                     initialValue: ppm.cvv,
                     hint: "CVV",
                     onChanged: (_) {

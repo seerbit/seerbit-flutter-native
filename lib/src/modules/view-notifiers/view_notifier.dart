@@ -404,7 +404,7 @@ class ViewsNotifier extends ChangeNotifier {
       fee = optionFee;
     }
 
-    return _capAmount(fee, cappedAmount).toString();
+    return _capAmount(fee, cappedAmount).toStringAsFixed(2);
   }
 
   double _capAmount(double fee, double cappedAmount) {

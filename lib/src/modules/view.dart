@@ -56,129 +56,141 @@ class _SeerbitModalState extends State<SeerbitModal> {
   @override
   Widget build(BuildContext context) {
     ViewsNotifier vn = Provider.of<ViewsNotifier>(context);
-    return showChannels
-        ? const ChannelSelection()
-        : FutureBuilder(
-            future: myFuture,
-            builder: (context, snapshot) {
-              return Builder(builder: (context) {
-                MerchantDetailModel? mdm = vn.merchantDetailModel;
-                if (mdm == null) {
-                  return SizedBox(
-                    height: 812.h,
-                    width: double.infinity,
-                    child: const Center(
-                      child: CupertinoActivityIndicator(
-                        radius: 15,
-                      ),
-                    ),
-                  );
-                }
-                return SingleChildScrollView(
-                  child: Container(
-                    height: 812.h,
-                    margin: EdgeInsets.symmetric(horizontal: 20.w),
-                    color: Colors.white,
-                    child: Form(
-                      key: _formKey,
-                      // autovalidateMode: AutovalidateMode.onUserInteraction,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const YSpace(22),
-                          if (mdm.payload.logo != null)
-                            Image.network(mdm.payload.logo!,
-                                height: 50.h, width: 50.h),
-                          const YSpace(12),
-                          CustomText(
-                              "${mdm.payload.businessName} Payment Page.",
-                              weight: FontWeight.bold,
-                              size: 14),
-                          const YSpace(24),
-                          Row(
+    return Scaffold(
+      body: SafeArea(
+        child: showChannels
+            ? const ChannelSelection()
+            : FutureBuilder(
+                future: myFuture,
+                builder: (context, snapshot) {
+                  return Builder(builder: (context) {
+                    MerchantDetailModel? mdm = vn.merchantDetailModel;
+                    if (mdm == null) {
+                      return SizedBox(
+                        height: 812.h,
+                        width: double.infinity,
+                        child: const Center(
+                          child: CupertinoActivityIndicator(
+                            radius: 15,
+                          ),
+                        ),
+                      );
+                    }
+                    return SingleChildScrollView(
+                      child: Container(
+                        height: 812.h,
+                        margin: EdgeInsets.symmetric(horizontal: 20.w),
+                        color: Colors.white,
+                        child: Form(
+                          key: _formKey,
+                          // autovalidateMode: AutovalidateMode.onUserInteraction,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Expanded(
-                                  child: CustomTextField(
-                                label: "First Name",
-                                inputType: TextInputType.name,
+                              const YSpace(22),
+                              if (mdm.payload.logo != null)
+                                Image.network(mdm.payload.logo!,
+                                    height: 50.h, width: 50.h),
+                              const YSpace(12),
+                              CustomText(
+                                  "${mdm.payload.businessName} Payment Page.",
+                                  weight: FontWeight.bold,
+                                  size: 14),
+                              const YSpace(24),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: CustomTextField(
+                                    label: "First Name",
+                                    inputType: TextInputType.name,
+                                    validator: Validatorless.required(
+                                        "Field is required"),
+                                    onChanged: (_) => vn.setPaymentPayload(vn
+                                        .paymentPayload!
+                                        .copyWith(firstName: _)),
+                                  )),
+                                  const XSpace(10),
+                                  Expanded(
+                                      child: CustomTextField(
+                                    label: "Last Name",
+                                    inputType: TextInputType.name,
+                                    validator: Validatorless.required(
+                                        "Field is required"),
+                                    onChanged: (_) => vn.setPaymentPayload(vn
+                                        .paymentPayload!
+                                        .copyWith(lastName: _)),
+                                  )),
+                                ],
+                              ),
+                              const YSpace(12),
+                              CustomTextField(
+                                label: "Email",
+                                inputType: TextInputType.emailAddress,
+                                validator: Validatorless.multiple([
+                                  Validatorless.email(
+                                      "This is not a valid email"),
+                                  Validatorless.required("Field is required")
+                                ]),
+                                onChanged: (_) => vn.setPaymentPayload(
+                                    vn.paymentPayload!.copyWith(email: _)),
+                              ),
+                              const YSpace(12),
+                              CustomTextField(
+                                label: "Phone Number",
+                                inputType: TextInputType.phone,
+                                formatter: [
+                                  LengthLimitingTextInputFormatter(13)
+                                ],
                                 validator:
                                     Validatorless.required("Field is required"),
-                                onChanged: (_) => vn.setPaymentPayload(
-                                    vn.paymentPayload!.copyWith(firstName: _)),
-                              )),
-                              const XSpace(10),
-                              Expanded(
-                                  child: CustomTextField(
-                                label: "Last Name",
-                                inputType: TextInputType.name,
-                                validator:
+                                onChanged: (_) => vn.setPaymentPayload(vn
+                                    .paymentPayload!
+                                    .copyWith(mobileNumber: _)),
+                              ),
+                              const YSpace(12),
+                              CustomTextField(
+                                  label: "Amount to charge",
+                                  inputType: TextInputType.number,
+                                  formatter: [CurrencyInputFormatter()],
+                                  validator: Validatorless.multiple([
                                     Validatorless.required("Field is required"),
-                                onChanged: (_) => vn.setPaymentPayload(
-                                    vn.paymentPayload!.copyWith(lastName: _)),
-                              )),
+                                    // Validatorless.number("Amount needs to be a number")
+                                  ]),
+                                  onChanged: (_) => {
+                                        vn.setPaymentPayload(vn.paymentPayload!
+                                            .copyWith(
+                                                amount: _.replaceAll(",", ""))),
+                                      }),
+                              const YSpace(24),
+                              CustomFlatButton(
+                                  label: "Continue to Payment",
+                                  onTap: () async {
+                                    if (!_formKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    await vn.getBanks();
+                                    setState(() {
+                                      showChannels = true;
+                                    });
+                                  },
+                                  color: _validateFields(vn)
+                                      ? Colors.white54
+                                      : Colors.white,
+                                  bgColor: _validateFields(vn)
+                                      ? Colors.grey
+                                      : Colors.black),
+                              const YSpace(25),
+                              const SecuredByMarker(),
+                              const YSpace(25),
                             ],
                           ),
-                          const YSpace(12),
-                          CustomTextField(
-                            label: "Email",
-                            inputType: TextInputType.emailAddress,
-                            validator: Validatorless.multiple([
-                              Validatorless.email("This is not a valid email"),
-                              Validatorless.required("Field is required")
-                            ]),
-                            onChanged: (_) => vn.setPaymentPayload(
-                                vn.paymentPayload!.copyWith(email: _)),
-                          ),
-                          const YSpace(12),
-                          CustomTextField(
-                            label: "Phone Number",
-                            inputType: TextInputType.phone,
-                            formatter: [LengthLimitingTextInputFormatter(13)],
-                            validator:
-                                Validatorless.required("Field is required"),
-                            onChanged: (_) => vn.setPaymentPayload(
-                                vn.paymentPayload!.copyWith(mobileNumber: _)),
-                          ),
-                          const YSpace(12),
-                          CustomTextField(
-                              label: "Amount to charge",
-                              inputType: TextInputType.number,
-                              formatter: [CurrencyInputFormatter()],
-                              validator: Validatorless.multiple([
-                                Validatorless.required("Field is required"),
-                                // Validatorless.number("Amount needs to be a number")
-                              ]),
-                              onChanged: (_) => {
-                                    vn.setPaymentPayload(vn.paymentPayload!
-                                        .copyWith(
-                                            amount: _.replaceAll(",", ""))),
-                                  }),
-                          const YSpace(24),
-                          CustomFlatButton(
-                              label: "Continue to Payment",
-                              onTap: () async {
-                                if (!_formKey.currentState!.validate()) return;
-                                await vn.getBanks();
-                                setState(() {
-                                  showChannels = true;
-                                });
-                              },
-                              color: _validateFields(vn)
-                                  ? Colors.white54
-                                  : Colors.white,
-                              bgColor: _validateFields(vn)
-                                  ? Colors.grey
-                                  : Colors.black),
-                          const YSpace(25),
-                          const SecuredByMarker(),
-                          const YSpace(25),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              });
-            });
+                    );
+                  });
+                }),
+      ),
+    );
   }
 }
 
