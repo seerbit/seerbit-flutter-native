@@ -17,7 +17,7 @@ class SecuredByMarker extends StatelessWidget {
         const CustomText("Secured by", size: 14),
         const XSpace(5),
         Image.network(
-          "https://raw.githubusercontent.com/seerbit/seerbit-flutter-native/2c1339290a4b73fc8ea4f1057080f3dc9572427b/assets/seerbit.png?token=GHSAT0AAAAAAB3U6CZ6UHHQONELJRE3HL4EZBX5DAA",
+          "https://res.cloudinary.com/shopspace/image/upload/v1681386543/zcnbrnpgbocyyxxlznqc.png",
           width: 60,
         )
       ],

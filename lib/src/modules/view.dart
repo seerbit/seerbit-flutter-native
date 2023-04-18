@@ -43,7 +43,8 @@ class _SeerbitModalState extends State<SeerbitModal> {
           onCloseFunc: widget.onClose,
           onFailureFunc: widget.onFailure,
           onSuccessFunc: widget.onSuccess);
-      vn.setPaymentPayload(widget.payloadModel);
+      vn.setPaymentPayload(
+          widget.payloadModel.copyWith(isLive: widget.isRelease));
       vn.setPublicKey(widget.publicKey);
       await vn.getMerchantDetails();
       if (!widget.showForm) setState(() => showChannels = true);

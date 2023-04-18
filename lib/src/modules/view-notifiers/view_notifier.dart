@@ -72,7 +72,10 @@ class ViewsNotifier extends ChangeNotifier {
   String _isCardLocal = "LOCAL";
 
   setIsReleaseMode(bool mode) {
+    print("*******" * 90);
+
     _isReleaseMode = mode;
+    _paymentPayload = _paymentPayload.copyWith(isLive: _isReleaseMode);
     notifyListeners();
   }
 

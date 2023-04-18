@@ -27,14 +27,16 @@ class PaymentServiceImpl implements PaymentService {
         (value == null) || (["isLive", "firstName", "lastName"].contains(key)));
 
     // log(body.toString());
-    log(payloadModel.isLive.toString());
+    log("IsLive:${payloadModel.isLive}");
     bool isLive = (payloadModel.isLive ?? true);
     bool isCard = payloadModel.paymentType.toString().toLowerCase() == "card";
     Response response;
     if (isLive) {
+      log("got in here1");
       response =
           await network.post('${const Api.live().host}initiates', body: body);
     } else {
+      log("got in here");
       response = await network.post(
         '${!isCard ? const Api.live().host : const Api.dev().host}initiates',
         body: body,

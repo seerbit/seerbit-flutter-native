@@ -1,6 +1,6 @@
 name: seerbit_flutter_native
 description: Seerbit Flutter Package.
-version: 0.0.1+2
+version: 0.0.1+4
 homepage: https://github.com
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_multi_formatter: ^2.10.2
-  pinput: ^2.2.21
+  pinput: ^2.2.31
   cupertino_icons: ^1.0.2
   flutter_screenutil: ^5.6.0
   animate_do: ^3.0.2
