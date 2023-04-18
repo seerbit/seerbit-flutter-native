@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 seerbitCheckout.createCheckout(
                   context,
                   showForm: false,
-                  isRelease: false,
+                  isRelease: true,
                   onClose: () => print("Closed"),
                   onSuccess: () => print("Success"),
                   onFailure: () => print("Failure"),
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       productId: "",
                       currency: "NGN",
                       country: "NG",
-                      amount: "50"),
+                      amount: "20"),
                 );
               },
               child: const Text("Pay without form"),

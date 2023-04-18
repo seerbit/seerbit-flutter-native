@@ -52,8 +52,10 @@ class _RedirectToBankState extends State<RedirectToBank> {
           setState(() => isLoading = false);
         },
         onNavigationRequest: (_) async {
-          if (_.url.contains("callback")) {
-            if (_.url.contains("Successful")) {
+          String url = _.url.toLowerCase();
+          if (url.contains("callback") || url.contains("linkingreference")) {
+            if (url.contains("successful") ||
+                url.contains(vn.paymentPayload!.redirectUrl!)) {
               vn.setSecondaryPaymentSuccess(true);
               vn.onSuccess?.call();
               setState(() => isSuccessful = true);
@@ -61,7 +63,7 @@ class _RedirectToBankState extends State<RedirectToBank> {
               vn.showSuccess(context, "00", overlay: true, popCount: 2);
 
               return NavigationDecision.prevent;
-            } else {
+            } else if (_.url.contains("&message")) {
               vn.setErrorMessage(_.url
                   .split("&message=")
                   .last
@@ -132,11 +134,11 @@ class _RedirectToBankState extends State<RedirectToBank> {
                             ),
                           ),
                           Align(
-                            alignment: Alignment.bottomCenter,
+                            alignment: Alignment.topLeft,
                             child: TextButton(
                               onPressed: () => Navigate(context).pop(),
                               child: const Text(
-                                "Cancel Transaction",
+                                "Cancel (x)",
                                 style: TextStyle(color: Colors.red),
                               ),
                             ),
