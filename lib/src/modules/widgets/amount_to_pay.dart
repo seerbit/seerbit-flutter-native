@@ -20,8 +20,10 @@ class AmountToPay extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const YSpace(12),
-              CustomText("NGN ${ppm.amount}",
-                  weight: FontWeight.bold, size: 24),
+              CustomText(
+                  "NGN ${double.parse(ppm.amount!) + double.parse(vn.calculateFees())}",
+                  weight: FontWeight.bold,
+                  size: 24),
               const YSpace(8),
               CustomText("Fee: NGN${vn.calculateFees().toString()}", size: 14)
               // FutureBuilder(
