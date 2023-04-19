@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 seerbitCheckout.createCheckout(
                   context,
-                  isRelease: false,
+                  isRelease: true,
                   showForm: true,
                   onClose: () => print("Closed"),
                   onSuccess: () => print("Success"),
