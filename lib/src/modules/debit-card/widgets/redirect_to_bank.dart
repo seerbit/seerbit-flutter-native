@@ -132,16 +132,6 @@ class _RedirectToBankState extends State<RedirectToBank> {
                                 ),
                               ],
                             ),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: TextButton(
-                              onPressed: () => Navigate(context).pop(),
-                              child: const Text(
-                                "Cancel (x)",
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            ),
                           )
                         ],
                       ),
