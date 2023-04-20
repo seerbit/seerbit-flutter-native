@@ -72,9 +72,7 @@ class _SeerbitModalState extends State<SeerbitModal> {
                           height: 812.h,
                           width: double.infinity,
                           child: const Center(
-                            child: CupertinoActivityIndicator(
-                              radius: 15,
-                            ),
+                            child: CupertinoActivityIndicator(radius: 15),
                           ),
                         );
                       }
