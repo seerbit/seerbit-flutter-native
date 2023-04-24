@@ -177,6 +177,7 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                           dcn.setLoading(true);
                           await vn.initiatePayment();
                           dcn.setLoading(false);
+
                           if (vn.errorMessage == null) {
                             if ((vn.paymentResponse as DebitCardResponseModel)
                                     .data
@@ -185,7 +186,11 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                                 null) {
                               dcn.changeView(CurrentCardView.redirect);
                             } else {
-                              dcn.changeView(CurrentCardView.pin);
+                              if (vn.isCardLocal != "INTERNATIONAL") {
+                                dcn.changeView(CurrentCardView.pin);
+                              } else {
+                                dcn.changeView(CurrentCardView.address);
+                              }
                             }
                           }
                         }

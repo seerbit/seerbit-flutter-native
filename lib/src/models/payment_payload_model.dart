@@ -165,7 +165,7 @@ class PaymentPayloadModel {
         pin: pin ?? this.pin,
         retry: retry ?? this.retry,
         rememberMe: rememberMe ?? this.rememberMe,
-        isLive: isLive??this.isLive,
+        isLive: isLive ?? this.isLive,
         isCardInternational: isCardInternational ?? this.isCardInternational,
         productDescription: productDescription ?? this.productDescription,
         amountControl: amountControl ?? this.amountControl,

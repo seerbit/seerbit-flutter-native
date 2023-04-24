@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/controllers/debit_card_notifier.dart';
+import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/debit_address.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/debit_card_progress.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/display_test_cards.dart';
 import 'package:seerbit_flutter_native/src/modules/debit-card/widgets/generic_error.dart';
@@ -22,19 +23,22 @@ class DebitCardChannel extends StatelessWidget {
       child: Builder(builder: (context) {
         switch (dcn.currentCardView) {
           case CurrentCardView.info:
-            return EnterDebitCardInfo();
+            return const EnterDebitCardInfo();
           case CurrentCardView.pin:
             return const InputPIN();
           case CurrentCardView.otp:
             return AuthorizeOTP();
           case CurrentCardView.redirect:
-            return const RedirectToBank();
+            return const DebitAddress();
+          // return const RedirectToBank();
           case CurrentCardView.testCards:
             return const DisplayTestCards();
           case CurrentCardView.progress:
             return const DebitCardProgress();
           case CurrentCardView.paymentError:
             return const GenericError();
+          case CurrentCardView.address:
+            return const DebitAddress();
           default:
             return Container();
         }

@@ -13,7 +13,8 @@ enum CurrentCardView {
   paymentError,
   success,
   birthday,
-  bvn
+  bvn,
+  address
 }
 // enum CurrentCardView { select, , progress, confirmPayment }
 // enum CurrentCardView { select, info, progress, loading }
