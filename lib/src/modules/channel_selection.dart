@@ -94,21 +94,24 @@ class ChannelSelection extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (vn.paymentChannel !=
-                          PaymentChannel.changePaymentMethod)
-                        Row(
-                          children: [
-                            CustomFlatButton(
-                              onTap: () {
-                                vn.changePaymentChannel(
-                                    PaymentChannel.changePaymentMethod);
-                              },
-                              label: "Change Payment Method",
-                              bgColor: const Color(0xFFF0F0F0),
-                              size: Size(190.w, 42),
-                            ),
-                            const XSpace(10),
-                          ],
+                      if ((vn.paymentChannel !=
+                          PaymentChannel.changePaymentMethod))
+                        Visibility(
+                          visible: vn.paymentPayload?.currency != "USD",
+                          child: Row(
+                            children: [
+                              CustomFlatButton(
+                                onTap: () {
+                                  vn.changePaymentChannel(
+                                      PaymentChannel.changePaymentMethod);
+                                },
+                                label: "Change Payment Method",
+                                bgColor: const Color(0xFFF0F0F0),
+                                size: Size(190.w, 42),
+                              ),
+                              const XSpace(10),
+                            ],
+                          ),
                         ),
                       CustomFlatButton(
                         onTap: () {
