@@ -75,7 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   onClose: () => print("Closed"),
                   onSuccess: () => print("Success"),
                   onFailure: () => print("Failure"),
-                  payload: PaymentPayloadModel(),
+                  payload: PaymentPayloadModel(
+                      currency: "NGN", country: "NG", amount: "20"),
                 );
               },
               child: const Text("Pay with form"),

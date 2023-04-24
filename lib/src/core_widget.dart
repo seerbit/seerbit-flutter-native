@@ -27,9 +27,13 @@ class SeerbitCheckout {
       assert(payload.mobileNumber != null,
           "Mobile Number is required if showForm = false");
     }
-    payload.copyWith(isLive: isRelease);
+    payload = payload.copyWith(isLive: isRelease);
+    if (payload.fullName == null) {
+      payload = payload.copyWith(
+          fullName: "${payload.firstName} ${payload.lastName}");
+    }
     if (payload.redirectUrl == null) {
-      payload.copyWith(redirectUrl: "https://google.com");
+      payload = payload.copyWith(redirectUrl: "https://google.com");
     }
     CustomOverlays().showPopup(
         SeerbitProvider(

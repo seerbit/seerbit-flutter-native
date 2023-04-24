@@ -170,6 +170,11 @@ class _SeerbitModalState extends State<SeerbitModal> {
                                       if (!_formKey.currentState!.validate()) {
                                         return;
                                       }
+                                      vn.setPaymentPayload(vn.paymentPayload!
+                                          .copyWith(
+                                              fullName:
+                                                  "${vn.paymentPayload!.firstName} ${vn.paymentPayload!.lastName}"));
+
                                       await vn.getBanks();
                                       setState(() {
                                         showChannels = true;
