@@ -29,7 +29,6 @@ class DebitCardChannel extends StatelessWidget {
           case CurrentCardView.otp:
             return AuthorizeOTP();
           case CurrentCardView.redirect:
-            // return const DebitAddress();
             return const RedirectToBank();
           case CurrentCardView.testCards:
             return const DisplayTestCards();
