@@ -175,24 +175,25 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                               paymentReference:
                                   'SBT-T54267${math.Random().nextInt(29091020)}101122472'));
                           dcn.setLoading(true);
-                          await vn.initiatePayment();
-                          dcn.setLoading(false);
-
-                          if (vn.errorMessage == null) {
-                            if ((vn.paymentResponse as DebitCardResponseModel)
-                                    .data
-                                    ?.payments
-                                    ?.redirectUrl !=
-                                null) {
-                              dcn.changeView(CurrentCardView.redirect);
-                            } else {
-                              if (vn.isCardLocal != "INTERNATIONAL") {
-                                dcn.changeView(CurrentCardView.pin);
+                          await vn.getCardBin(ppm.cardNumber!.substring(0, 6));
+                          print(vn.isCardLocal);
+                          if (vn.isCardLocal != "INTERNATIONAL") {
+                            await vn.initiatePayment();
+                            if (vn.errorMessage == null) {
+                              if ((vn.paymentResponse as DebitCardResponseModel)
+                                      .data
+                                      ?.payments
+                                      ?.redirectUrl !=
+                                  null) {
+                                dcn.changeView(CurrentCardView.redirect);
                               } else {
-                                dcn.changeView(CurrentCardView.address);
+                                dcn.changeView(CurrentCardView.pin);
                               }
                             }
+                          } else {
+                            dcn.changeView(CurrentCardView.address);
                           }
+                          dcn.setLoading(false);
                         }
                       : () async {
                           log("message");

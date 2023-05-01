@@ -232,9 +232,7 @@ class ViewsNotifier extends ChangeNotifier {
   Future initiatePayment() async {
     _setPaymentResponse(null);
     setErrorMessage(null);
-    if (paymentPayload!.paymentType.toString().toLowerCase() == "card") {
-      await getCardBin(paymentPayload!.cardNumber!.substring(0, 6));
-    }
+
     await RequestHandler(
       request: () =>
           paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),

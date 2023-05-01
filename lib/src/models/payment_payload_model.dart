@@ -12,6 +12,11 @@ String paymentPayloadModelToJson(PaymentPayloadModel data) =>
 
 class PaymentPayloadModel {
   PaymentPayloadModel({
+    this.address,
+    this.city,
+    this.state,
+    this.postalCode,
+    this.billingCountry,
     this.firstName,
     this.isLive,
     this.lastName,
@@ -54,6 +59,7 @@ class PaymentPayloadModel {
     this.voucherCode,
   });
 
+  final String? address, city, state, postalCode, billingCountry;
   final String? firstName;
   final String? lastName;
   final String? fullName;
@@ -95,49 +101,58 @@ class PaymentPayloadModel {
   final String? network;
   final String? voucherCode;
 
-  PaymentPayloadModel copyWith({
-    String? firstName,
-    String? lastName,
-    String? fullName,
-    String? mobileNumber,
-    String? email,
-    String? publicKey,
-    String? amount,
-    String? currency,
-    String? country,
-    String? paymentReference,
-    String? productId,
-    String? redirectUrl,
-    String? paymentType,
-    String? channelType,
-    String? paymentPayloadModelNew,
-    String? deviceType,
-    String? sourceIp,
-    String? cardNumber,
-    String? cvv,
-    String? expiryMonth,
-    String? expiryYear,
-    String? source,
-    String? fee,
-    String? pin,
-    bool? retry,
-    bool? isLive,
-    bool? rememberMe,
-    String? isCardInternational,
-    String? productDescription,
-    String? amountControl,
-    String? walletDaysActive,
-    String? bankCode,
-    String? ddeviceType,
-    String? accountName,
-    String? accountNumber,
-    String? bvn,
-    String? dateOfBirth,
-    String? scheduleId,
-    String? network,
-    String? voucherCode,
-  }) =>
+  PaymentPayloadModel copyWith(
+          {String? firstName,
+          String? lastName,
+          String? fullName,
+          String? mobileNumber,
+          String? email,
+          String? publicKey,
+          String? amount,
+          String? currency,
+          String? country,
+          String? paymentReference,
+          String? productId,
+          String? redirectUrl,
+          String? paymentType,
+          String? channelType,
+          String? paymentPayloadModelNew,
+          String? deviceType,
+          String? sourceIp,
+          String? cardNumber,
+          String? cvv,
+          String? expiryMonth,
+          String? expiryYear,
+          String? source,
+          String? fee,
+          String? pin,
+          bool? retry,
+          bool? isLive,
+          bool? rememberMe,
+          String? isCardInternational,
+          String? productDescription,
+          String? amountControl,
+          String? walletDaysActive,
+          String? bankCode,
+          String? ddeviceType,
+          String? accountName,
+          String? accountNumber,
+          String? bvn,
+          String? dateOfBirth,
+          String? scheduleId,
+          String? network,
+          String? voucherCode,
+          String? address,
+          String? city,
+          String? state,
+          String? postalCode,
+          String? billingCountry}) =>
       PaymentPayloadModel(
+        address: address ?? this.address,
+        city: city ?? this.city,
+        state: state ?? this.state,
+        postalCode: postalCode ?? this.postalCode,
+        billingCountry: billingCountry ?? this.billingCountry,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         fullName: fullName ?? this.fullName,
@@ -224,6 +239,11 @@ class PaymentPayloadModel {
         scheduleId: json["scheduleId"],
         network: json["network"],
         voucherCode: json["voucherCode"],
+        address: json["address"],
+        city: json['city'],
+        state: json['state'],
+        postalCode: json['postalCode'],
+        billingCountry: json["billingCountry"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -266,6 +286,11 @@ class PaymentPayloadModel {
         "scheduleId": scheduleId,
         "network": network,
         "voucherCode": voucherCode,
+        "address": address,
+        "city": city,
+        "state": state,
+        "postalCode": postalCode,
+        "billingCountry": billingCountry
       };
 }
 
