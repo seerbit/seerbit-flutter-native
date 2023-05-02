@@ -121,12 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   onSuccess: () => print("Success"),
                   onFailure: () => print("Failure"),
                   payload: PaymentPayloadModel(
-                      firstName: "Falola",
-                      lastName: "Adedayo",
-                      fullName: "Falola Adedayo",
-                      mobileNumber: "09012312312",
-                      email: "mail@gmail.com",
-                      productId: "",
                       currency: "NGN",
                       country: "NG",
                       amount: "20"),
