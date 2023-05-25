@@ -160,8 +160,8 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
               const YSpace(20),
               CustomFlatButton(
                   fsize: 15,
-                  spacetop: 3,
-                  label: "PAY NGN ${ppm.amount}",
+                  label:
+                      "PAY NGN ${double.parse(ppm.amount!) + double.parse(vn.calculateFees())}",
                   prefix: dcn.loading
                       ? LottieBuilder.asset('assets/loading.json', height: 20)
                       : null,
@@ -176,7 +176,7 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                                   'SBT-T54267${math.Random().nextInt(29091020)}101122472'));
                           dcn.setLoading(true);
                           await vn.getCardBin(ppm.cardNumber!.substring(0, 6));
-                          print(vn.isCardLocal);
+
                           if (vn.isCardLocal != "INTERNATIONAL") {
                             await vn.initiatePayment();
                             if (vn.errorMessage == null) {

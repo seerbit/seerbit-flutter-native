@@ -92,7 +92,7 @@ class ChannelSelection extends StatelessWidget {
                   // const Spacer(),
                   const YSpace(50),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       if ((vn.paymentChannel !=
                           PaymentChannel.changePaymentMethod))
@@ -109,23 +109,25 @@ class ChannelSelection extends StatelessWidget {
                                 bgColor: const Color(0xFFF0F0F0),
                                 size: Size(190.w, 42),
                               ),
-                              const XSpace(10),
+                              const XSpace(3),
                             ],
                           ),
                         ),
-                      CustomFlatButton(
-                        onTap: () {
-                          Navigate(context).pop();
-                        },
-                        label: "Cancel Payment",
-                        color: const Color(0xFFFF2300),
-                        size: Size(
-                            vn.paymentChannel ==
-                                    PaymentChannel.changePaymentMethod
-                                ? 160
-                                : 130,
-                            42),
-                        bgColor: const Color(0xFFFF2300).withOpacity(.17),
+                      Expanded(
+                        child: CustomFlatButton(
+                          onTap: () {
+                            Navigate(context).pop();
+                          },
+                          label: "Cancel Payment",
+                          color: const Color(0xFFFF2300),
+                          size: Size(
+                              vn.paymentChannel ==
+                                      PaymentChannel.changePaymentMethod
+                                  ? 160
+                                  : 130,
+                              42),
+                          bgColor: const Color(0xFFFF2300).withOpacity(.17),
+                        ),
                       ),
                     ],
                   ),

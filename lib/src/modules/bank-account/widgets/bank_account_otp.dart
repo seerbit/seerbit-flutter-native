@@ -24,10 +24,9 @@ class BankAccountOTP extends StatelessWidget {
           vn.paymentResponse as BankAccountResponseModel;
       return Column(
         children: [
-          const YSpace(12),
           AmountToPay(fee: mdm.payload.cardFee.mc!),
           const YSpace(25),
-          CustomText(vn.message.toString(),
+          CustomText(messageRender(vn.message.toString()),
               align: TextAlign.center, height: 1.5, size: 14),
           const YSpace(16),
           CustomTextField(
@@ -60,9 +59,16 @@ class BankAccountOTP extends StatelessWidget {
               label: "Authorize Payment",
               bgColor: Colors.black,
               color: Colors.white),
-          const YSpace(200),
         ],
       );
     });
+  }
+}
+
+messageRender(String message) {
+  if (message.toLowerCase().contains("pending")) {
+    return "Enter your OTP";
+  } else {
+    return message;
   }
 }

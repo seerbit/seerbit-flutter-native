@@ -30,7 +30,6 @@ class ChangePaymentMethodsView extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const YSpace(40),
           AmountToPay(fee: mdm.payload.cardFee.mc!),
           const YSpace(40),
           const CustomText("Other Payment Channels", size: 14),
@@ -50,7 +49,7 @@ class ChangePaymentMethodsView extends StatelessWidget {
                     expand: true,
                     color: Colors.black,
                     bgColor: Colors.grey.shade200),
-                const YSpace(10),
+                const YSpace(2),
               ],
             ),
           ),
@@ -69,7 +68,7 @@ class ChangePaymentMethodsView extends StatelessWidget {
                     expand: true,
                     color: Colors.black,
                     bgColor: Colors.grey.shade200),
-                const YSpace(10),
+                const YSpace(2),
               ],
             ),
           ),
@@ -88,7 +87,7 @@ class ChangePaymentMethodsView extends StatelessWidget {
                     expand: true,
                     color: Colors.black,
                     bgColor: Colors.grey.shade200),
-                const YSpace(10),
+                const YSpace(2),
               ],
             ),
           ),
@@ -110,7 +109,7 @@ class ChangePaymentMethodsView extends StatelessWidget {
                     expand: true,
                     color: Colors.black,
                     bgColor: Colors.grey.shade200),
-                const YSpace(10),
+                const YSpace(2),
               ],
             ),
           ),
@@ -132,7 +131,7 @@ class ChangePaymentMethodsView extends StatelessWidget {
               ],
             ),
           ),
-          const YSpace(42),
+          // const YSpace(42),
         ],
       );
     });

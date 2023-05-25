@@ -29,13 +29,9 @@ class BankTransferConfirmation extends StatelessWidget {
               const CustomText("Hold on tight while we confirm this payment",
                   size: 12),
               const YSpace(25),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: LinearProgressIndicator(
-                  color: Colors.grey,
-                  backgroundColor: Colors.grey.shade300,
-                  minHeight: 10,
-                ),
+              LinearProgressIndicator(
+                backgroundColor: Colors.grey.shade300,
+                valueColor: const AlwaysStoppedAnimation(Colors.black),
               )
             ],
           );

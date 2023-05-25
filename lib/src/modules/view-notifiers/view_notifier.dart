@@ -377,7 +377,7 @@ class ViewsNotifier extends ChangeNotifier {
     log(response);
   }
 
-  calculateFees() {
+  calculateFees({bool isMerchantPaying = false}) {
     late double fee, optionFee, cappedAmount;
 
     DefaultPaymentOption feeModel =
