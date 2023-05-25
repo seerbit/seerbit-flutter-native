@@ -77,10 +77,7 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                               ),
                             ],
                           ),
-                          const Icon(
-                            Icons.close,
-                            size: 14,
-                          )
+                          const Icon(Icons.close, size: 14)
                         ],
                       ),
                     ),
@@ -100,21 +97,18 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                 onChanged: (_) {
                   vn.setPaymentPayload(
                       ppm.copyWith(cardNumber: _.replaceAll(" ", "")));
+                  setState(() {
+                    characterLimit = getCreditCardLength(_) +
+                        (((getCreditCardLength(_) / 4) - 1).ceil());
+                  });
+                  print(characterLimit);
                   if (_.length == characterLimit) {
                     cardFocusNode.unfocus();
                     dateFocusNode.requestFocus();
                   }
                 },
                 formatter: [
-                  CreditCardNumberInputFormatter(onCardSystemSelected: (_) {
-                    if (_ != null) {
-                      setState(() {
-                        characterLimit = _.numDigits! +
-                            (_.numberMask!.split(" ").length - 1);
-                        print((_.numberMask!.split(" ").length - 1));
-                      });
-                    }
-                  }),
+                  FourDigitTextInputFormatter(),
                   LengthLimitingTextInputFormatter(characterLimit)
                 ],
               ),
@@ -233,3 +227,103 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
 
 _notNullOrEmpty(String? _, int length) =>
     (_?.isNotEmpty ?? false) && ((_?.length ?? 0) >= length);
+
+int getCreditCardLength(String value) {
+  int cardLength = 16;
+  String firstSixDigits = value.replaceAll(" ", "");
+  List bucket_19_1 = [19];
+  List bucket_14_3 = [300, 301, 302, 303, 304, 305];
+  List bucket_14_2 = [36];
+  List bucket_15_2 = [34, 37];
+  List bucket_19_2 = [50];
+  List bucket_16_2 = [54, 55, 65, 51];
+  List bucket_16_4 = [
+    6011,
+    ...List.generate(3590 - 3528, (index) => 3590 + index),
+    6304,
+    6706,
+    6771,
+    6709,
+    6759,
+    6761,
+    6763,
+    6762
+  ];
+  List bucket_16_6 = [
+    ...List.generate(622926 - 622126, (index) => 622126 + index)
+  ];
+  List bucket_16_3 = [637, 638, 639, 644, 645, 646, 647, 648, 649];
+
+  List bucket_19_4 = [5018, 5018, 5020, 5038];
+  if (firstSixDigits.isNotEmpty) {
+    if (bucket_19_1.contains(int.parse(firstSixDigits.substring(0, 1)))) {
+      cardLength = 19;
+    }
+  }
+  if (firstSixDigits.length > 2) {
+    if (bucket_19_2.contains(int.parse(firstSixDigits.substring(0, 2)))) {
+      cardLength = 19;
+    }
+    if (bucket_14_2.contains(int.parse(firstSixDigits.substring(0, 2)))) {
+      cardLength = 14;
+    }
+    if (bucket_15_2.contains(int.parse(firstSixDigits.substring(0, 2)))) {
+      cardLength = 15;
+    }
+    if (bucket_16_2.contains(int.parse(firstSixDigits.substring(0, 2)))) {
+      cardLength = 16;
+    }
+  }
+  if (firstSixDigits.length > 3) {
+    if (bucket_14_3.contains(int.parse(firstSixDigits.substring(0, 3)))) {
+      cardLength = 14;
+    }
+
+    if (bucket_16_3.contains(int.parse(firstSixDigits.substring(0, 3)))) {
+      cardLength = 16;
+    }
+  }
+  if (firstSixDigits.length > 4) {
+    if (bucket_16_4.contains(int.parse(firstSixDigits.substring(0, 4)))) {
+      cardLength = 16;
+    }
+    if (bucket_19_4.contains(int.parse(firstSixDigits.substring(0, 4)))) {
+      cardLength = 19;
+    }
+  }
+  if (firstSixDigits.length > 6) {
+    if (bucket_16_6.contains(int.parse(firstSixDigits.substring(0, 6)))) {
+      cardLength = 16;
+    }
+  }
+
+  return cardLength;
+}
+
+class FourDigitTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String text = newValue.text.replaceAll(' ', '');
+    String formattedText = '';
+
+    for (int i = 0; i < text.length; i += 4) {
+      int endIndex = i + 4;
+      if (endIndex > text.length) {
+        endIndex = text.length;
+      }
+
+      String segment = text.substring(i, endIndex);
+      formattedText += segment;
+
+      if (endIndex < text.length) {
+        formattedText += ' ';
+      }
+    }
+
+    return newValue.copyWith(
+      text: formattedText,
+      selection: TextSelection.collapsed(offset: formattedText.length),
+    );
+  }
+}
