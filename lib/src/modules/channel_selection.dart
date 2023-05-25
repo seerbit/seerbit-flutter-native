@@ -32,7 +32,7 @@ class ChannelSelection extends StatelessWidget {
             return PaymentSuccess(
               onPop: () => Navigate(context).pop(),
               amount: ppm.amount,
-              logo: mdm.payload.logo!,
+              logo: mdm.payload.logo,
               email: ppm.email!,
               name: "${ppm.firstName} ${ppm.lastName}",
             );
@@ -51,8 +51,11 @@ class ChannelSelection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.network(mdm.payload.logo!,
-                          height: 50.h, width: 50.h),
+                      Image.network(
+                          mdm.payload.logo ??
+                              "https://res.cloudinary.com/afroify/image/upload/v1685002453/icons_xd0vwn.png",
+                          height: 50.h,
+                          width: 50.h),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [

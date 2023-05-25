@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       productId: "",
                       currency: "NGN",
                       country: "NG",
-                      amount: "20"),
+                      amount: "101"),
                 );
               },
               child: const Text("Pay without form"),
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onSuccess: () => print("Success"),
                   onFailure: () => print("Failure"),
                   payload: PaymentPayloadModel(
-                      currency: "NGN", country: "NG", amount: "20"),
+                      currency: "NGN", country: "NG", amount: "101"),
                 );
               },
               child: const Text("Pay with form"),

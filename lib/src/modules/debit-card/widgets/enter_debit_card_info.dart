@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
@@ -29,6 +28,7 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
   FocusNode cardFocusNode = FocusNode();
   FocusNode dateFocusNode = FocusNode();
   FocusNode cvvFocusNode = FocusNode();
+  int characterLimit = 19;
 
   @override
   Widget build(BuildContext context) {
@@ -100,14 +100,22 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                 onChanged: (_) {
                   vn.setPaymentPayload(
                       ppm.copyWith(cardNumber: _.replaceAll(" ", "")));
-                  if (_.length == 19) {
+                  if (_.length == characterLimit) {
                     cardFocusNode.unfocus();
                     dateFocusNode.requestFocus();
                   }
                 },
                 formatter: [
-                  CreditCardFormatter(),
-                  LengthLimitingTextInputFormatter(19)
+                  CreditCardNumberInputFormatter(onCardSystemSelected: (_) {
+                    if (_ != null) {
+                      setState(() {
+                        characterLimit = _.numDigits! +
+                            (_.numberMask!.split(" ").length - 1);
+                        print((_.numberMask!.split(" ").length - 1));
+                      });
+                    }
+                  }),
+                  LengthLimitingTextInputFormatter(characterLimit)
                 ],
               ),
               const YSpace(8),

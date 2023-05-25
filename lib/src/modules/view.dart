@@ -89,7 +89,9 @@ class _SeerbitModalState extends State<SeerbitModal> {
                               children: [
                                 const YSpace(22),
                                 if (mdm.payload.logo != null)
-                                  Image.network(mdm.payload.logo!,
+                                  Image.network(mdm.payload.logo??
+                                          "https://res.cloudinary.com/afroify/image/upload/v1685002453/logo_p91yzv.png"
+                                  ,
                                       height: 50.h, width: 50.h),
                                 const YSpace(12),
                                 CustomText(

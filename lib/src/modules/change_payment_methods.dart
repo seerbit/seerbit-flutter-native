@@ -44,6 +44,7 @@ class ChangePaymentMethodsView extends StatelessWidget {
                     onTap: () async => {
                           bn.changeView(CurrentCardView.loading),
                           vn.changePaymentChannel(PaymentChannel.transfer),
+
                           // vn.feeCalculation()
                         },
                     expand: true,
@@ -97,8 +98,8 @@ class ChangePaymentMethodsView extends StatelessWidget {
               children: [
                 CustomFlatButton(
                     prefix: const CustomText("Debit Card", size: 14),
-                    suffix: Image.asset(
-                      'assets/icons.png',
+                    suffix: Image.network(
+                      "https://res.cloudinary.com/afroify/image/upload/v1685002453/icons_xd0vwn.png",
                       width: 80,
                     ),
                     alignment: MainAxisAlignment.spaceBetween,

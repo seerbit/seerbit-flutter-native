@@ -13,7 +13,7 @@ class PaymentSuccess extends StatelessWidget {
       required this.onPop})
       : super(key: key);
   final String? amount;
-  final String logo;
+  final String? logo;
   final String email;
   final String name;
   final Function onPop;
@@ -31,7 +31,11 @@ class PaymentSuccess extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.network(logo, height: 50.h, width: 50.h),
+                Image.network(
+                    logo ??
+                        "https://res.cloudinary.com/afroify/image/upload/v1685002453/logo_p91yzv.png",
+                    height: 50.h,
+                    width: 50.h),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
