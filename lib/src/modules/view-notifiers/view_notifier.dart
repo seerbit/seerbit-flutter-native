@@ -309,7 +309,9 @@ class ViewsNotifier extends ChangeNotifier {
       request: () => paymentService.getBanks(),
       onSuccess: (_) =>
           setBanks(BanksModel.fromJson(_.data as Map<String, dynamic>)),
-      onError: (_) => log("message $_."),
+      onError: (_) => {
+        log("message $_."),
+      },
       onNetworkError: (_) => log("message $_."),
     ).sendRequest();
   }
@@ -336,7 +338,10 @@ class ViewsNotifier extends ChangeNotifier {
       request: () =>
           paymentService.otpAuthorize(otp: otp, linkingRef: linkingRef),
       onSuccess: (_) => {status = _.data['data']['code']},
-      onError: (_) => log("message err$_."),
+      onError: (_) => {
+        log("message err$_."),
+        setErrorMessage(_.data['message']),
+      },
       onNetworkError: (_) => log("message err $_."),
     ).sendRequest();
     return status;
@@ -349,7 +354,10 @@ class ViewsNotifier extends ChangeNotifier {
       request: () =>
           paymentService.otpMomoAuthorize(otp: otp, linkingRef: linkingRef),
       onSuccess: (_) => {status = _.data['data']['code']},
-      onError: (_) => log("message err$_."),
+      onError: (_) => {
+        log("message err$_."),
+        setErrorMessage(_.data['message']),
+      },
       onNetworkError: (_) => log("message err $_."),
     ).sendRequest();
     return status;

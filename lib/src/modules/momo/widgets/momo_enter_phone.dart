@@ -83,12 +83,29 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
               ),
             ),
             const YSpace(32),
+            const CustomText("Choose your bank to start this payment",
+                size: 15, weight: FontWeight.w500),
+            const YSpace(10),
+            FutureBuilder(
+                future: getNetworks,
+                builder: (context, snapshot) {
+                  return CustomDropDown(
+                    label: "",
+                    hint: "Select Provider",
+                    onChanged: (_) {
+                      vn.setPaymentPayload(ppm.copyWith(network: _));
+                    },
+                    value: null,
+                    items: [...?vn.momoNetworks?.map((e) => e.networks!)],
+                  );
+                }),
+            const YSpace(0),
             CustomTextField(
               initialValue: PhoneInputFormatter()
                   .formatEditUpdate(TextEditingValue.empty,
                       TextEditingValue(text: ppm.cardNumber.toString()))
                   .text,
-              label: "Choose your bank to start this payment",
+              label: "",
               hint: "0 500 000",
               inputType: TextInputType.number,
               onChanged: (_) {
@@ -104,20 +121,6 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
                 LengthLimitingTextInputFormatter(19)
               ],
             ),
-            const YSpace(20),
-            FutureBuilder(
-                future: getNetworks,
-                builder: (context, snapshot) {
-                  return CustomDropDown(
-                    label: "",
-                    hint: "Select Provider",
-                    onChanged: (_) {
-                      vn.setPaymentPayload(ppm.copyWith(network: _));
-                    },
-                    value: null,
-                    items: [...?vn.momoNetworks?.map((e) => e.networks!)],
-                  );
-                }),
             const YSpace(20),
             CustomFlatButton(
                 fsize: 15,

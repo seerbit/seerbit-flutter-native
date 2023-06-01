@@ -84,6 +84,7 @@ class PaymentServiceImpl implements PaymentService {
             "otp": otp,
           }
         });
+    log(response.toString());
     return ResponseModel.fromResponse(response);
   }
 

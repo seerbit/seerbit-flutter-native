@@ -46,9 +46,14 @@ class MomoAuthorize extends StatelessWidget {
                       linkingRef: mrm.data!.payments!.linkingReference!,
                       otp: controller.text)
                   .then((value) => {
-                        vn.confirmTransaction(context, onError: () {
-                          mn.changeView(CurrentCardView.paymentError);
-                        }),
+                        if (vn.errorMessage == null)
+                          {
+                            vn.confirmTransaction(context, onError: () {
+                              mn.changeView(CurrentCardView.paymentError);
+                            }),
+                          }
+                        else
+                          {mn.changeView(CurrentCardView.paymentError)}
                       });
             },
             color: Colors.white,
