@@ -12,7 +12,7 @@ class SecuredByMarker extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset('assets/padlock.svg'),
+        SvgPicture.asset('packages/seerbit_flutter_native/assets/padlock.svg'),
         const XSpace(5),
         const CustomText("Secured by", size: 14),
         const XSpace(5),

@@ -286,6 +286,7 @@ class ViewsNotifier extends ChangeNotifier {
           CustomOverlays().showPopup(
               PaymentSuccess(
                 onPop: () => Navigate(context).pop(number: popCount),
+                currency: merchantDetailModel!.payload.defaultCurrency!,
                 amount: paymentPayload!.amount!,
                 logo: merchantDetailModel!.payload.logo!,
                 name:

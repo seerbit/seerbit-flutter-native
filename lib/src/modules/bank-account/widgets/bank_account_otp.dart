@@ -38,7 +38,9 @@ class BankAccountOTP extends StatelessWidget {
           const YSpace(16),
           CustomFlatButton(
               prefix: bn.loading
-                  ? LottieBuilder.asset('assets/loading.json', height: 20)
+                  ? LottieBuilder.asset(
+                      'packages/seerbit_flutter_native/assets/loading.json',
+                      height: 20)
                   : null,
               onTap: () async {
                 bn.changeView(CurrentCardView.progress);

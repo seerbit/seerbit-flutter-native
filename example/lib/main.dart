@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       productId: "",
                       currency: "NGN",
                       country: "NG",
-                      amount: "101"),
+                      amount: "1"),
                 );
               },
               child: const Text("Pay without form"),

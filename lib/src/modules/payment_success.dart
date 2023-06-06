@@ -10,12 +10,14 @@ class PaymentSuccess extends StatelessWidget {
       required this.logo,
       required this.email,
       required this.name,
-      required this.onPop})
+      required this.onPop,
+      required this.currency})
       : super(key: key);
   final String? amount;
   final String? logo;
   final String email;
-  final String name;
+  final String name, currency;
+
   final Function onPop;
 
   @override
@@ -56,7 +58,8 @@ class PaymentSuccess extends StatelessWidget {
                     height: 100,
                   ),
                   const YSpace(24),
-                  CustomText("NGN $amount", size: 24, weight: FontWeight.bold),
+                  CustomText("$currency $amount",
+                      size: 24, weight: FontWeight.bold),
                   const YSpace(25),
                   const CustomText("Your transaction was successful", size: 20),
                   const YSpace(25),

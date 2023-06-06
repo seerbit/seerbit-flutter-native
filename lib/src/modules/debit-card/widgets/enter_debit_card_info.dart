@@ -165,7 +165,9 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                   label:
                       "PAY NGN ${double.parse(ppm.amount!) + double.parse(vn.calculateFees())}",
                   prefix: dcn.loading
-                      ? LottieBuilder.asset('assets/loading.json', height: 20)
+                      ? LottieBuilder.asset(
+                          'packages/seerbit_flutter_native/assets/loading.json',
+                          height: 20)
                       : null,
                   onTap: (_notNullOrEmpty(ppm.cvv, 3) &&
                           _notNullOrEmpty(ppm.cardNumber, 16) &&

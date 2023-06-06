@@ -1,9 +1,9 @@
-import 'package:seerbit_flutter_native/src/models/payment_status_model.dart';
-import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
-import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:seerbit_flutter_native/src/models/payment_status_model.dart';
+import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
+import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 
 class ErrorCard extends StatelessWidget {
   const ErrorCard({
@@ -19,7 +19,8 @@ class ErrorCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const YSpace(34),
-          Image.asset('assets/caution.png', height: 100.h, width: 100.h),
+          Image.asset('packages/seerbit_flutter_native/assets/caution.png',
+              height: 100.h, width: 100.h),
           const YSpace(12),
           SizedBox(
             width: 250.w,

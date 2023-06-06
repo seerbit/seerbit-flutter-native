@@ -73,7 +73,9 @@ class _DebitAddressState extends State<DebitAddress> {
               bgColor: Colors.black,
               color: Colors.white,
               prefix: dcn.loading
-                  ? LottieBuilder.asset('assets/loading.json', height: 20)
+                  ? LottieBuilder.asset(
+                      'packages/seerbit_flutter_native/assets/loading.json',
+                      height: 20)
                   : null,
               onTap: () async {
                 if (!_formKey.currentState!.validate()) {

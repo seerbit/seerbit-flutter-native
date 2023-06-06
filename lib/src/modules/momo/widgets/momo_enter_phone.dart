@@ -127,7 +127,9 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
                 spacetop: 3,
                 label: "Continue",
                 prefix: mn.loading
-                    ? LottieBuilder.asset('assets/loading.json', height: 20)
+                    ? LottieBuilder.asset(
+                        'packages/seerbit_flutter_native/assets/loading.json',
+                        height: 20)
                     : null,
                 onTap: _notNullOrEmpty(ppm.network, 1) &&
                         _notNullOrEmpty(ppm.mobileNumber, 10)
