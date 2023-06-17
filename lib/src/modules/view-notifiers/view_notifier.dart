@@ -100,6 +100,15 @@ class ViewsNotifier extends ChangeNotifier {
     _paymentResponse = null;
     _paymentStatus = null;
     _errorMessage = null;
+    setPaymentPayload(_paymentPayload.copyWith(
+        network: "",
+        mobileNumber: "",
+        cardNumber: "",
+        cvv: "",
+        expiryMonth: "",
+        expiryYear: "",
+        accountName: "",
+        accountNumber: ""));
     _secondaryPaymentSuccess = false;
   }
 
@@ -134,6 +143,7 @@ class ViewsNotifier extends ChangeNotifier {
       ddeviceType: Platform.isAndroid ? "Android" : "iOS",
       country: paymentPayload?.country ??
           merchantDetailModel?.payload.country.countryCode,
+      currency: defaultCurrency,
       fee: calculateFees().toString(),
     );
   }
@@ -215,6 +225,8 @@ class ViewsNotifier extends ChangeNotifier {
           }
           setPaymentPayload(
               paymentPayload!.copyWith(isCardInternational: _isCardLocal));
+
+          print(_);
         },
         onError: (_) => log(_.data),
         onNetworkError: (_) => log(_.data)).sendRequest();
@@ -237,7 +249,7 @@ class ViewsNotifier extends ChangeNotifier {
   Future initiatePayment() async {
     _setPaymentResponse(null);
     setErrorMessage(null);
-
+    print(_getUpdatedPayload().toJson());
     await RequestHandler(
       request: () =>
           paymentService.initiatePayment(payloadModel: _getUpdatedPayload()),
@@ -361,7 +373,6 @@ class ViewsNotifier extends ChangeNotifier {
           paymentService.otpMomoAuthorize(otp: otp, linkingRef: linkingRef),
       onSuccess: (_) => {status = _.data['data']['code']},
       onError: (_) => {
-        log("message err$_."),
         setErrorMessage(_.data['message']),
       },
       onNetworkError: (_) => log("message err $_."),

@@ -144,7 +144,6 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                     label: "",
                     focusNode: cvvFocusNode,
                     inputType: TextInputType.number,
-                    initialValue: ppm.cvv,
                     hint: "CVV",
                     onChanged: (_) {
                       vn.setPaymentPayload(ppm.copyWith(cvv: _));

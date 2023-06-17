@@ -122,10 +122,11 @@ class _DebitAddressState extends State<DebitAddress> {
                       height: 20)
                   : null,
               onTap: () async {
-                if (_notNullOrEmpty(ppm.state, 2) &&
+                
+                if (!(_notNullOrEmpty(ppm.state, 2) &&
                     _notNullOrEmpty(ppm.postalCode, 2) &&
                     _notNullOrEmpty(ppm.city, 2) &&
-                    _notNullOrEmpty(ppm.address, 2)) {
+                    _notNullOrEmpty(ppm.address, 2))) {
                   return;
                 }
 

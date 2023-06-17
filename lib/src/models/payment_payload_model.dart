@@ -156,7 +156,8 @@ class PaymentPayloadModel {
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         fullName: fullName ?? this.fullName,
-        mobileNumber: mobileNumber ?? this.mobileNumber,
+        mobileNumber:
+            mobileNumber ?? replaceIfEmpty(mobileNumber, this.mobileNumber),
         email: email ?? this.email,
         publicKey: publicKey ?? this.publicKey,
         amount: amount ?? this.amount,
@@ -171,10 +172,11 @@ class PaymentPayloadModel {
             paymentPayloadModelNew ?? this.paymentPayloadModelNew,
         deviceType: deviceType ?? this.deviceType,
         sourceIp: sourceIp ?? this.sourceIp,
-        cardNumber: cardNumber ?? this.cardNumber,
-        cvv: cvv ?? this.cvv,
-        expiryMonth: expiryMonth ?? this.expiryMonth,
-        expiryYear: expiryYear ?? this.expiryYear,
+        cardNumber: cardNumber ?? replaceIfEmpty(cardNumber, this.cardNumber),
+        cvv: cvv ?? replaceIfEmpty(cvv, this.cvv),
+        expiryMonth:
+            expiryMonth ?? replaceIfEmpty(expiryMonth, this.expiryMonth),
+        expiryYear: expiryYear ?? replaceIfEmpty(expiryYear, this.expiryYear),
         source: source ?? this.source,
         fee: fee ?? this.fee,
         pin: pin ?? this.pin,
@@ -187,14 +189,21 @@ class PaymentPayloadModel {
         walletDaysActive: walletDaysActive ?? this.walletDaysActive,
         bankCode: bankCode ?? this.bankCode,
         ddeviceType: ddeviceType ?? this.ddeviceType,
-        accountName: accountName ?? this.accountName,
-        accountNumber: accountNumber ?? this.accountNumber,
+        accountName:
+            accountName ?? replaceIfEmpty(accountName, this.accountName),
+        accountNumber:
+            accountNumber ?? replaceIfEmpty(accountNumber, this.accountNumber),
         bvn: bvn ?? this.bvn,
         dateOfBirth: dateOfBirth ?? this.dateOfBirth,
         scheduleId: scheduleId ?? this.scheduleId,
-        network: network ?? this.network,
+        network: network ?? replaceIfEmpty(network, this.network),
         voucherCode: voucherCode ?? this.voucherCode,
       );
+
+  String? replaceIfEmpty(String? value, String? oldValue) {
+    
+    return (value?.isEmpty ?? false) ? null : oldValue;
+  }
 
   factory PaymentPayloadModel.empty() => PaymentPayloadModel.fromJson(map);
 

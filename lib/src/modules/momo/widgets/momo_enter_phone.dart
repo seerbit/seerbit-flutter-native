@@ -101,10 +101,6 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
                 }),
             const YSpace(0),
             CustomTextField(
-              initialValue: PhoneInputFormatter()
-                  .formatEditUpdate(TextEditingValue.empty,
-                      TextEditingValue(text: ppm.cardNumber.toString()))
-                  .text,
               label: "",
               hint: "0 500 000",
               inputType: TextInputType.number,
