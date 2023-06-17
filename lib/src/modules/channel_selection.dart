@@ -31,7 +31,7 @@ class ChannelSelection extends StatelessWidget {
           if (vn.paymentSuccess) {
             return PaymentSuccess(
               onPop: () => Navigate(context).pop(),
-              currency: mdm.payload.defaultCurrency!,
+              currency: vn.defaultCurrency,
               amount: ppm.amount,
               logo: mdm.payload.logo,
               email: ppm.email!,

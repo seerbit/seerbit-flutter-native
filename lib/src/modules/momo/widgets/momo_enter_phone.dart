@@ -111,9 +111,7 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
               onChanged: (_) {
                 vn.setPaymentPayload(
                   ppm.copyWith(
-                      mobileNumber: _.replaceAll(RegExp("[^0-9]+"), ""),
-                      country: "GH",
-                      currency: "GHS"),
+                      mobileNumber: _.replaceAll(RegExp("[^0-9]+"), "")),
                 );
               },
               formatter: [
@@ -136,7 +134,6 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
                     ? () async {
                         // mn.changeView(CurrentCardView.pin);
                         vn.setPaymentPayload(ppm.copyWith(
-                            country: "GH",
                             paymentType: "MOMO",
                             channelType: "wallet",
                             paymentReference:

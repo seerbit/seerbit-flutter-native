@@ -61,6 +61,9 @@ class ViewsNotifier extends ChangeNotifier {
   Function? onFailure;
   Function? onSuccess;
 
+  String get defaultCurrency =>
+      paymentPayload?.currency ?? merchantDetailModel!.payload.defaultCurrency!;
+
   bool get paymentSuccess =>
       (_paymentStatus?.data.code == "00") || secondaryPaymentSuccess;
   bool _secondaryPaymentSuccess = false;
@@ -286,7 +289,7 @@ class ViewsNotifier extends ChangeNotifier {
           CustomOverlays().showPopup(
               PaymentSuccess(
                 onPop: () => Navigate(context).pop(number: popCount),
-                currency: merchantDetailModel!.payload.defaultCurrency!,
+                currency: defaultCurrency,
                 amount: paymentPayload!.amount!,
                 logo: merchantDetailModel!.payload.logo!,
                 name:

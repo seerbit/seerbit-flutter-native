@@ -43,7 +43,7 @@ class BankTransferInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomText(
-                    "NGN ${double.parse(ppm.amount!) + double.parse(vn.calculateFees())}",
+                    "${vn.defaultCurrency} ${double.parse(ppm.amount!) + double.parse(vn.calculateFees())}",
                     weight: FontWeight.bold,
                     size: 24),
               ],

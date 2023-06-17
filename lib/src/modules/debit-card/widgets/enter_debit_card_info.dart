@@ -163,7 +163,7 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
               CustomFlatButton(
                   fsize: 15,
                   label:
-                      "PAY NGN ${double.parse(ppm.amount!) + double.parse(vn.calculateFees())}",
+                      "PAY ${vn.defaultCurrency} ${double.parse(ppm.amount!) + double.parse(vn.calculateFees())}",
                   prefix: dcn.loading
                       ? LottieBuilder.asset(
                           'packages/seerbit_flutter_native/assets/loading.json',

@@ -58,7 +58,7 @@ class PaymentSuccess extends StatelessWidget {
                     height: 100,
                   ),
                   const YSpace(24),
-                  CustomText("$currency $amount",
+                  CustomText("${currency} $amount",
                       size: 24, weight: FontWeight.bold),
                   const YSpace(25),
                   const CustomText("Your transaction was successful", size: 20),
