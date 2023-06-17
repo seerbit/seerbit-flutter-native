@@ -59,8 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       redirectUrl: "https://google.com",
                       sourceIp: "0.0.0.1",
                       productId: "",
-                      currency: "NGN",
-                      country: "NG",
+                      // currency: "NGN",
+                      // country: "NG",
                       amount: "1"),
                 );
               },

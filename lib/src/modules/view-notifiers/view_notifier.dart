@@ -132,6 +132,8 @@ class ViewsNotifier extends ChangeNotifier {
     return paymentPayload!.copyWith(
       channelType: Helper().reverseMapChannel(_paymentChannel).toLowerCase(),
       ddeviceType: Platform.isAndroid ? "Android" : "iOS",
+      country: paymentPayload?.country ??
+          merchantDetailModel?.payload.country.countryCode,
       fee: calculateFees().toString(),
     );
   }

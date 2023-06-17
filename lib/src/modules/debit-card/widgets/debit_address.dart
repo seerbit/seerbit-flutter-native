@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +34,44 @@ class _DebitAddressState extends State<DebitAddress> {
           children: [
             AmountToPay(fee: mdm.payload.cardFee.mc!),
             const YSpace(12),
+            Visibility(
+              visible: vn.errorMessage != null,
+              child: GestureDetector(
+                onTap: () => vn.setErrorMessage(null),
+                child: FadeInUp(
+                  duration: const Duration(microseconds: 200),
+                  key: Key(vn.errorMessage.toString()),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(8),
+                    // height: 35,
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFFFD6D6),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: const Color(0xFFFF6262))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const CustomText('Transaction Failed',
+                                size: 12,
+                                color: Color(0xFFCC212D),
+                                weight: FontWeight.bold),
+                            const YSpace(8),
+                            CustomText(vn.errorMessage.toString(),
+                                size: 12, color: const Color(0xFFCC212D)),
+                          ],
+                        ),
+                        const Icon(Icons.close, size: 14)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const YSpace(32),
             const CustomText(
               'Address Verification',
               align: TextAlign.center,
@@ -70,7 +109,12 @@ class _DebitAddressState extends State<DebitAddress> {
             ),
             const YSpace(12),
             CustomFlatButton(
-              bgColor: Colors.black,
+              bgColor: _notNullOrEmpty(ppm.state, 2) &&
+                      _notNullOrEmpty(ppm.postalCode, 2) &&
+                      _notNullOrEmpty(ppm.city, 2) &&
+                      _notNullOrEmpty(ppm.address, 2)
+                  ? Colors.black
+                  : const Color.fromARGB(255, 107, 107, 107),
               color: Colors.white,
               prefix: dcn.loading
                   ? LottieBuilder.asset(
@@ -78,6 +122,13 @@ class _DebitAddressState extends State<DebitAddress> {
                       height: 20)
                   : null,
               onTap: () async {
+                if (_notNullOrEmpty(ppm.state, 2) &&
+                    _notNullOrEmpty(ppm.postalCode, 2) &&
+                    _notNullOrEmpty(ppm.city, 2) &&
+                    _notNullOrEmpty(ppm.address, 2)) {
+                  return;
+                }
+
                 if (!_formKey.currentState!.validate()) {
                   return;
                 }
@@ -105,3 +156,6 @@ class _DebitAddressState extends State<DebitAddress> {
     });
   }
 }
+
+_notNullOrEmpty(String? _, int length) =>
+    (_?.isNotEmpty ?? false) && ((_?.length ?? 0) >= length);
