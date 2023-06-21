@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
@@ -83,7 +82,7 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
               ),
             ),
             const YSpace(32),
-            const CustomText("Choose your bank to start this payment",
+            const CustomText("Choose your network to start this payment",
                 size: 15, weight: FontWeight.w500),
             const YSpace(10),
             FutureBuilder(
@@ -91,7 +90,7 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
                 builder: (context, snapshot) {
                   return CustomDropDown(
                     label: "",
-                    hint: "Select Provider",
+                    hint: "Select Mobile Network Operator",
                     onChanged: (_) {
                       vn.setPaymentPayload(ppm.copyWith(network: _));
                     },
@@ -111,8 +110,9 @@ class _MomoEnterPhoneState extends State<MomoEnterPhone> {
                 );
               },
               formatter: [
-                PhoneInputFormatter(),
-                LengthLimitingTextInputFormatter(19)
+                // PhoneInputFormatter(),
+                LengthLimitingTextInputFormatter(19),
+                FilteringTextInputFormatter.digitsOnly
               ],
             ),
             const YSpace(20),

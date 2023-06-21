@@ -425,8 +425,15 @@ class ViewsNotifier extends ChangeNotifier {
     } else {
       fee = optionFee;
     }
-
+    if (isMerchantPayingFees()) {
+      return "0";
+    }
     return _capAmount(fee, cappedAmount).toStringAsFixed(2);
+  }
+
+  bool isMerchantPayingFees() {
+    return merchantDetailModel?.payload.setting.chargeOption?.toLowerCase() ==
+        "merchant";
   }
 
   double _capAmount(double fee, double cappedAmount) {

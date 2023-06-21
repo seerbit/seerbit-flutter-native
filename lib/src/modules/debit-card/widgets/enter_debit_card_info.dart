@@ -129,9 +129,10 @@ class _EnterDebitCardInfoState extends State<EnterDebitCardInfo> {
                           cvvFocusNode.requestFocus();
                         }
                       },
-                      initialValue: ppm.expiryYear != null
-                          ? "${ppm.expiryMonth}/${ppm.expiryYear}"
-                          : null,
+                      initialValue:
+                          (ppm.expiryYear != null && (ppm.expiryYear != ""))
+                              ? "${ppm.expiryMonth}/${ppm.expiryYear}"
+                              : null,
                       hint: "MM/YY",
                       formatter: [CreditCardExpirationDateFormatter()],
                       borderRadius: const BorderRadius.only(

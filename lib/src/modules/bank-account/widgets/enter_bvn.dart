@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:seerbit_flutter_native/src/models/models.dart';
 import 'package:seerbit_flutter_native/src/modules/-core-global/-core-global.dart';
 import 'package:seerbit_flutter_native/src/modules/bank-account/controllers/bank_account_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/view-notifiers/view_notifier.dart';
 import 'package:seerbit_flutter_native/src/modules/widgets/amount_to_pay.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class EnterBVN extends StatefulWidget {
   const EnterBVN({
@@ -34,8 +34,10 @@ class _EnterBVNState extends State<EnterBVN> {
           CustomTextField(
             label: "Enter your BVN",
             hint: "11 digit Bank Verification Number",
+            inputType: TextInputType.number,
             formatter: [
               LengthLimitingTextInputFormatter(11),
+              FilteringTextInputFormatter.digitsOnly
             ],
             onChanged: (_) {
               vn.setPaymentPayload(ppm.copyWith(bvn: _));

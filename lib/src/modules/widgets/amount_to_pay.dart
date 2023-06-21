@@ -27,9 +27,10 @@ class AmountToPay extends StatelessWidget {
                   weight: FontWeight.bold,
                   size: 24),
               const YSpace(8),
-              CustomText(
-                  "Fee: ${vn.defaultCurrency}${vn.calculateFees().toString()}",
-                  size: 14)
+              if (vn.isMerchantPayingFees())
+                CustomText(
+                    "Fee: ${vn.defaultCurrency}${vn.calculateFees().toString()}",
+                    size: 14)
               // FutureBuilder(
               //     future: vn.calculateFees(),
               //     builder: (context, snapshot) {
